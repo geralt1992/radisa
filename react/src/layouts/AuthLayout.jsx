@@ -55,6 +55,8 @@ export default function AuthLayout() {
         </ul>
       </div>
 
+      
+
       {/* Main Content */}
       <div className="flex-1 p-6">
         <div className="mb-4">AuthLayout - Hi {user.name}</div>
