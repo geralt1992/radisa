@@ -1,0 +1,401 @@
+1. NAČIN)
+
+laravel new "app"
+composer require laravel/ui
+php artisan ui react --auth
+npm i -g npm-check-updates
+ncu -u
+npm install
+npm run dev
+u package.json izmjeniš port da bude --> "dev": "vite --port=3000",
+DODAŠ u welcome.blade.php --> <div id=”example”></div>
+u isti daokument dodaš -->  <script src="{{ asset('/js/app.js') }}"></script>
+
+   OVO JE ROOT ZA VUĆI SVE SKRIPTE U GLAVNI DOKUMENT -- STAVI GA U LAYOUT ILI NEGDJE TAKO
+     @viteReactRefresh
+     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+
+
+-NE SMIJEŠ IMATI "#" U NAZIVLJIMA PROJEKTA!!!
+
+
+2. NAČIN) - VIDEO!
+
+UPUTE ZA INSTALACIJU ODVOJENOG REACTA UNUTAR LARAVELA: 
+1) postavi laravel app + bazu
+2) unutar laravel roota - npm create vite@latest (project name:"", React, Js)
+3) cd "project name", npm install, npm run dev
+4) u package.json izmjeniš port da bude --> 	"dev": "vite --port=3000",
+--TAILWIND
+5) npm install -D tailwindcss postcss autoprefixer + npx tailwindcss init -p + ostalo pratiš s njihove stranice samo korake
+--IKONICE
+6) npm install @heroicons/react
+
+
+CLEANUP
+FO - assets, layouts, components, pages, context
+FILES - router.jsx, ContextProvaider.jsx
+
+---------------------------------------------------------------------------------------------------------------
+
+
+ROUTER TIPS:
+!!!ODMAH IZ NJEGA POSTAVI TEMELJNU "/" RUTU - u main.jsx nemaš onda nikakvih page-ova ili componenti = SUPER!!!
+
+1. npm install react-router-dom
+2. JEDNOSTAVAN PRIMJER
+
+	import {createBrowserRouter} from "react-router-dom"
+	import Landing from Landing 
+
+	const router = createBrowserRouter([
+    		{path: '/', element: <Landing />}
+	])
+	export default router;
+
+
+
+3. importaš u main.jsx  1. router + 2. RouterProvaider i postavljaš ovako (i sad su ti dalje sve rute dostupne svugdje)
+<RouterProvaider router={router} />
+
+
+---------------------------------------------------------------------------------------------------------------
+
+
+CONTEXT TIPS: 
+
+PRIMJER POČETNOG C. P.
+
+import { createContext, useContext, useState } from "react";
+
+//stvoriš kontext = DA BI NEŠTO KORISTIO KROZ CIJELI APP! - to šalješ van, a dolje puniš
+const StateContext = createContext()
+
+
+//izvezeš ga i vratiš kontekst od gore s "value" vrijednostima koje
+//će netko moći koristit vani - prvo definiraš te stejtove
+export const ContextProvaider = ({children}) => {
+    const [currentUser, setCurrentUser] = useState({name:'marin'});
+    const [userToken, setUserToken] = useState(null);
+
+    //ovo je ono što će netko vani moći koristit -> CONST I METODE
+    return (
+        <StateContext.Provider value={{currentUser, setCurrentUser, userToken, setUserToken}}>
+            {children}
+        </StateContext.Provider>  
+    )
+}
+
+//ovako pošalješ to van
+export const userStateContext = () => useContext(StateContext)
+
+
+
+
+//OVO MOZES OVAKO PISATI GORE
+// const StateContext = createContext({
+//     currentUser: {},
+//     userToken: null,
+//     setCurrentUser: () => { },
+//     setUserToken: () => { }
+// })
+
+
+
+
+
++
+
+
+U MAIN.JSXU
+  <ContextProvaider>
+      <RouterProvider router={router} />
+    </ContextProvaider>
+
+
+---------------------------------------------------------------------------------------------------------------
+
+
+--AUTH SYSTEM
+0. napraviš ruter korake
+1. create login/singup form + create singup form (tailwind components) - dual binding data i submit na form stavi
+2. contextProvaider od gore
+
+3. postaviti axios (npm install -S axios)
+   u src. napraviti axios.js FILE
+
+	FINALNO OVAKO IZGLEDA
+
+//ovo dodaje onaj dio za api prije svakog calla, da ne moras pisati svaki put
+const axiosClient = axios.create({
+    baseURL:'http://localhost:8000/api'
+    // baseURL:`${import.meta.env.VITE_API_BASE_URL}/api`
+});
+
+//ovo presreta svaki poziv na API i provjerava da li ima auth TOKEN
+//When a request is made using axiosClient, this interceptor will run before the request is sent to the server
+axiosClient.interceptors.request.use((config) => {
+    //znači povlači iz LSa token, ako ga ima
+    config.headers.Authorization = `Bearer ${localStorage.getItem('TOKEN')}`
+    return config;
+});
+
+//checka odgovor servera da li je sve oke!
+axiosClient.interceptors.response.use(response => {
+    //ako je sve ok, vrati data sa servera
+    return response;
+}, error => {
+    //provjera u čem je problem, ako user nije auth (nema TOKEN) vrati ga na login page
+    if(error.response && error.response.status === 401) {
+        router.navigate('/login');
+        return error;
+    }
+
+    //ako je neka druga greška, prikaži
+    throw error;
+})
+
+
+export default axiosClient;
+
+4 radiš u laravelu controllore (i requestove ako hoces!) i rute podešavaš
+
+
+
+
+u kontextu ovako mora izgledati da bi se persistao u LSu
+
+ //incijalni token proba izvući iz LSa, ako nema tokena onda postavlja prazan string
+    const [userToken, _setUserToken] = useState(localStorage.getItem('TOKEN') || '');
+
+    //METODA ZA SPREMITI TOKEN KOJI DOĐE SA SERVERA U local store
+    const setUserToken = (token) => {
+        if(token) {
+            localStorage.setItem('TOKEN' , token);
+        } else {
+            localStorage.removeItem('TOKEN');
+        }
+
+        _setUserToken(token);
+    }
+
+
+
+LOGOUT BRISALICA  + LOGOUT MORA IĆI POD SANCTUM ZAŠTIĆENE RUTE, ZNAĆI SAMO KAD JE USER AUTHURIZED MOŽE OTIĆI NA NJEGA
+ function logout(e) {
+    e.preventDefault();
+
+    axiosClient.post('/logout')
+    .then(({data}) => {
+      setCurrentUser({});
+      setUserToken(null);
+    })
+    .catch((error) => {
+      console.error(error)
+    });
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--LAYOUTS SYSTEM - zaštita ruta uz vizualu, sve sto je u authu bez tokena je nepristupačno
+
+1. create AuthLayout + GuestLayout
+2. dodaš ovaj dio coda u authLayout (ili bilo gdje što želiš zaštiti!) 
+ //SUPER TRIK PROVJERA DA ZAŠTITIŠ RUTU NA FRONTENDU - TOKEN ĆE BITI U LS-u
+  const { userToken } = userStateContext
+
+  if(!userToken) {
+    return <Navigate to='/login' />
+  }
+
+
+znači cijeli sistem funkcionira preko TOKENA (dodje s backenda, ako je user registriran i kada se registrira,
+ koji je u LSu, ako ga ima mozes pristupiti stranici, ako ne, ne mozes!
+
+
+
+a u guestLayout suprotno dodaješ - tako da ne moze pristupiti više loginu dok je logiran
+ const {userToken} = userStateContext
+
+  if(userToken) {
+    <Navigate to="/dashboard" />
+  }
+
+
+JAKO JEDNOSTAVNO ZAPRAVO ZA IMPLEMENTIRATI LAYOUTE - samo omotaš s layoutom ostale pagove i dodaš ih kao elemente
+i onda u samom pageu dodaš element <Outlet/> i tu će izaći cijeli page
+
+
+OVAKO NA KRAJU IZGLEDA RUTER
+
+import {createBrowserRouter} from "react-router-dom"
+
+//layouts
+import GuestLayout from "./layouts/GuestLayout";
+import AuthLayout from "./layouts/AuthLayout";
+
+//pages
+import Landing from './pages/guest/Landing'
+import Login from './pages/guest/Login';
+import Singup from './pages/guest/Singup';
+import AdminHome from "./pages/AdminHome";
+import StudentHome from "./pages/StudentHome";
+
+const router = createBrowserRouter([
+    // {path: '/', element: <Landing/>},
+    // {path: '/login', element: <Login/>},
+    // {path: '/singup', element: <Singup/>},
+
+    {
+        path:'/',
+        element: <GuestLayout />,
+        children: [
+            {path: '/', element: <Landing/>},
+            {path: '/login', element: <Login/>},
+            {path: '/singup', element: <Singup/>},
+        ]
+    },
+
+    {
+        path:'/',
+        element: <AuthLayout/>,
+        children: [
+            {path: '/admin' , element:<AdminHome/>},
+            {path: '/student' , element:<StudentHome/>}
+        ]
+    }
+])
+
+export default router;
+
+
+
+---------------------------------------------------------------------------------------------------------------
+
+---------------------------------------------------------------------------------------------------------------
+
+znači flow je ovakav:
+napravis layoute kako bi prije svega zaštitio rute (auth vs guest)
+napravis usercontext da ti ispručuje podatke o auth useru + token
+ako ima token onda je auth i moze ici na authLayout i sve sto je pod njim!
+
+
+router super trikovi (početna ruta i nestanje elemenata)
+contexProvaider isto odlične stvari
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---------------------------------------------------
+
+dodati gdje je logout, bitno za zaštitu ako netko promijeni token u LSu da ga izbaci
+
+//bitno da izbaci usera ako se user token nekako promijeni
+//zato sto je u sanctumu i treba točan token od auth usera da bi mu se pristupilo
+
+  useEffect(() => {
+    axiosClient.get('/me')
+      .then(({ data }) => {
+        setCurrentUser(data)
+      })
+  }, [])
+
+
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::get('/me', [AuthController::class, 'me']);
+});
+
+
+public function me(Request $request)
+{
+    return $request->user();
+}
+
+
+
+
+    ISPOD OBJAŠENJENJE IZ CHATHGPTA
+
+
+  The code you've provided is a combination of React code and Laravel (PHP) code, which is commonly used as a backend for web applications. This code is used to authenticate a user using tokens and retrieve the authenticated user's data.
+
+Here's how this code tracks if a user has the right token:
+
+1. **React Code (useEffect):**
+   ```javascript
+   useEffect(() => {
+     axiosClient.get('/me')
+       .then(({ data }) => {
+         setCurrentUser(data);
+       })
+   }, [])
+   ```
+   In this React code, you are using the `useEffect` hook to make an HTTP GET request to the `/me` endpoint. The `axiosClient` object is typically configured to include the user's authentication token in the request headers.
+
+2. **Laravel Backend Code (Routes and Controller):**
+   ```php
+   Route::middleware('auth:sanctum')->group(function () {
+       Route::post('/logout', [AuthController::class, 'logout']);
+       Route::get('/me', [AuthController::class, 'me']);
+   });
+   ```
+   In your Laravel routes, you've defined a middleware called `'auth:sanctum'`. This middleware is used to protect routes that require authentication. It checks if the incoming request includes a valid authentication token.
+
+3. **AuthController (me Method):**
+   ```php
+   public function me(Request $request)
+   {
+       return $request->user();
+   }
+   ```
+   In the `me` method of your `AuthController`, you are simply returning the authenticated user. Laravel's `'auth:sanctum'` middleware takes care of checking the user's token and ensuring that the request is authenticated. If the user has a valid token, the `$request->user()` method returns the authenticated user's data.
+
+Here's the flow of how this code works to track if the user has the right token:
+
+- The React application makes a GET request to the `/me` endpoint.
+- The request is intercepted by Laravel's route system, and the `'auth:sanctum'` middleware is applied.
+- The middleware checks the request headers for a valid authentication token (usually provided via a Bearer Token or a Cookie).
+- If the token is valid and associated with an authenticated user, the request proceeds to the `me` method in the `AuthController`.
+- The `me` method returns the authenticated user's data as a response to the React application.
+
+In summary, this code ensures that the user has the right token by leveraging Laravel's authentication middleware. If the token is valid, the user is considered authenticated, and their data is returned to the React application. If the token is invalid or missing, the request will be denied, and the user won't be able to access the protected `/me` route.
+
+
+
+
+
+
+
