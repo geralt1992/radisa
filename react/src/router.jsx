@@ -10,6 +10,7 @@ import Login from './pages/guest/Login'
 
 import Admin from './pages/Admin'
 import User from './pages/User'
+import AllSurveys from "./pages/AllSurveys"
 
 const router = createBrowserRouter([
     {
@@ -28,7 +29,8 @@ const router = createBrowserRouter([
         element: <AuthLayout/>,
         children: [
             {path:'dashboard', element: <User/>},
-            {path:'admin', element: <Admin/>},
+            {path:'surveys', element: <AllSurveys/>},
+            // {path:'admin', element: <Admin/>},
             {path:'*' , element: <h1>Ne postoji</h1>}
         ]
     }

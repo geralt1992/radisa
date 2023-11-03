@@ -120,93 +120,93 @@ export default function Landing() {
     }
 
    return <>
-       <section id="landing" className="data h-[110vh] relative  overflow-hidden" >
-           <Navbar />    
+    <section id="landing" className="data h-screen relative overflow-hidden" >
+        <Navbar />    
 
-           <motion.div
-               variants={titleAndContainerVariant}
-               initial="hidden"
-               animate="show"   
-               className="hero-gradient absolute top-[10%] right-[0%] " 
-           />
+        <motion.div
+            variants={titleAndContainerVariant}
+            initial="hidden"
+            animate="show"   
+            className="hero-gradient absolute top-[10%] right-[0%] " 
+        />
 
-           <div className="flex items-center justify-center h-[75vh] ">
-               <div className="basis-1/2 ml-20">
-                   <motion.h1
-                       variants={titleAndContainerVariant}
-                       initial="hidden"
-                       animate="show"
-                       className="text-2xl uppercase font-mono font-extrabold text-white "
-                   >
-                       UDHR
-                   </motion.h1>
+        <div className="flex items-center justify-center h-[75vh] ">
+            <div className="basis-1/2 ml-20">
+                <motion.h1
+                    variants={titleAndContainerVariant}
+                    initial="hidden"
+                    animate="show"
+                    className="text-2xl uppercase font-mono font-extrabold text-white "
+                >
+                    UDHR
+                </motion.h1>
 
-                   <motion.h1
-                       variants={titleAndContainerVariant}
-                       initial="hidden"
-                       animate="show"
-                       className="text-6xl font-extrabold mt-6 text-white w-[90%] py-3"
-                   >
-                       Učenički dom Hrvatskoga radiše Osijek
-                   </motion.h1>
+                <motion.h1
+                    variants={titleAndContainerVariant}
+                    initial="hidden"
+                    animate="show"
+                    className="text-6xl font-extrabold mt-6 text-white w-[90%] py-3"
+                >
+                    Učenički dom Hrvatskoga radiše Osijek
+                </motion.h1>
 
-                   <motion.p
-                       variants={titleAndContainerVariant}
-                       initial="hidden"
-                       animate="show"
-                       className="text-2xl font-bold text-white w-[90%] my-10"
-                   >
-                     
-                       E-radiša je aplikacija za ispitivanja mišljenja i stavova naših učenika, posjeti i koristi ju! Tvoje mišljenje nam je bitno!
-                   </motion.p>
+                <motion.p
+                    variants={titleAndContainerVariant}
+                    initial="hidden"
+                    animate="show"
+                    className="text-2xl font-bold text-white w-[90%] my-10"
+                >
+                    
+                    E-radiša je aplikacija za ispitivanja mišljenja i stavova naših učenika, posjeti i koristi ju! Tvoje mišljenje nam je bitno!
+                </motion.p>
 
-                   <Link to='https://www.hrvatski-radisa.hr/' target="_blank">
-                       <button className="text-2xl font-bold text-swhite w-[30%] p-[20px] bg-white">
-                           Posjeti naš Dom
-                       </button>
-                  </Link>
+                <Link to='https://www.hrvatski-radisa.hr/' target="_blank">
+                    <button className="text-2xl font-bold text-swhite w-[30%] p-[20px] bg-white">
+                        Posjeti naš Dom
+                    </button>
+                </Link>
 
-                   <motion.div
-                       variants={titleAndContainerVariant}
-                       initial="hidden"
-                       animate="show"
-                       className="text-1xl font-bold text-white w-[90%] my-10"
-                   >
-                      Ocjeni aplikaciju: 
-                      <div>
-                       <i className={`star cursor-pointer ${isClicked ? 'unclickable' : ''}`} onClick={handleClick}></i> 
-                       <i className={`star cursor-pointer ${isClicked ? 'unclickable' : ''}`} onClick={handleClick}></i> 
-                       <i className={`star cursor-pointer ${isClicked ? 'unclickable' : ''}`} onClick={handleClick}></i> 
-                       <i className={`star cursor-pointer ${isClicked ? 'unclickable' : ''}`} onClick={handleClick}></i> 
-                       <i className={`star cursor-pointer ${isClicked ? 'unclickable' : ''}`} onClick={handleClick}></i> 
-                       <br />
-                       <ToastContainer
-                           position="bottom-left"
-                           autoClose={5000}
-                           hideProgressBar={false}
-                           newestOnTop={false}
-                           closeOnClick
-                           rtl={false}
-                           pauseOnFocusLoss
-                           draggable
-                           pauseOnHover
-                           theme="light"
-                       />
-                      </div>
-                     
-                     <span>{userreviewed} KORISNIKA  - {avragegrade}  OCJENA   </span>  
-                   </motion.div>
-               </div>
+                <motion.div
+                    variants={titleAndContainerVariant}
+                    initial="hidden"
+                    animate="show"
+                    className="text-1xl font-bold text-white w-[90%] my-10"
+                >
+                    Ocjeni aplikaciju: 
+                    <div>
+                    <i className={`star cursor-pointer ${isClicked ? 'unclickable' : ''}`} onClick={handleClick}></i> 
+                    <i className={`star cursor-pointer ${isClicked ? 'unclickable' : ''}`} onClick={handleClick}></i> 
+                    <i className={`star cursor-pointer ${isClicked ? 'unclickable' : ''}`} onClick={handleClick}></i> 
+                    <i className={`star cursor-pointer ${isClicked ? 'unclickable' : ''}`} onClick={handleClick}></i> 
+                    <i className={`star cursor-pointer ${isClicked ? 'unclickable' : ''}`} onClick={handleClick}></i> 
+                    <br />
+                    <ToastContainer
+                        position="bottom-left"
+                        autoClose={5000}
+                        hideProgressBar={false}
+                        newestOnTop={false}
+                        closeOnClick
+                        rtl={false}
+                        pauseOnFocusLoss
+                        draggable
+                        pauseOnHover
+                        theme="light"
+                    />
+                    </div>
+                    
+                    <span>{userreviewed} KORISNIKA  - {avragegrade}  OCJENA   </span>  
+                </motion.div>
+            </div>
 
-               <div className="basis-1/2 ">
-                   <motion.div 
-                       className="circle"
-                       variants={glueVariant}
-                       initial="hidden"
-                       animate="show"
-                   />
-               </div>
-           </div> 
-       </section>
+            <div className="basis-1/2 ">
+                <motion.div 
+                    className="circle"
+                    variants={glueVariant}
+                    initial="hidden"
+                    animate="show"
+                />
+            </div>
+        </div> 
+    </section>
    </>
 }

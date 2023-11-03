@@ -63,7 +63,7 @@ class AuthController extends Controller
         $token = $user->createToken('main')->plainTextToken;
         $isAdmin = Auth::user()->isAdmin;
 
-        if($isAdmin === 1) {
+        if($isAdmin === "1") {
             $isAdmin = true;
         } else {
             $isAdmin = false;
@@ -83,7 +83,7 @@ class AuthController extends Controller
         $user = Auth::user();
         $isAdmin = Auth::user()->isAdmin;
 
-        if($isAdmin === 1) {
+        if($isAdmin === "1") {
             $isAdmin = true;
         } else {
             $isAdmin = false;

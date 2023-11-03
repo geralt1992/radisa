@@ -2,9 +2,40 @@ import { useEffect } from 'react';
 import { Navigate, Outlet, Link} from 'react-router-dom';
 import { UserStateContext } from '../context/ContextProvaider';
 import axiosClient from '../axios';
-
+import React from "react";
+import {
+  Card,
+  Typography,
+  List,
+  ListItem,
+  ListItemPrefix,
+  Accordion,
+  AccordionHeader,
+  AccordionBody,
+} from "@material-tailwind/react";
+import {
+  ChatBubbleLeftIcon,
+  ShoppingBagIcon,
+  KeyIcon,
+  Cog6ToothIcon,
+  PowerIcon,
+  PencilSquareIcon,
+  
+} from "@heroicons/react/24/solid";
+import {
+  ChevronRightIcon,
+  ChevronDownIcon,
+} from "@heroicons/react/24/outline";
+ 
+import logo from '../../src/assets/logo2.png'
+import Admin from '../pages/Admin'
 export default function AuthLayout() {
   const { token, setToken, user, setUser, setAdmin, admin } = UserStateContext();
+  const [open, setOpen] = React.useState(0);
+ 
+  const handleOpen = (value) => {
+    setOpen(open === value ? 0 : value);
+  };
 
   useEffect(() => {
     axiosClient.get('me')
@@ -15,31 +46,6 @@ export default function AuthLayout() {
       .catch((e) => console.log(e));
   }, []);
 
-  useEffect(() => {
-   // Code to run when the component is mounted (equivalent to DOMContentLoaded)
-   // Obtain all the main options with dropdowns
-   const opcionesConDesplegable = document.querySelectorAll(".opcion-con-desplegable");
-
-   // Add a click event to each main option
-   opcionesConDesplegable.forEach(function (opcion) {
-     opcion.addEventListener("click", function () {
-       // Get the dropdown associated with the option
-       const desplegable = opcion.querySelector(".desplegable");
-
-       // Toggle the "hidden" class to show or hide the dropdown
-       desplegable.classList.toggle("hidden");
-     });
-   });
-
-   // Don't forget to remove event listeners when the component is unmounted
-   return () => {
-     opcionesConDesplegable.forEach(function (opcion) {
-       opcion.removeEventListener("click", function () {
-         // Your cleanup logic here if needed
-       });
-     });
-   }
- }, []); // The empty dependency array ensures this effect runs once, like DOMContentLoaded
 
   if (!token) {
     return <Navigate to="/" />;
@@ -52,166 +58,181 @@ export default function AuthLayout() {
     setAdmin(false);
   }
 
+
   return (
-    // <div className="flex h-screen">
-    //   {/* Sidebar */}
-    //   <div className="w-64 bg-gray-800 p-6">
-    //     <div className="text-white font-bold text-xl mb-4">My App</div>
-    //     <ul>
+  <>
+    <div className="flex h-screen">
 
-    //     {/* ADMIN */}
-    //     {admin && (
-    //     <div className='text-white'>
-    //       <p >Welcome, Admin!</p> <br />
-    //       <Link to="/auth/admin">
-    //         <button className='p-2 bg-slate-300'>Go to admin</button>
-    //       </Link>
-    //     </div>
-    //   )}
+      <Card className="min-h-full w-full max-w-[20rem] p-4 shadow-xl bg-gray-800 text-white shadow-blue-gray-900/5 rounded-none">
+            <div className="mb-2 flex items-center gap-4 p-4">
+              <img src={logo} alt="brand" className="h-12 w-12 rounded-3xl " />
+              <Typography variant="h5" color="blue-gray">
+                E radiša
+              </Typography>
+            </div>
+            
+            <List>
+              <Accordion
+                open={open === 1}
+                icon={
+                  <ChevronDownIcon
+                    strokeWidth={2.5}
+                    className={`mx-auto h-4 w-4 transition-transform ${open === 1 ? "rotate-180" : ""}`}
+                  />
+                }
+              >
+                <ListItem className="p-0" selected={open === 1}>
+                  <AccordionHeader onClick={() => handleOpen(1)} className="border-b-0 p-3">
+                    <ListItemPrefix>
+                      <Cog6ToothIcon className="h-5 w-5" />
+                    </ListItemPrefix>
+                    <Typography color="blue-gray" className="mr-auto font-normal  ml-5">
+                      Upravljačka ploča
+                    </Typography>
+                  </AccordionHeader>
+                </ListItem>
+                <AccordionBody className="py-1">
+                  <List className="p-0">
+                    <ListItem>
+                      <ListItemPrefix>
+                        <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                      </ListItemPrefix>
+                      Moje Profil
+                    </ListItem>
+                    <ListItem>
+                      <ListItemPrefix>
+                        <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                      </ListItemPrefix>
+                      Moji upitnici
+                    </ListItem>
+                   
+                  </List>
+                </AccordionBody>
+              </Accordion>
+              <Accordion
+                open={open === 2}
+                icon={
+                  <ChevronDownIcon
+                    strokeWidth={2.5}
+                    className={`mx-auto h-4 w-4 transition-transform ${open === 2 ? "rotate-180" : ""}`}
+                  />
+                }
+              >
+                <ListItem className="p-0" selected={open === 2}>
 
-    //     <li className="mb-2">
-    //       <button
-    //         onClick={logout}
-    //         className="text-white hover:bg-red-500 hover:text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out"
-    //       >
-    //         Logout
-    //       </button>
-    //     </li>
-    //       {/* Add more sidebar items as needed */}
-    //     </ul>
-    //   </div>
 
-      
+                {/* //ADMIN PANEL */}
+                {admin && (
+                      <AccordionHeader onClick={() => handleOpen(2)} className="border-b-0 p-3">
+                      <ListItemPrefix>
+                        <KeyIcon className="h-5 w-5 "  />
+                      </ListItemPrefix>
+                      <Typography color="blue-gray" className="mr-auto font-normal  ml-5">
+                        Admin
+                      </Typography>
+                    </AccordionHeader>
 
-    //   {/* Main Content */}
-    //   <div className="flex-1 p-6">
-    //     <div className="mb-4">AuthLayout - Hi {user.name}</div>
-    //     <Outlet />
-    //   </div>
-    // </div>
+                )}
 
-<>
+                </ListItem>
+                <AccordionBody className="py-1">
+                  <List className="p-0">
 
-    <div>
-  {/* <nav class="bg-blue-500 p-4 flex items-center justify-between">
-    <div>
-      <h1 class="text-white text-xl font-semibold">SALUD 360</h1>
+                    <ListItem>
+                      <ListItemPrefix>
+                        <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                      </ListItemPrefix>
+                      Stvori upitnik
+                    </ListItem>
+
+                    <ListItem>
+                      <ListItemPrefix>
+                        <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                      </ListItemPrefix>
+                      Neobjavljeni upitnici
+                    </ListItem>
+
+                    <ListItem>
+                      <ListItemPrefix>
+                        <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                      </ListItemPrefix>
+                      Aktivni upitnici
+                    </ListItem>
+
+                    <ListItem>
+                      <ListItemPrefix>
+                        <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                      </ListItemPrefix>
+
+                      Pregled upitnika (po godinama)
+                      
+                    </ListItem>
+
+                    
+                    <ListItem>
+                      <ListItemPrefix>
+                        <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                      </ListItemPrefix>
+                      Pregled prijedloga
+                    </ListItem>
+
+                    <ListItem>
+                      <ListItemPrefix>
+                        <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                      </ListItemPrefix>
+                      Dodaj učenika
+                    </ListItem>
+
+                  </List>
+
+                </AccordionBody>
+
+                
+              </Accordion>
+
+
+              <hr className="my-2 border-blue-gray-50" />
+
+
+              <ListItem>
+                <ListItemPrefix>
+                  <PencilSquareIcon className="h-5 w-5 mr-5" />
+                </ListItemPrefix>
+                Aktivni upitnici
+              </ListItem>
+              
+              <Link to='/auth/surveys'>
+                <ListItem >
+                  <ListItemPrefix>
+                    <ChatBubbleLeftIcon className="h-5 w-5 mr-5" />
+                  </ListItemPrefix>
+                  Prijedlozi
+                </ListItem>  
+              </Link>
+              
+              <ListItem onClick={(e) => logout(e)}>
+                <ListItemPrefix>
+                  <PowerIcon className="h-5 w-5 mr-5" />
+                </ListItemPrefix>
+                Odjava
+              </ListItem>
+
+            </List>
+          
+      </Card>
+
+
+      <div className="flex-1 p-6 overflow-scroll">
+        <div>Dobrodošao {user.name}</div>
+        {/* CHECK IF USER IS ADMIN, IF IS IT SHOW ADMIN PAGE */}
+        {admin ? (
+            <Admin />
+          ) : (
+            <Outlet />
+          )
+        }
+      </div>
     </div>
-    <div class="flex items-center space-x-4">
-      <span class="text-white">Bienvenido</span>
-      <i class="fas fa-user-circle text-white text-2xl"></i>
-    </div>
-  </nav> */}
-
-  <aside class="bg-gray-800 text-white w-64 min-h-screen p-4">
-    <nav>
-      <ul class="space-y-2">
-        <li class="opcion-con-desplegable">
-          <div class="flex items-center justify-between p-2 hover:bg-gray-700">
-            <div class="flex items-center">
-              <i class="fas fa-calendar-alt mr-2"></i>
-              <span>Agenda</span>
-            </div>
-            <i class="fas fa-chevron-down text-xs"></i>
-          </div>
-          <ul class="desplegable ml-4 hidden">
-            <li>
-              <a href="#" class="block p-2 hover:bg-gray-700 flex items-center">
-                <i class="fas fa-chevron-right mr-2 text-xs"></i>
-                Gestion de citas
-              </a>
-            </li>
-            <li>
-              <a href="#" class="block p-2 hover:bg-gray-700 flex items-center">
-                <i class="fas fa-chevron-right mr-2 text-xs"></i>
-                Polizas
-              </a>
-            </li>
-          </ul>
-        </li>
-        <li class="opcion-con-desplegable">
-          <div class="flex items-center justify-between p-2 hover:bg-gray-700">
-            <div class="flex items-center">
-              <i class="fas fa-money-bill-wave mr-2"></i>
-              <span>Contabilidad</span>
-            </div>
-            <i class="fas fa-chevron-down text-xs"></i>
-          </div>
-          <ul class="desplegable ml-4 hidden">
-            <li>
-              <a href="#" class="block p-2 hover:bg-gray-700 flex items-center">
-                <i class="fas fa-chevron-right mr-2 text-xs"></i>
-                Tratamientos
-              </a>
-            </li>
-            <li>
-              <a href="#" class="block p-2 hover:bg-gray-700 flex items-center">
-                <i class="fas fa-chevron-right mr-2 text-xs"></i>
-                Gastos
-              </a>
-            </li>
-            <li>
-              <a href="#" class="block p-2 hover:bg-gray-700 flex items-center">
-                <i class="fas fa-chevron-right mr-2 text-xs"></i>
-                Facturas
-              </a>
-            </li>
-          </ul>
-        </li>
-        <li class="opcion-con-desplegable">
-          <div class="flex items-center justify-between p-2 hover:bg-gray-700">
-            <div class="flex items-center">
-              <i class="fas fa-chart-bar mr-2"></i>
-              <span>Informes</span>
-            </div>
-            <i class="fas fa-chevron-down text-xs"></i>
-          </div>
-          <ul class="desplegable ml-4 hidden">
-            <li>
-              <a href="#" class="block p-2 hover:bg-gray-700 flex items-center">
-                <i class="fas fa-chevron-right mr-2 text-xs"></i>
-                Presupuestos
-              </a>
-            </li>
-            <li>
-              <a href="#" class="block p-2 hover:bg-gray-700 flex items-center">
-                <i class="fas fa-chevron-right mr-2 text-xs"></i>
-                Informe médico
-              </a>
-            </li>
-          </ul>
-        </li>
-        <li class="opcion-con-desplegable">
-          <div class="flex items-center justify-between p-2 hover:bg-gray-700">
-            <div class="flex items-center">
-              <i class="fas fa-file-alt mr-2"></i>
-              <span>Documentación</span>
-            </div>
-            <i class="fas fa-chevron-down text-xs"></i>
-          </div>
-          <ul class="desplegable ml-4 hidden">
-            <li>
-              <a href="#" class="block p-2 hover:bg-gray-700 flex items-center">
-                <i class="fas fa-chevron-right mr-2 text-xs"></i>
-                Firmas pendientes
-              </a>
-            </li>
-            <li>
-              <a href="#" class="block p-2 hover:bg-gray-700 flex items-center">
-                <i class="fas fa-chevron-right mr-2 text-xs"></i>
-                Documentos
-              </a>
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </nav>
-  </aside>
-
-  <main class="container mx-auto p-4">
-    <h1 class="text-2xl font-bold mb-4">¡Bienvenido al CRM de Mi Empresa!</h1>
-    <p>En esta sección encontrarás todo lo que necesitas para administrar tus clientes y ventas de manera eficiente.</p>
-  </main></div>
-</>
+  </>
   );
 }
