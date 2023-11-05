@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-vars */
 import React from 'react'
 
-export default function User() {
+export default function Dashboard() {
   return (
-    <div>User</div>
+    <div>Dashboard</div>
   )
 }
