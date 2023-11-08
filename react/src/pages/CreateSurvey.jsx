@@ -6,6 +6,14 @@ import {
   } from "@material-tailwind/react";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import {
+    PlusIcon,
+    TrashIcon
+  } from "@heroicons/react/24/solid";
+
+import uuid from 'react-uuid';
+
+
 
 export default function CreateSurvey() {
 
@@ -16,8 +24,10 @@ export default function CreateSurvey() {
         expire_date: '',
         status: false,
         questions: [] 
-    })
+    });
 
+    const [newQuestions, setNewQuestions] = useState([]);
+    const questionTypes = ['text' , 'radio' , 'checkbox' , 'select'];
 
     function onSubmit(e) {
         e.preventDefault();
@@ -45,17 +55,83 @@ export default function CreateSurvey() {
               toast.error(`${errors[key]}`);
             });
         });
-
-
-       
-        
     }
 
+    function addQuestion() {
+        const newQuestion = {
+            id: uuid(),
+            type: "text",
+            question: "",
+            description: "",
+            data: {options:[]},
+        }
+
+        const updatedQuestions = [...newQuestions, newQuestion];
+        setNewQuestions(updatedQuestions);
+    }
+
+    function deleteQuestion(question) {
+        setNewQuestions((prevQuestions) => {
+            const updatedQuestions = prevQuestions.filter((q) => q.id !== question.id);
+            return updatedQuestions;
+        })
+    }
+
+    function addOption(question) {
+        const newOption = { id: uuid(), optionText: '' };
+        setNewQuestions((prevQuestions) => {
+            return prevQuestions.map((q) => {
+                if (q.id === question.id) {
+                    //Za ući i updejtati dubinu objekta ili polja
+                    //prepisali smo q, prčkat ćemo po data, ušli smo u data, prepisali postojeći data, prčkat ćemo po optionsima, ušlismo u optionse, prepisujemo stare optionse i daojemo novi option
+                    return {...q, data: { ...q.data, options: [...q.data.options, newOption]}};
+                }
+                return q;
+            });
+        });
+    }
+
+    function onOptionUpdate(ev, question, option) {
+        setNewQuestions((prevQuestions) => {
+            return prevQuestions.map((q) => {
+                if(q.id === question.id) {
+                   const selectedQuestionOptions = q.data.options;
+                   selectedQuestionOptions.forEach((opt) => {
+                    if(opt.id === option.id) {
+                        opt.optionText = ev.target.value;
+                    }
+                    return opt;
+                   })
+                }
+                return q;
+            })
+        })
+    }
+
+
+    function deleteOption(question, option) {
+        setNewQuestions((prevQuestions) => {
+            return prevQuestions.map((q) => {
+                if (q.id === question.id) {
+                    const updatedOptionsForSelectedQuestion = q.data.options.filter((opt) => opt.id !== option.id);
+                    return { ...q, data: { ...q.data, options: updatedOptionsForSelectedQuestion }};
+                }
+                return q;
+            });
+        });
+    }
+   
+
+    function upperCaseFirst(str) {
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+
+   
 
   return (
     <>
     
-     <div className="mx-0 mt-20 px-10 py-20 shadow-lg lg:mx-80">
+     <div className="mx-0 my-10 px-10 py-20 shadow-lg lg:mx-80">
             <div id="surveyTitleData">   
                 <Typography variant="h4" color="blue">
                     Stvori upitnik
@@ -191,6 +267,213 @@ export default function CreateSurvey() {
                     {/*Active*/}
                    
                 <button type="submit" className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"> Button </button>
+
+
+                <div className="flex justify-between mt-5">
+                    <h3 className="text-2xl font-bold">Questions</h3>
+                    <button
+                    type="button"
+                    className="flex items-center text-sm py-1 px-4 rounded-sm text-white bg-gray-600 hover:bg-gray-700"
+                    onClick={() => addQuestion()}
+                    >
+                        <PlusIcon className="w-4 mr-3"/>
+                        Add question
+                    </button>
+                </div>
+
+                {newQuestions.length ?  (
+                    newQuestions.map((question, index) => {
+                      return  <React.Fragment key={question.id}>
+                           <div>
+                                <div className="flex justify-between my-5 ">
+                                    <h4>
+                                    {index + 1}. QUESTION
+                                    </h4>
+                                    <div className="flex items-center">
+                                    <button
+                                        type="button"
+                                        className="flex items-center text-xs py-1 px-3 mr-2 rounded-sm text-white bg-gray-600 hover:bg-gray-700"
+                                        onClick={() => addQuestion()}
+                                    >
+                                        <PlusIcon className="w-4" />
+                                        Add
+                                    </button>
+                                    <button
+                                        type="button"
+                                        className="flex items-center text-xs py-1 px-3 mr-2 rounded-sm border border-transparent text-red-500 hover:border-red-600 font-semibold"
+                                        onClick={() => deleteQuestion(question)}
+                                    >
+                                        <TrashIcon className="w-4" />
+                                        Delete
+                                    </button>
+                                    </div>
+                                </div>
+                                <div className="flex gap-3 justify-between my-5">
+
+                                    {/* Question Text */}
+                                    <div className="flex-1">
+                                    <label
+                                        htmlFor="question"
+                                        className="block text-sm font-medium text-gray-700"
+                                    >
+                                        Question
+                                    </label>
+                                    <input
+                                        required
+                                        type="text"
+                                        name="question"
+                                        id="question"
+                                        value={question.question}
+                                        onChange={(e) => {
+                                            setNewQuestions((prevQuestions) => {
+                                                return prevQuestions.map((q) => {
+                                                    if(q.id === question.id) {
+                                                        return {...q, question: e.target.value}
+                                                    }
+                                                    return q;
+                                                })
+                                            })
+                                        }}
+                                        className="mt-1 block w-full py-2 rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                    />
+                                    </div>
+                                    {/* Question Text */}
+
+                                    {/* Question Type */}
+                                    <div>
+                                    <label
+                                        htmlFor="questionType"
+                                        className="block text-sm font-medium text-gray-700 w-40"
+                                    >
+                                        Question Type
+                                    </label>
+                                    <select
+                                        id="questionType"
+                                        name="questionType"
+                                        value={question.type}
+                                        onChange={(e) => {
+                                            setNewQuestions((prevQuestions) => {
+                                                return prevQuestions.map((q) => {
+                                                    if(q.id === question.id) {
+                                                        return {...q, type: e.target.value}
+                                                    }
+                                                    return q;
+                                                })
+                                            })
+                                        }}
+                                        className="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                                    >
+
+                                    {questionTypes.map((type) => {
+                                      return <option value={type} key={type}>
+                                            {upperCaseFirst(type)}
+                                        </option>
+                                    })}
+                                    </select>
+                                    </div>
+                                    {/* Question Type */}
+
+                                </div>
+
+                                {/* Description */}
+                                <div className="mb-3">
+                                    <label
+                                    htmlFor="questionDescription"
+                                    className="block text-sm font-medium text-gray-700"
+                                    >
+                                        Description
+                                    </label>
+                                    <textarea
+                                    rows="4"
+                                    cols="50"
+                                    name="questionDescription"
+                                    id="questionDescription"
+                                    value={question.description}
+                                    onChange={(e) => {
+                                        setNewQuestions((prevQuestions) => {
+                                            return prevQuestions.map((q) => {
+                                                if(q.id === question.id) {
+                                                    return {...q , description: e.target.value}
+                                                }
+                                                return q;
+                                            })
+                                        })
+                                    }}
+
+                                    
+                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                    ></textarea>
+                                </div>
+                                {/* Description */}
+                                
+                                {/* Check question type */}
+                                {
+                                (question.type === 'select' || question.type === 'radio' || question.type === 'checkbox') && (
+                                    <div>
+                                    <h4 className="text-sm font-semibold mb-1 flex justify-between items-center">
+                                        Options
+                                        <button
+                                        // IMPORTANT
+                                        onClick={() => addOption(question)}
+                                        type="button"
+                                        className="flex items-center text-xs py-1 px-2 rounded-sm text-white bg-gray-600 hover:bg-gray-700"
+                                        >
+                                        Add Option
+                                        </button>
+                                    </h4>
+
+                                    {question.data.options.length === 0 && (
+                                        <div className="text-xs text-gray-600 text-center py-3">
+                                        You dont have any options defined
+                                        </div>
+                                    )}
+
+                                    {question.data.options.length > 0 && (
+                                        question.data.options.map((option, index) => {
+                                            return <React.Fragment key={option.id}>
+                                                 <div className="flex items-center mb-1">
+                                                    <span className="w-6 text-sm">{index + 1}</span>
+                                                    <input
+                                                    required
+                                                    type="text"
+                                                    value={option.optionText}
+                                                    //BITNO BITNO BITNO
+                                                    onChange={(ev) => onOptionUpdate(ev, question, option)}
+                                                    className="w-full rounded-sm py-1 px-2 text-xs border border-gray-300 focus:border-indigo-500"
+                                                    />
+                                                    <button
+                                                    //BITNO BITNO BITNO
+                                                    onClick={() => deleteOption(question, option)}
+                                                    type="button"
+                                                    className="h-6 w-6 rounded-full flex items-center justify-center border border-transparent transition-colors  hover:border-red-100"
+                                                    >
+                                                    <TrashIcon className="w-3 h-3 text-red-500" />
+                                                    </button>
+                                                </div>
+                                            </React.Fragment>
+                                        })
+                                    )}
+                                    </div>
+                                )
+                                }
+                
+                                        
+                                {/* Check question type */}
+
+                            </div>
+                            <hr />
+
+
+                        </React.Fragment> 
+                    })
+                    
+                    
+
+                ) : (
+                    <h1>No questions added</h1>
+                )}
+
+
             </form>
          
     </div>
