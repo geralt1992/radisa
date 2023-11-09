@@ -8,7 +8,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {
     PlusIcon,
-    TrashIcon
+    TrashIcon,
   } from "@heroicons/react/24/solid";
 
 import uuid from 'react-uuid';
@@ -32,6 +32,14 @@ export default function CreateSurvey() {
     function onSubmit(e) {
         e.preventDefault();
         
+        //1. check - user confirmation
+        const confirmation = window.confirm("Jeste li sigurni da želite stvoriti ovu anketu i da su svi podatci točni?");
+        if (!confirmation) return false;
+
+
+        //postavi trenutna pitanja u anketu koju šalješ
+        setSurvey({...survey, questions: newQuestions})
+        
         const formData = new FormData();
         formData.append("title", survey.title);
         formData.append("status", survey.status);
@@ -41,7 +49,6 @@ export default function CreateSurvey() {
         // Convert the questions array to a JSON string
         formData.append("questions", JSON.stringify(survey.questions));
         
-
         // ZBG SLIKE TREBA!
         const headers = { "Content-Type": "multipart/form-data" };
         
@@ -56,6 +63,7 @@ export default function CreateSurvey() {
             });
         });
     }
+
 
     function addQuestion() {
         const newQuestion = {
@@ -108,7 +116,6 @@ export default function CreateSurvey() {
         })
     }
 
-
     function deleteOption(question, option) {
         setNewQuestions((prevQuestions) => {
             return prevQuestions.map((q) => {
@@ -121,12 +128,10 @@ export default function CreateSurvey() {
         });
     }
    
-
     function upperCaseFirst(str) {
         return str.charAt(0).toUpperCase() + str.slice(1);
     }
 
-   
 
   return (
     <>
@@ -171,41 +176,66 @@ export default function CreateSurvey() {
                                     id='image'
                                     onChange={(e) => {setSurvey({ ...survey, image: e.target.files[0] })}}
                                     />
-                                    Add
+                                    Dodaj
                                 </button>
                             </div>
                         </div>
                     {/*Image*/}
 
-                    {/*Title*/}
-                        <div className="col-span-6 sm:col-span-3">
-                            <label
-                            htmlFor="title"
-                            className="block text-sm font-medium text-gray-700"
-                            >
-                                Survey Title
-                            </label>
-                            <input
-                            required
-                            type="text"
-                            name="title"
-                            id="title"
-                            value={survey.title}
-                            onChange={(e) => {setSurvey({...survey, title: e.target.value})}}
-                            placeholder="Survey Title"
-                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 sm:text-sm"
-                            />
-                        </div>
-                    {/*Title*/}
+                    {/* Title and Expire Date */}
+                        <div className="flex gap-3 justify-between my-5">
 
+                            {/* Title */}
+                            <div className="flex-1">
+                                <label
+                                htmlFor="title"
+                                className="block text-sm font-medium text-gray-700"
+                                >
+                                    Naslov 
+                                </label>
+                                <input
+                                required
+                                type="text"
+                                name="title"
+                                id="title"
+                                value={survey.title}
+                                onChange={(e) => {setSurvey({...survey, title: e.target.value})}}
+                                placeholder="Naslov upitnika"
+                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 sm:text-sm"
+                                />
+                            </div>
+                            {/* Title */}
+
+                            {/* Exp Date */}
+                            <div>
+                                <label
+                                htmlFor="expire_date"
+                                className="block text-sm font-medium text-gray-700"
+                                >
+                                    Datum isteka 
+                                </label>
+                                <input
+                                required
+                                type="date"
+                                name="expire_date"
+                                id="expire_date"
+                                value={survey.expire_date}
+                                onChange={(e) => {setSurvey({...survey, expire_date: e.target.value})}}
+                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 sm:text-sm"
+                                />
+                            </div>
+                            {/* Exp Date */}
+
+                        </div>
+                    {/* Title and Expire Date */}
 
                     {/*Description*/}
-                        <div className="col-span-6 sm:col-span-3">
+                         <div className="col-span-6 sm:col-span-3">
                             <label
                             htmlFor="description"
                             className="block text-sm font-medium text-gray-700"
                             >
-                                Description
+                                Opis
                             </label>
                             
                             <textarea
@@ -214,98 +244,37 @@ export default function CreateSurvey() {
                             required
                             value={survey.description}
                             onChange={(e) => {setSurvey({...survey, description: e.target.value})}}
-                            placeholder="Describe your survey"
+                            placeholder="Opiši svoj upitnik"
                             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 sm:text-sm"
                             ></textarea>
                         </div>
                     {/*Description*/}
 
-                    {/*Expire Date*/}
-                        <div className="col-span-6 sm:col-span-3">
-                            <label
-                            htmlFor="expire_date"
-                            className="block text-sm font-medium text-gray-700"
-                            >
-                                Expire Date
-                            </label>
-                            <input
-                            required
-                            type="date"
-                            name="expire_date"
-                            id="expire_date"
-                            value={survey.expire_date}
-                            onChange={(e) => {setSurvey({...survey, expire_date: e.target.value})}}
-                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 sm:text-sm"
-                            />
-                        </div>
-                    {/*Expire Date*/}
+                        <hr className='my-10' />
 
-                    {/*Active*/}
-                        <div className="flex items-start">
-                            <div className="flex h-5 items-center">
-                                <input
-                                    id="status"
-                                    name="status"
-                                    type="checkbox"
-                                    checked={survey.status}
-                                    onChange={(e) => {setSurvey({...survey, status:e.target.value})}}
-                                    className="h-4 w-4 rounded border-gray-300 text-gray-600 focus:ring-gray-500"
-                                />
-                            </div>
-                            <div className="ml-3 text-sm">
-                                <label
-                                    htmlFor="comments"
-                                    className="font-medium text-gray-700"
-                                >
-                                    Active
-                                </label>
-                                <p className="text-gray-500">
-                                    Whether to make survey publicly available
-                                </p>
-                            </div>
-                        </div>
-                    {/*Active*/}
-                   
-                <button type="submit" className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"> Button </button>
-
+                {/* QUESTIONS */}
 
                 <div className="flex justify-between mt-5">
-                    <h3 className="text-2xl font-bold">Questions</h3>
-                    <button
-                    type="button"
-                    className="flex items-center text-sm py-1 px-4 rounded-sm text-white bg-gray-600 hover:bg-gray-700"
-                    onClick={() => addQuestion()}
-                    >
-                        <PlusIcon className="w-4 mr-3"/>
-                        Add question
+                    <h3 className="text-2xl font-bold">Pitanja</h3>
+                    <button type="button"  onClick={() => addQuestion()} className="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
+                        <PlusIcon className="w-3 text-white"/>
                     </button>
                 </div>
 
                 {newQuestions.length ?  (
                     newQuestions.map((question, index) => {
                       return  <React.Fragment key={question.id}>
-                           <div>
+                           <div className='shadow-lg p-10'>
                                 <div className="flex justify-between my-5 ">
-                                    <h4>
-                                    {index + 1}. QUESTION
-                                    </h4>
+                                    <h4> {index + 1}. Pitanje </h4>
                                     <div className="flex items-center">
-                                    <button
-                                        type="button"
-                                        className="flex items-center text-xs py-1 px-3 mr-2 rounded-sm text-white bg-gray-600 hover:bg-gray-700"
-                                        onClick={() => addQuestion()}
-                                    >
-                                        <PlusIcon className="w-4" />
-                                        Add
-                                    </button>
-                                    <button
-                                        type="button"
-                                        className="flex items-center text-xs py-1 px-3 mr-2 rounded-sm border border-transparent text-red-500 hover:border-red-600 font-semibold"
-                                        onClick={() => deleteQuestion(question)}
-                                    >
-                                        <TrashIcon className="w-4" />
-                                        Delete
-                                    </button>
+                                        <button type="button" onClick={() => addQuestion()} className="text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800">
+                                            <PlusIcon className="w-4" />
+                                        </button>
+
+                                        <button type="button" onClick={() => deleteQuestion(question)} className="text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800">
+                                            <TrashIcon className="w-4" />
+                                        </button>
                                     </div>
                                 </div>
                                 <div className="flex gap-3 justify-between my-5">
@@ -316,7 +285,7 @@ export default function CreateSurvey() {
                                         htmlFor="question"
                                         className="block text-sm font-medium text-gray-700"
                                     >
-                                        Question
+                                        Pitanje
                                     </label>
                                     <input
                                         required
@@ -334,7 +303,7 @@ export default function CreateSurvey() {
                                                 })
                                             })
                                         }}
-                                        className="mt-1 block w-full py-2 rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                        className="mt-1 block w-full py-2 rounded-md border border-gray-300 shadow-sm focus:border-grey-500 focus:ring-grey-500 sm:text-sm"
                                     />
                                     </div>
                                     {/* Question Text */}
@@ -345,7 +314,7 @@ export default function CreateSurvey() {
                                         htmlFor="questionType"
                                         className="block text-sm font-medium text-gray-700 w-40"
                                     >
-                                        Question Type
+                                        Tip pitanja
                                     </label>
                                     <select
                                         id="questionType"
@@ -361,7 +330,7 @@ export default function CreateSurvey() {
                                                 })
                                             })
                                         }}
-                                        className="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                                        className="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-grey-500 focus:outline-none focus:ring-grey-500 sm:text-sm"
                                     >
 
                                     {questionTypes.map((type) => {
@@ -381,7 +350,7 @@ export default function CreateSurvey() {
                                     htmlFor="questionDescription"
                                     className="block text-sm font-medium text-gray-700"
                                     >
-                                        Description
+                                        Opis pitanja
                                     </label>
                                     <textarea
                                     rows="4"
@@ -401,7 +370,7 @@ export default function CreateSurvey() {
                                     }}
 
                                     
-                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-grey-300 focus:ring-grey-300 sm:text-sm"
                                     ></textarea>
                                 </div>
                                 {/* Description */}
@@ -411,14 +380,14 @@ export default function CreateSurvey() {
                                 (question.type === 'select' || question.type === 'radio' || question.type === 'checkbox') && (
                                     <div>
                                     <h4 className="text-sm font-semibold mb-1 flex justify-between items-center">
-                                        Options
+                                        Opcije
                                         <button
                                         // IMPORTANT
                                         onClick={() => addOption(question)}
                                         type="button"
-                                        className="flex items-center text-xs py-1 px-2 rounded-sm text-white bg-gray-600 hover:bg-gray-700"
+                                        className="flex items-center text-xs p-2 rounded-md my-3 text-white bg-gray-800 hover:bg-gray-700"
                                         >
-                                        Add Option
+                                        Dodaj
                                         </button>
                                     </h4>
 
@@ -439,13 +408,13 @@ export default function CreateSurvey() {
                                                     value={option.optionText}
                                                     //BITNO BITNO BITNO
                                                     onChange={(ev) => onOptionUpdate(ev, question, option)}
-                                                    className="w-full rounded-sm py-1 px-2 text-xs border border-gray-300 focus:border-indigo-500"
+                                                    className="w-full rounded-sm py-1 px-2 text-xs border border-gray-300 focus:border-red-500"
                                                     />
                                                     <button
                                                     //BITNO BITNO BITNO
                                                     onClick={() => deleteOption(question, option)}
                                                     type="button"
-                                                    className="h-6 w-6 rounded-full flex items-center justify-center border border-transparent transition-colors  hover:border-red-100"
+                                                    className="h-6 w-6 rounded-full flex items-center justify-center border border-transparent transition-colors  "
                                                     >
                                                     <TrashIcon className="w-3 h-3 text-red-500" />
                                                     </button>
@@ -473,8 +442,9 @@ export default function CreateSurvey() {
                     <h1>No questions added</h1>
                 )}
 
-
-            </form>
+                {/* QUESTIONS */}
+                <button type="submit" className="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Stvori upitnik</button>
+            </form> 
          
     </div>
 

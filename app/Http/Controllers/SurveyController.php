@@ -51,6 +51,26 @@ class SurveyController extends Controller
         $new_survey->status = $data['status'];
         $new_survey->save();
 
-        return response(['data' => $data]);
+            
+        //QUESTIONS - encode za PC (bazu), decode za rad
+        $questions = json_decode($data['questions']);
+
+        foreach($questions as $question) {
+            $allOptionTexts = [];
+
+            foreach($question->data->options as $option) {
+                $allOptionTexts[] = $option->optionText;
+            }
+
+            $new_question = new Question;
+            $new_question->survey_id = Survey::latest()->first()->id;
+            $new_question->question = $question->question;
+            $new_question->type = $question->type;
+            $new_question->description = $question->description;
+            $new_question->options = json_encode($allOptionTexts); // Convert the array to a JSON string
+            $new_question->save();
+        }
+
+        return response(['msg' => "survey created!"]);
     }
 }
