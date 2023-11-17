@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Survey;
 use App\Models\Question;
-use App\Models\Answear;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Validator;
@@ -71,6 +70,62 @@ class SurveyController extends Controller
             $new_question->save();
         }
 
-        return response(['msg' => "survey created!"]);
+        return response(['msg' => "survey created!"], 201);
     }
+
+
+    public function getUnpublishedSurveys() {
+        $surveys = Survey::where('status' , 'false')->where('isFinished' , false)->get();
+        return response($surveys);
+    }
+
+    public function getActiveSurveys() {
+        $surveys = Survey::where('status' , 'true')->where('isFinished' , false)->get();
+        return response($surveys);
+    }
+
+    public function getFinishedSurveys() {
+        $surveys = Survey::where('status' , 'false')->where('isFinished' , true)->get();
+        return response($surveys);
+    }
+
+
+    public function activate(Request $request) {
+        $data = $request->json()->all();
+        $survey_to_activeted = Survey::where('id' , $data['id'])->first();
+        $survey_to_activeted->status = 'true';
+        $survey_to_activeted->save();
+        //DODAJ JOŠ DA SVI USERI DOBIJU EMAIL!
+        return response(['success' => true]);
+    }
+
+    public function deactive($id) {
+        $survey_to_deactiveted = Survey::where('id' , $id)->first();
+        $survey_to_deactiveted->status = 'false';
+        $survey_to_deactiveted->save();
+        return response(['success' => true]);
+    }
+
+    public function delete($id) {
+        $survey_to_delete = Survey::where('id', $id)->first();
+        $survey_to_delete->delete();
+        return response(['success' => true]);
+    }
+
+    public function getSurvey($id) {
+        $survey = Survey::where('id' , $id)->first();
+        $questions = Question::where('survey_id', $id)->get();
+        return response(['survey' => $survey, 'questions' => $questions]);
+    }
+
+    public function finishSurvey($id) {
+        $survey = Survey::where('id' , $id)->first();
+        $survey->status = 'false';
+        $survey->isFinished = true;
+        $survey->save();
+        return response(['success' => true]);
+    }
+
+
+   
 }

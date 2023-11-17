@@ -119,7 +119,7 @@ export default function Sidebar() {
                         <List className="p-0">
 
                             {/* CREATE SURVEY */}
-                            <Link to='create'>
+                            <Link to='/auth/create'>
                                 <ListItem className="text-white">
                                     <ListItemPrefix> <ChevronRightIcon strokeWidth={3} className="h-3 w-5" /> </ListItemPrefix>
                                     Stvori upitnik
@@ -127,22 +127,28 @@ export default function Sidebar() {
                             </Link>
 
                             {/* UNPUBLISHED SURVEYS */}
-                            <ListItem className="text-white">
-                                <ListItemPrefix> <ChevronRightIcon strokeWidth={3} className="h-3 w-5" /> </ListItemPrefix>
-                                Neobjavljeni upitnici
-                            </ListItem>
+                            <Link to='/auth/surveys-unactive'>
+                                <ListItem className="text-white">
+                                    <ListItemPrefix> <ChevronRightIcon strokeWidth={3} className="h-3 w-5" /> </ListItemPrefix>
+                                    Neaktivni upitnici
+                                </ListItem>
+                            </Link>
 
                             {/* ACTIVE SURVEYS */}
-                            <ListItem className="text-white">
-                                <ListItemPrefix> <ChevronRightIcon strokeWidth={3} className="h-3 w-5" /> </ListItemPrefix>
-                                Aktivni upitnici
-                            </ListItem>
+                            <Link to='/auth/surveys-active'>
+                                <ListItem className="text-white">
+                                    <ListItemPrefix> <ChevronRightIcon strokeWidth={3} className="h-3 w-5" /> </ListItemPrefix>
+                                    Aktivni upitnici
+                                </ListItem>
+                            </Link>
 
                             {/* DONE SURVEYS */}
-                            <ListItem className="text-white">
-                                <ListItemPrefix> <ChevronRightIcon strokeWidth={3} className="h-3 w-5" /> </ListItemPrefix>
-                                Završeni upitnici 
-                            </ListItem>
+                            <Link to='/auth/surveys-finished'>
+                                <ListItem className="text-white">
+                                    <ListItemPrefix> <ChevronRightIcon strokeWidth={3} className="h-3 w-5" /> </ListItemPrefix>
+                                    Rezultati
+                                </ListItem>
+                            </Link>
 
                             {/* STUDENTS ADVICES */}
                             <ListItem className="text-white">
@@ -165,7 +171,7 @@ export default function Sidebar() {
             <hr className="my-2 border-blue-gray-50" />
             
             {/* ACTIVE SURVEYS */}
-            <Link to='/auth/active-surveys'>
+            <Link to='/auth/surveys-active'>
                 <ListItem>
                     <ListItemPrefix> <PencilSquareIcon className="h-5 w-5 mr-5" /> </ListItemPrefix>
                     Aktivni upitnici

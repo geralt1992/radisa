@@ -13,15 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('surveys', function (Blueprint $table) {
-            $table->bigIncrements('id');
+        Schema::create('answears', function (Blueprint $table) {
+            $table->id();
             $table->unsignedInteger('user_id')->index();
-            $table->string('image')->nullable();
-            $table->string('title');
-            $table->string('description')->nullable();
-            $table->timestamp('expire_date')->nullable();
-            $table->tinyInteger('status')->default('false');
-            $table->tinyInteger('isFinished')->default(0);
+            $table->unsignedInteger('survey_id')->index();
+            $table->unsignedInteger('question_id')->index();
+            $table->string('answear');
             $table->timestamps();
         });
     }
@@ -33,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('surveys');
+        Schema::dropIfExists('answears');
     }
 };

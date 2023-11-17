@@ -1,18 +1,12 @@
-/* eslint-disable no-unused-vars */
-import React, { useState } from 'react'
-import axiosClient from '../axios'
-import {
-    Typography,
-  } from "@material-tailwind/react";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import {
-    PlusIcon,
-    TrashIcon,
-  } from "@heroicons/react/24/solid";
-
+import React, { useState, useEffect } from 'react'
+import { Navigate, useNavigate } from 'react-router-dom';
 import uuid from 'react-uuid';
-
+import axiosClient from '../../axios'
+import { UserStateContext } from '../../context/ContextProvaider';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from 'react-toastify';
+import { Typography } from "@material-tailwind/react";
+import { PlusIcon, TrashIcon } from "@heroicons/react/24/solid";
 
 
 export default function CreateSurvey() {
@@ -28,6 +22,19 @@ export default function CreateSurvey() {
 
     const [newQuestions, setNewQuestions] = useState([]);
     const questionTypes = ['text' , 'radio' , 'checkbox' , 'select'];
+    const {admin} = UserStateContext();
+    const navigate = useNavigate();
+
+    //set questions in survey on question update
+    useEffect(() => {
+        setSurvey((prevSurvey) => ({...prevSurvey, questions: newQuestions}))
+    },[newQuestions])
+    
+
+    //redirect user from this page if isn't admin
+    if(!admin) {
+        return <Navigate to='/auth/dashboard'/>
+    }
 
     function onSubmit(e) {
         e.preventDefault();
@@ -36,9 +43,26 @@ export default function CreateSurvey() {
         const confirmation = window.confirm("Jeste li sigurni da želite stvoriti ovu anketu i da su svi podatci točni?");
         if (!confirmation) return false;
 
+        //2. check - is there any question in survey
+        if(survey.questions.length === 0) {
+            toast.warning('Dodaj pitanja!');
+            return false;
+        }
 
-        //postavi trenutna pitanja u anketu koju šalješ
-        setSurvey({...survey, questions: newQuestions})
+        //3. check - if question is check, radio or select type is there any options
+        const hasMissingOptions = survey.questions.some((question) => {
+            if (question.type === 'radio' || question.type === 'select' || question.type === 'checkbox') {
+                if (question.data.options.length === 0) {
+                    toast.warning('Dodaj opcije u pitanja s opcijama');
+                    return true; 
+                }
+            }
+            return false; 
+        });
+        
+        if (hasMissingOptions) {
+            return;
+        }
         
         const formData = new FormData();
         formData.append("title", survey.title);
@@ -53,8 +77,12 @@ export default function CreateSurvey() {
         const headers = { "Content-Type": "multipart/form-data" };
         
         axiosClient.post('save_survey', formData, {headers})
-        .then(({data}) => {
-            console.log(data);
+        .then(() => {
+            toast.success('Uspješno stvorena anekta - aktivirajte ju u rubrici "Neaktivni upitnici"');
+            setTimeout(() => {
+                navigate('/auth/surveys-unpublished');
+            }, 4000);
+            
         })
         .catch((e) => {
             let errors = e.response.data.errors;
@@ -256,7 +284,7 @@ export default function CreateSurvey() {
 
                 <div className="flex justify-between mt-5">
                     <h3 className="text-2xl font-bold">Pitanja</h3>
-                    <button type="button"  onClick={() => addQuestion()} className="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
+                    <button type="button"  onClick={() => addQuestion()} title="Dodaj pitanje" className="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
                         <PlusIcon className="w-3 text-white"/>
                     </button>
                 </div>
@@ -268,11 +296,11 @@ export default function CreateSurvey() {
                                 <div className="flex justify-between my-5 ">
                                     <h4> {index + 1}. Pitanje </h4>
                                     <div className="flex items-center">
-                                        <button type="button" onClick={() => addQuestion()} className="text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800">
+                                        <button type="button" onClick={() => addQuestion()} title="Dodaj pitanje" className="text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800">
                                             <PlusIcon className="w-4" />
                                         </button>
 
-                                        <button type="button" onClick={() => deleteQuestion(question)} className="text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800">
+                                        <button type="button" onClick={() => deleteQuestion(question)} title="Obriši pitanje" className="text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800">
                                             <TrashIcon className="w-4" />
                                         </button>
                                     </div>

@@ -10,8 +10,12 @@ import Login from './pages/guest/Login'
 
 import Admin from './pages/Admin'
 import Dashboard from './pages/Dashboard'
-import AllSurveys from "./pages/AllSurveys"
-import CreateSurvey from "./pages/CreateSurvey"
+import CreateSurvey from "./pages/survey/CreateSurvey"
+import SurveysUnactive from "./pages/survey/SurveysUnactive"
+import SurveysActive from "./pages/survey/SurveysActive"
+import OneSurvey from "./pages/survey/OneSurvey"
+import SurveysFinished from "./pages/survey/SurveysFinished"
+
 
 const router = createBrowserRouter([
     {
@@ -30,10 +34,13 @@ const router = createBrowserRouter([
         element: <AuthLayout/>,
         children: [
             {path:'dashboard', element: <Dashboard/>},
-            {path:'surveys', element: <AllSurveys/>},
             {path:'create', element: <CreateSurvey/>},
+            {path:'surveys-unactive', element: <SurveysUnactive/>},
+            {path:'surveys-active', element: <SurveysActive/>},
+            {path:'surveys-finished', element: <SurveysFinished/>},
+            {path:'survey/:id', element: <OneSurvey/>}
             // {path:'admin', element: <Admin/>},
-            {path:'*' , element: <h1>Ne postoji</h1>}
+            // {path:'*' , element: <h1>Ne postoji</h1>}
         ]
     }
 ]);
