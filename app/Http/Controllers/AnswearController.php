@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Log;
 
 class AnswearController extends Controller
 {
-
+    
     // Log::info($answear); ZAKON storage/logs
     public function saveAnswears(Request $request) {
         $data = $request->json()->all();
@@ -22,21 +22,26 @@ class AnswearController extends Controller
             $new_answear = new Answear;
             $new_answear->user_id = Auth::user()->id;
             $new_answear->survey_id = $data['surveyId'];
-            $new_answear->question_id = $id;
+            $new_answear->question_id = $id; 
 
             if(is_array($answear)) {
                 foreach($answear as $checkbox_answer) {
                     $checkbox_answers[] = $checkbox_answer;
-                } 
+                }
                 $new_answear->answear = json_encode($checkbox_answers);
             } else {
                 $new_answear->answear = $answear;
             }
-           
+
             $new_answear->save();
         }
 
-        return response($data);
-      
+        //save that auth user filled this survey
+        $done_surveys_of_auth_user = json_decode(Auth::user()->doneSurveys, true) ?? []; //true upućuje da oću polje, a ne objekt -- upitnici vraćaju prazno polje jer je u bazi null, a null ne mozes modificirati, stoga prvi put kada ubacujes mora vratiti prazno polje
+        $done_surveys_of_auth_user[] = $data['surveyId'];
+        Auth::user()->doneSurveys = json_encode($done_surveys_of_auth_user);
+        Auth::user()->save();
+
+        return response(['success' => true]);
     }
 }

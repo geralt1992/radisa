@@ -17,7 +17,7 @@ export default function SurveysActive() {
     useEffect(() => {
         axiosClient.get('active_surveys')
         .then(({data}) => {
-            setSurveys(data);
+            setSurveys(Object.values(data)); // Convert the object to an array
         })
         .catch(e => console.log(e));
     }, [refresher])
@@ -121,7 +121,6 @@ export default function SurveysActive() {
                                     </button>
                                 </Link>
 
-                            
 
                                 </div>
                             </div>

@@ -13,15 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('surveys', function (Blueprint $table) {
-            $table->bigIncrements('id');
+        Schema::create('suggestions', function (Blueprint $table) {
+            $table->id();
             $table->unsignedInteger('user_id')->index();
-            $table->string('image')->nullable();
             $table->string('title');
-            $table->string('description');
-            $table->timestamp('expire_date');
-            $table->tinyInteger('isActive')->default(0);
-            $table->tinyInteger('isFinished')->default(0);
+            $table->text('content');
             $table->timestamps();
         });
     }
@@ -33,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('surveys');
+        Schema::dropIfExists('suggestions');
     }
 };

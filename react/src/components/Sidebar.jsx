@@ -150,17 +150,29 @@ export default function Sidebar() {
                                 </ListItem>
                             </Link>
 
-                            {/* STUDENTS ADVICES */}
-                            <ListItem className="text-white">
-                                <ListItemPrefix> <ChevronRightIcon strokeWidth={3} className="h-3 w-5" /> </ListItemPrefix>
-                                Pregled prijedloga
-                            </ListItem>
+                            {/* STUDENTS SUGGESTIONS */}
+                            <Link to='/auth/show-suggestions'>
+                                <ListItem className="text-white">
+                                    <ListItemPrefix> <ChevronRightIcon strokeWidth={3} className="h-3 w-5" /> </ListItemPrefix>
+                                    Pregled prijedloga
+                                </ListItem>
+                            </Link>
 
                             {/* ADD STUDENTS */}
-                            <ListItem className="text-white">
-                                <ListItemPrefix> <ChevronRightIcon strokeWidth={3} className="h-3 w-5" /> </ListItemPrefix>
-                                Dodaj učenika
-                            </ListItem>
+                            <Link to='/auth/add-students'>
+                                <ListItem className="text-white">
+                                    <ListItemPrefix> <ChevronRightIcon strokeWidth={3} className="h-3 w-5" /> </ListItemPrefix>
+                                    Dodaj učenika
+                                </ListItem>
+                            </Link>
+
+                             {/* SHOW STUDENTS */}
+                             <Link to='/auth/show-students'>
+                                <ListItem className="text-white">
+                                    <ListItemPrefix> <ChevronRightIcon strokeWidth={3} className="h-3 w-5" /> </ListItemPrefix>
+                                    Pregled učenika
+                                </ListItem>
+                            </Link>
 
                         </List>
                     </AccordionBody>
@@ -178,8 +190,8 @@ export default function Sidebar() {
                 </ListItem>
             </Link>
             
-            {/* ADD ADVICE */}
-            <Link to='/auth/surveys'>
+            {/* ADD SUGGESTIONS */}
+            <Link to='/auth/add-suggestion'>
                 <ListItem >
                     <ListItemPrefix> <ChatBubbleLeftIcon className="h-5 w-5 mr-5" /> </ListItemPrefix>
                     Prijedlozi

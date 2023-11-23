@@ -1,4 +1,8 @@
-prepravi bazu i ostatak appa za isActive stavi u boolean
-skontaj vraćanje userima da vrati samo ankete koje nisu popunjene + dodaj to u migratcije i bazu
 
-u popunjavnau dodaj funckiju da ne mogu ostaviti prazno checkbox polja
+da se logouta s usera nakon nekog vremena
+
+validatore napraviti 
+mobile prilagodba 
+estetika, kartice, naslovi
+
+ponoviti get active surveyys

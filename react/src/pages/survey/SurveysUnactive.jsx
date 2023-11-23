@@ -29,6 +29,10 @@ export default function SurveysUnpublished() {
   }
   
   function activateSurvey(id) {
+    if(!window.confirm('Jeste li sigurni da želite aktivirati ovaj upitnik? Ovim činom šaljete obavijest svim korisnicima da je novi upitnik aktivan i spreman za popunjavanje')) {
+      return false;
+    }
+    
     axiosClient.post('activate_survey', { id: id })
       .then(() => {
         setRefresher(!refresher);
@@ -39,6 +43,10 @@ export default function SurveysUnpublished() {
 
 
   function deleteSurvey(id) {
+    if(!window.confirm('Jeste li sigurni da želite obrisati ovaj upitnik?')) {
+      return false;
+    }
+
     axiosClient.get(`delete_survey/${id}`)
     .then(() => {
       setRefresher(!refresher);
@@ -83,7 +91,7 @@ export default function SurveysUnpublished() {
                     alt="survey_image" />
                   <div className="p-6">
                     <h5 className="mb-2 text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50"> {survey.title} </h5>
-                    <p className="mb-4 text-base text-neutral-600 dark:text-neutral-200"> {survey.description.split(' ').slice(0, 40).join(' ')}... </p>
+                    <p className="mb-4 text-base text-neutral-600 dark:text-neutral-200"> {survey.description.split(' ').slice(0, 20).join(' ')}... </p>
                     <p className="mb-4 text-base text-neutral-600 dark:text-neutral-200"> Automatsko zaključavanje: {expireDate.toLocaleDateString(undefined, dateFormatOptions)}  </p>
                   
                   <div className='flex justify-center'>

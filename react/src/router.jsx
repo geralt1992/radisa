@@ -15,6 +15,10 @@ import SurveysUnactive from "./pages/survey/SurveysUnactive"
 import SurveysActive from "./pages/survey/SurveysActive"
 import OneSurvey from "./pages/survey/OneSurvey"
 import SurveysFinished from "./pages/survey/SurveysFinished"
+import SuggestionsAdmin from "./pages/suggestions/SuggestionsAdmin"
+import SuggestionsStudent from "./pages/suggestions/SuggestionsStudent"
+import AddStudent from "./pages/students/AddStudent"
+import ShowStudents from "./pages/students/ShowStudents"
 
 
 const router = createBrowserRouter([
@@ -38,7 +42,11 @@ const router = createBrowserRouter([
             {path:'surveys-unactive', element: <SurveysUnactive/>},
             {path:'surveys-active', element: <SurveysActive/>},
             {path:'surveys-finished', element: <SurveysFinished/>},
-            {path:'survey/:id', element: <OneSurvey/>}
+            {path:'survey/:id', element: <OneSurvey/>},
+            {path:'show-suggestions', element:<SuggestionsAdmin/>},
+            {path:'add-suggestion', element:<SuggestionsStudent/>},
+            {path:'show-students', element:<ShowStudents/>},
+            {path:'add-students', element:<AddStudent/>}
             // {path:'admin', element: <Admin/>},
             // {path:'*' , element: <h1>Ne postoji</h1>}
         ]

@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\SurveyController;
 use App\Http\Controllers\AnswearController;
+use App\Http\Controllers\StudentController;
+use App\Http\Controllers\SuggestionController;
 
 Route::middleware('auth:sanctum')->group(function() {
     Route::get('me' , [AuthController::class , 'me']);
@@ -21,6 +23,13 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::get('finish_survey/{id}' , [SurveyController::class, 'finishSurvey']);
     
     Route::post('save_survey_answear', [AnswearController::class, 'saveAnswears']);
+
+    Route::get('show_suggestions', [SuggestionController::class, 'showSuggestions']);
+    Route::post('save_suggestion', [SuggestionController::class, 'addSuggestion']);
+    Route::get('delete_suggestion/{id}', [SuggestionController::class, 'deleteSuggestion']);
+
+    Route::post('add_student' , [StudentController::class, 'addStudent']);
+    Route::get('show_students', [StudentController::class, 'showStudents']);
 });
 
 Route::post('singup' , [AuthController::class , 'singup']);

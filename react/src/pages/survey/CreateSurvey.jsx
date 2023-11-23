@@ -16,7 +16,6 @@ export default function CreateSurvey() {
         description: '',
         image: null,
         expire_date: '',
-        status: false,
         questions: [] 
     });
 
@@ -66,7 +65,6 @@ export default function CreateSurvey() {
         
         const formData = new FormData();
         formData.append("title", survey.title);
-        formData.append("status", survey.status);
         formData.append("description", survey.description);
         formData.append("image", survey.image);
         formData.append("expire_date", survey.expire_date);
@@ -80,7 +78,7 @@ export default function CreateSurvey() {
         .then(() => {
             toast.success('Uspješno stvorena anekta - aktivirajte ju u rubrici "Neaktivni upitnici"');
             setTimeout(() => {
-                navigate('/auth/surveys-unpublished');
+                navigate('/auth/surveys-unactive');
             }, 4000);
             
         })

@@ -20,7 +20,9 @@ class SurveyController extends Controller
         $validator = Validator::make($request->all(),
         [
             'title' => ['required'],
+            'description' => ['required'],
             'expire_date' => ['required', 'date', 'after:today'],
+            'image' => 'required|file|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         if ($validator->fails()) {
@@ -47,7 +49,6 @@ class SurveyController extends Controller
         $new_survey->title = $data['title'];
         $new_survey->description = $data['description'];
         $new_survey->expire_date = $data['expire_date'];
-        $new_survey->status = $data['status'];
         $new_survey->save();
 
             
@@ -73,27 +74,37 @@ class SurveyController extends Controller
         return response(['msg' => "survey created!"], 201);
     }
 
-
     public function getUnpublishedSurveys() {
-        $surveys = Survey::where('status' , 'false')->where('isFinished' , false)->get();
+        $surveys = Survey::where('isActive' , false)->where('isFinished' , false)->get();
         return response($surveys);
     }
 
     public function getActiveSurveys() {
-        $surveys = Survey::where('status' , 'true')->where('isFinished' , false)->get();
-        return response($surveys);
+        $user = Auth::user();
+        $user_done_surveys = json_decode($user->doneSurveys, true);
+        // If it's null, we set an empty array as the value of $doneSruveysIdsToInteger IF NOT NULL convert doneSurveys into integers
+        $doneSruveysIdsToInteger = is_array($user_done_surveys) ? array_map('intval', $user_done_surveys) : []; 
+
+        $surveys = Survey::where('isActive' , true)->where('isFinished' , false)->get();
+        
+        if(empty($doneSruveysIdsToInteger)) {
+            return response($surveys);
+        }
+
+        // vrati one gdje se ne podudaraju "doneSurveysIdsToInteger" s "Id"evima od svih survey
+        $filteredSurveys = $surveys->whereNotIn('id', $doneSruveysIdsToInteger);
+        return response($filteredSurveys);
     }
 
     public function getFinishedSurveys() {
-        $surveys = Survey::where('status' , 'false')->where('isFinished' , true)->get();
+        $surveys = Survey::where('isActive' , false)->where('isFinished' , true)->get();
         return response($surveys);
     }
-
 
     public function activate(Request $request) {
         $data = $request->json()->all();
         $survey_to_activeted = Survey::where('id' , $data['id'])->first();
-        $survey_to_activeted->status = 'true';
+        $survey_to_activeted->isActive = true;
         $survey_to_activeted->save();
         //DODAJ JOŠ DA SVI USERI DOBIJU EMAIL!
         return response(['success' => true]);
@@ -101,7 +112,7 @@ class SurveyController extends Controller
 
     public function deactive($id) {
         $survey_to_deactiveted = Survey::where('id' , $id)->first();
-        $survey_to_deactiveted->status = 'false';
+        $survey_to_deactiveted->isActive = false;
         $survey_to_deactiveted->save();
         return response(['success' => true]);
     }
@@ -120,12 +131,11 @@ class SurveyController extends Controller
 
     public function finishSurvey($id) {
         $survey = Survey::where('id' , $id)->first();
-        $survey->status = 'false';
+        $survey->isActive = false;
         $survey->isFinished = true;
         $survey->save();
         return response(['success' => true]);
     }
-
 
    
 }
