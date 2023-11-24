@@ -11,6 +11,13 @@ use Illuminate\Support\Facades\Log;
 
 class StudentController extends Controller
 {
+
+
+    public function showStudents() {
+        $users = User::where('isAdmin' , false)->orderBy('created_at', 'desc')->get();
+        return response($users);
+    }
+
     public function addStudent(Request $request) {
 
           //validation - DORADI PRAVILA!
@@ -38,10 +45,42 @@ class StudentController extends Controller
 
           return response($new_student);
     }
+    
+    public function editStudent(Request $request) {
 
-    public function showStudents() {
-        $users = User::where('isAdmin' , false)->orderBy('created_at', 'desc')->get();
+        //validation - DORADI PRAVILA!
+        $validator = Validator::make($request->all(),
+        [
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|', 
+            'password' => 'required|string|min:1|confirmed',
+            'birth_date' => 'required|date|before:today',
+        ]);
 
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $data = $request->json()->all();
+
+        $user_to_edit = User::where('id' , $data['id'])->first();
+        $user_to_edit->name = $data['name'];
+        $user_to_edit->surname = $data['surname'];
+        $user_to_edit->birth_date = $data['birth_date'];
+        $user_to_edit->email = $data['email'];
+        $user_to_edit->password = bcrypt($data['password']);
+        $user_to_edit->save();
+
+        $users = User::where('isAdmin', false)->orderBy('created_at' , 'desc')->get();
+
+        return response($users);
+    }
+
+    public function deleteStudent($id) {
+        $user_to_delete = User::where('id' , $id)->first();
+        $user_to_delete->delete();
+
+        $users = User::where('isAdmin', false)->orderBy('created_at' , 'desc')->get();
         return response($users);
     }
 }

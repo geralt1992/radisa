@@ -30,6 +30,9 @@ Route::middleware('auth:sanctum')->group(function() {
 
     Route::post('add_student' , [StudentController::class, 'addStudent']);
     Route::get('show_students', [StudentController::class, 'showStudents']);
+    Route::get('delete_student/{id}', [StudentController::class, 'deleteStudent']);
+    Route::post('edit_student', [StudentController::class, 'editStudent']);
+
 });
 
 Route::post('singup' , [AuthController::class , 'singup']);

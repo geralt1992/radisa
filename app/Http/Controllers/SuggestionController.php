@@ -16,7 +16,7 @@ class SuggestionController extends Controller
     public function showSuggestions() {
         $suggestions_with_users = DB::table('suggestions')
         ->join('users' , 'suggestions.user_id', '=' , 'users.id' )
-        ->select('users.name' , 'suggestions.*')
+        ->select('users.name', 'users.surname' , 'suggestions.*')
         ->get();
         return response($suggestions_with_users);
     }
@@ -51,7 +51,7 @@ class SuggestionController extends Controller
 
         $suggestions_with_users = DB::table('suggestions')
         ->join('users' , 'suggestions.user_id', '=' , 'users.id' )
-        ->select('users.name' , 'suggestions.*')
+        ->select('users.name', 'users.surname' , 'suggestions.*')
         ->get();
         
         return response($suggestions_with_users);

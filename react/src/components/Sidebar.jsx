@@ -53,7 +53,7 @@ export default function Sidebar() {
             <img src={logo} alt="brand" className="h-12 w-12 rounded-3xl " />
             </Link>
             <Typography variant="h5" color="blue-gray">
-                E radiša
+                E radiša 
             </Typography>
         </div>
         

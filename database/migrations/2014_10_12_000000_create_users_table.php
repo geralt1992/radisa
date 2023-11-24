@@ -22,8 +22,7 @@ return new class extends Migration
             $table->string('doneSurveys')->nullable();
             $table->string('name')->nullable();
             $table->string('surname')->nullable();
-            $table->string('school')->nullable();
-            $table->timestamp('birth')->nullable();
+            $table->timestamp('birth_date')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
