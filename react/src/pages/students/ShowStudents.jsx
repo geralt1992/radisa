@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react'
 import { Navigate } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
@@ -41,11 +40,11 @@ export default function ShowStudents() {
   function show(student) {
     setEditingStudent({...editingStudent, ...student});
     setVisible(true);
-  };
+  }
 
   function hide() {
     setVisible(false);
-  };
+  }
  
   function onSubmitChangeStudentData(e) {
     e.preventDefault();
@@ -85,6 +84,20 @@ export default function ShowStudents() {
     .catch(e => console.log(e));
   }
 
+  function findStudent(e) {
+    let search = e.target.value.toLowerCase();
+  
+    if (search) {
+      const filteredStudents = students.filter((student) =>  student.surname && student.surname.toLowerCase().includes(search));
+      setStudent(filteredStudents);
+    } else {
+      axiosClient.get('show_students')  // If the search is empty, reset the state to the original list of students
+        .then(({ data }) => {
+          setStudent(data);
+        })
+        .catch(e => console.log(e));
+    }
+  }
 
   
   return (
@@ -104,7 +117,24 @@ export default function ShowStudents() {
     
       <div className='flex flex-col justify-center items-center mt-12'>
         <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">Pregled učenika</h1>
-        <p className="mb-6 mt-2 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400">Ovdje možete pregledati ili ukloniti učenike.</p>
+
+        {/* TRAŽI UČENIKA */}
+        <form onChange={findStudent} className="flex items-center w-[40%] mt-6">   
+          <div className="relative w-full">
+              <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                  <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" fill="none" viewBox="0 0 18 20">
+                      <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5v10M3 5a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm0 10a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm12 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm0 0V6a3 3 0 0 0-3-3H9m1.5-2-2 2 2 2"/>
+                  </svg>
+              </div>
+              <input type="text" id="findStudent" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Traži učenika po prezimenu..." required />
+          </div>
+          <button type="submit" className="p-2.5 ms-2 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+              <svg className="w-4 h-4" aria-hidden="true"fill="none" viewBox="0 0 20 20">
+                  <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+              </svg>
+          </button>
+        </form>
+
       </div>
     
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-12 mx-10">
@@ -121,13 +151,13 @@ export default function ShowStudents() {
                         <th scope="col" className="px-6 py-3 text-center">
                             Prezime učenika
                         </th>
-                        <th scope="col" className="px-6 py-3 text-center">
+                        <th scope="col" className="px-6 py-3 text-center dark:bg-gray-800">
                             Datum rođenja
                         </th>
-                        <th scope="col" className="px-6 py-3 bg-gray-50 dark:bg-gray-800 text-center">
+                        <th scope="col" className="px-6 py-3 bg-gray-50 text-center">
                             E-mail adresa
                         </th>
-                        <th scope="col" className="px-6 py-3 text-center">
+                        <th scope="col" className="px-6 py-3 text-center dark:bg-gray-800">
                             Akcija
                         </th>
                     </tr>
@@ -145,13 +175,13 @@ export default function ShowStudents() {
                         <td className="px-6 py-4 text-center">
                             {student.surname}
                         </td>
-                        <td className="px-6 py-4 text-center">
+                        <td className="px-6 py-4 text-center  dark:bg-gray-800">
                           {birtDate.toLocaleDateString(undefined, dateFormatOptions)} 
                         </td>
                         <td className="px-6 py-4 bg-gray-50 dark:bg-gray-800 text-center">
                             {student.email}
                         </td>
-                        <td className="px-6 py-4 text-center">
+                        <td className="px-6 py-4 text-center dark:bg-gray-800">
                           <button
                           type="submit"
                           onClick={() => show(student)}
@@ -224,7 +254,7 @@ export default function ShowStudents() {
                       <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="password">
                         Lozinka
                       </label>
-                      <input onChange={(e) => setEditingStudent({...editingStudent, password: e.target.value})} value={editingStudent.password} name="password" className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="text" required/>
+                      <input onChange={(e) => setEditingStudent({...editingStudent, password: e.target.value})} value={editingStudent.password} name="password" className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="password"/>
                     </div>
 
                     {/* PONOVI LOZINKU */}
@@ -232,7 +262,7 @@ export default function ShowStudents() {
                       <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="password_confirmed">
                         Ponovi lozinku
                       </label>
-                      <input onChange={(e) => setEditingStudent({...editingStudent, password_confirmed: e.target.value})} value={editingStudent.password_confirmed} name="password_confirmed" className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="text" required/>
+                      <input onChange={(e) => setEditingStudent({...editingStudent, password_confirmed: e.target.value})} value={editingStudent.password_confirmed} name="password_confirmed" className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="password"/>
                     </div>
 
                     {/* DATUM ROĐENJA */}

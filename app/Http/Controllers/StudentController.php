@@ -53,7 +53,7 @@ class StudentController extends Controller
         [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|', 
-            'password' => 'required|string|min:1|confirmed',
+            'password' => 'confirmed',
             'birth_date' => 'required|date|before:today',
         ]);
 
@@ -68,11 +68,10 @@ class StudentController extends Controller
         $user_to_edit->surname = $data['surname'];
         $user_to_edit->birth_date = $data['birth_date'];
         $user_to_edit->email = $data['email'];
-        $user_to_edit->password = bcrypt($data['password']);
+        $user_to_edit->password = empty($data['password']) ? $user_to_edit->password : bcrypt($data['password']);
         $user_to_edit->save();
 
         $users = User::where('isAdmin', false)->orderBy('created_at' , 'desc')->get();
-
         return response($users);
     }
 

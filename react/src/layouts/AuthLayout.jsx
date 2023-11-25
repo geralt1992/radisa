@@ -8,8 +8,10 @@ import Sidebar from '../components/Sidebar';
 
 
 export default function AuthLayout() {
-  const { token, user, setUser, setAdmin } = UserStateContext();
- 
+  const { token, user, setUser, setAdmin, setToken } = UserStateContext();
+  const logoutTimeoutDuration = 1000 * 60 * 60; // 60 min
+
+
   useEffect(() => {
     axiosClient.get('me')
       .then(({ data }) => {
@@ -20,10 +22,22 @@ export default function AuthLayout() {
   }, []);
 
 
+  //Logout user after 60 min
+  useEffect(() => {
+   const logoutTimeout = setTimeout(() => {
+        setToken(null);
+        setUser({});
+        setAdmin(false);
+    }, logoutTimeoutDuration); 
+
+    return () => clearTimeout(logoutTimeout);
+
+  }, [setToken, setUser, setAdmin])
+
+
   if (!token) {
     return <Navigate to="/" />;
   }
-
 
   return (
   <>
