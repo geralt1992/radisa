@@ -4,7 +4,6 @@ import { Navigate, Outlet } from 'react-router-dom';
 import { UserStateContext } from '../context/ContextProvaider';
 import axiosClient from '../axios';
 import Sidebar from '../components/Sidebar';
-// import Admin from '../pages/Admin'
 
 
 export default function AuthLayout() {
@@ -44,20 +43,9 @@ export default function AuthLayout() {
     <div className="flex h-screen">
       <Sidebar/>
       <div className="flex-1 overflow-scroll">
-        {/* <div>Dobrodošao {user.name}</div> */}
-          {/* CHECK IF USER IS ADMIN, IF IS IT SHOW ADMIN PAGE */}
-            {/* {admin ? (
-              <>
-                <Admin />
-                <Outlet />
-                </>
-              ) : (
-                <Outlet />
-              )
-            } */}
-          <Outlet />  
-        </div>
+        <Outlet />  
       </div>
+    </div>
   </>
   );
 }

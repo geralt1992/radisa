@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import React from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -6,6 +5,7 @@ import  Navbar  from '../../components/Navbar'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import '../../css/Landing.css'
+import { containerVariant, glueVariant } from "../../components/variants/variants";
 
 
 export default function Landing() {
@@ -86,45 +86,13 @@ export default function Landing() {
    }
 
    
-   //ANIMACIJE
-    const titleAndContainerVariant = {
-        hidden: {
-            y: 350,
-            opacity: 0,
-        },
-        show: {
-            y: 0,
-            opacity: 1,
-            transition: {
-                type: "spring", 
-                delay: .8 , 
-                damping: 20,
-                stiffness: 100,
-            },
-        }
-    }
-
-    const glueVariant = {
-        hidden: {
-            opacity: 0,
-        }, 
-
-        show: {
-            opacity: 1,
-            transition: {
-                type: "tween", 
-                delay: 1.8 , 
-            },
-
-        }
-    }
 
    return <>
     <section id="landing" className="data h-screen relative overflow-hidden" >
         <Navbar />    
 
         <motion.div
-            variants={titleAndContainerVariant}
+            variants={containerVariant}
             initial="hidden"
             animate="show"   
             className="hero-gradient absolute top-[10%] right-[0%] " 
@@ -133,7 +101,7 @@ export default function Landing() {
         <div className="flex items-center justify-center h-[75vh] ">
             <div className="basis-1/2 ml-20">
                 <motion.h1
-                    variants={titleAndContainerVariant}
+                    variants={containerVariant}
                     initial="hidden"
                     animate="show"
                     className="text-2xl uppercase font-mono font-extrabold text-white "
@@ -142,7 +110,7 @@ export default function Landing() {
                 </motion.h1>
 
                 <motion.h1
-                    variants={titleAndContainerVariant}
+                    variants={containerVariant}
                     initial="hidden"
                     animate="show"
                     className="text-6xl font-extrabold mt-6 text-white w-[90%] py-3"
@@ -151,7 +119,7 @@ export default function Landing() {
                 </motion.h1>
 
                 <motion.p
-                    variants={titleAndContainerVariant}
+                    variants={containerVariant}
                     initial="hidden"
                     animate="show"
                     className="text-2xl font-bold text-white w-[90%] my-10"
@@ -167,7 +135,7 @@ export default function Landing() {
                 </Link>
 
                 <motion.div
-                    variants={titleAndContainerVariant}
+                    variants={containerVariant}
                     initial="hidden"
                     animate="show"
                     className="text-1xl font-bold text-white w-[90%] my-10"

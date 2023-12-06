@@ -79,16 +79,4 @@ class AuthController extends Controller
         return response(['msg' => 'uspješno odjavljen']);
     }
 
-    public function me() {
-        $user = Auth::user();
-        $isAdmin = Auth::user()->isAdmin;
-
-        if($isAdmin === 1) {
-            $isAdmin = true;
-        } else {
-            $isAdmin = false;
-        }
-
-        return response(['user' => $user, 'admin' => $isAdmin]);
-    }
 }

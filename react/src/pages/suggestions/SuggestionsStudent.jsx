@@ -3,6 +3,10 @@ import React, { useState } from 'react'
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
 import axiosClient from '../../axios'
+import UserSvg from '../../components/svgs/UserSvg'
+import { motion } from "framer-motion";
+import { containerVariant } from "../../components/variants/variants";
+
 
 export default function SuggestionsStudent() {
 
@@ -34,73 +38,74 @@ export default function SuggestionsStudent() {
 
 
   return (
-  <div id="users_suggestions">
-    <ToastContainer
-      position="bottom-left"
-      autoClose={5000}
-      hideProgressBar={false}
-      newestOnTop={false}
-      closeOnClick
-      rtl={false}
-      pauseOnFocusLoss
-      draggable
-      pauseOnHover
-      theme="light"
-    />
-  
-    <div className='flex flex-col justify-center items-center mt-12'>
-      <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">Vaši prijedlozi</h1>
-      <p className="mb-6 mt-2 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400">Ovdje možete ostaviti Vaš prijedlog za poboljšanje rada aplikacije ili našeg Doma.</p>
-    </div>
-  
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-12 mx-10">
-      <div className="col-span-full  p-4 text-center">
+    <div className="flex h-screen">
+      <div className="hidden lg:flex items-center justify-center flex-1 bg-white text-black">
+      <UserSvg/>
+      </div>
 
-        <div className="w-full md:w-96 md:max-w-full mx-auto">
-          <div className="p-6 sm:rounded-md shadow-2xl">
-
+      <motion.div className="w-full bg-gray-100 lg:w-1/2 flex items-center justify-center"
+      variants={containerVariant}
+      initial="hidden"
+      animate="show" 
+      >
+        <div className="max-w-md w-full p-6">
+          <div className="pb-6">
+            <div className='flex flex-col justify-center items-center mt-12'>
+              <h1 className="mb-4 text-4xl font-bold tracking-wide text-gray-600 dark:text-gray-300 font-mono ">Vaši prijedlozi</h1>
+              <p className="mb-6 mt-2 text-xl font-light leading-relaxed text-gray-600 lg:text-md sm:px-16">Ovdje možete ostaviti Vaš prijedlog za poboljšanje rada aplikacije ili našeg Doma.</p>
+            </div>
             <form method="POST" onSubmit={onSubmit}>
-              <label className="block mb-6">
-                <span className="text-gray-700">Naslov</span>
-                <input
-                  onChange={(e) => {setTitle(e.target.value)}}
-                  value={title}
-                  name="title"
-                  type="text"
-                  className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                  placeholder="Unesi naslov"
-                  required
-                />
-              </label>
-              <label className="block mb-6">
-                <span className="text-gray-700">Prijedlog</span>
-                <textarea
-                  onChange={(e) => {setContent(e.target.value)}}
-                  value={content}
-                  name="content"
-                  type="textarea"
-                  className=" block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                  placeholder="Unesi svoj prijedlog"
-                  required
-                  rows="4"
-                  cols="50"
-                />
-              </label>
-              <div className="mb-6">
-                <button
-                type="submit"
-                className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                >
-                  Pošalji
-                </button>
-              </div>
+                  <label className="block mb-6 font-light leading-relaxed text-gray-600 ">
+                    <span >Naslov</span>
+                    <input
+                      onChange={(e) => {setTitle(e.target.value)}}
+                      value={title}
+                      name="title"
+                      type="text"
+                      className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                      placeholder="Unesi naslov"
+                      required
+                    />
+                  </label>
+                  <label className="block mb-6 font-light leading-relaxed text-gray-600">
+                    <span >Prijedlog</span>
+                    <textarea
+                      onChange={(e) => {setContent(e.target.value)}}
+                      value={content}
+                      name="content"
+                      type="textarea"
+                      className=" block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                      placeholder="Unesi svoj prijedlog"
+                      required
+                      rows="4"
+                      cols="50"
+                    />
+                  </label>
+                  <div className="mb-6">
+                    <button
+                    type="submit"
+                    className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    >
+                      Pošalji
+                    </button>
+                  </div>
             </form>
-
           </div>
         </div>
+      </motion.div>
 
-      </div>
+      <ToastContainer
+            position="bottom-left"
+              autoClose={5000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="light"
+        />
     </div>
-  </div>
   )
 }

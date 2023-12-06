@@ -1,87 +1,28 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import axiosClient from '../../axios';
-import 'react-toastify/dist/ReactToastify.css';
-import { ToastContainer, toast } from 'react-toastify';
 
-export default function OneSurvey() {
+export default function ShowAnswearsOfSurveys() {
 
   const { id } = useParams();
   const [survey, setSurvey] = useState({});
-  const [questions, setQuestions] = useState([]);
-  const [isFinished, setIsFinished] = useState(false);
+  const [questionsAndAnswers, setquestionsAndAnswers] = useState([]);
   const expireDate = new Date(survey.expire_date);
   const dateFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
-  const answers = {};
-  const navigate = useNavigate();
-
 
   useEffect(() => {
-    axiosClient.get(`get_choosen_survey/${id}`)
-      .then(({ data }) => {
-        setSurvey(data.survey);
-        setQuestions(data.questions);
-      })
-      .catch(e => console.log(e));
-  }, []);
-
-
-  function onSubmit(e) {
-    e.preventDefault();
-
-
-
-    console.log(answers);
-
-    if (!window.confirm('Želite li predati anketni upitnik?')) { return false }
-
-    // Check if there is at least one checkbox selected for each checkbox question
-    const checkboxQuestions = questions.filter((question) => question.type === "checkbox");
-    const isAtLeastOneCheckboxSelected = checkboxQuestions.every((question) => {
-      return answers[question.id] && answers[question.id].length > 0;
-    });
-
-    if (!isAtLeastOneCheckboxSelected) {
-      toast.error('Molimo vas da odaberete barem jedan odgovor za pitanja koja koriste opcije.');
-      return false;
-    }
-
-
-    axiosClient.post('save_survey_answear', {
-      surveyId: id,
-      answers: answers
-    })
-    .then(() => {
-      setIsFinished(true);
-      toast.success('Zahvaljujemo na sudjelovanju, upitnik uspješno popunjen!');
-      setTimeout(() => {
-        navigate('/auth/surveys-active');
-      }, 3000);
+    axiosClient.get(`user-survey-answear/${id}`)
+    .then(({data}) => {
+      setquestionsAndAnswers(data.questionsAndAnswers);
+      setSurvey(data.survey);
     })
     .catch(e => console.log(e));
-  }
-
-
-  function answerChanged(question, e) {
-    answers[question.id] = e;
-  }
-  
-  function onCheckboxChange(option, e, question) {
-    if (e.target.checked) {
-      answers[question.id] = answers[question.id] || [];
-      answers[question.id].push(option);
-    } else {
-      answers[question.id] = answers[question.id].filter((op) => op !== option);
-    }
-  
-    answerChanged(question, answers[question.id]);
-  }
-
+  }, [])
 
   return (
-
     <div className='px-60 py-20'>
-      <form onSubmit={onSubmit} className="container mx-auto p-4">
+      <form  className="container mx-auto p-4">
         <div className="grid grid-cols-6">
           <div className="mr-4">
             <img src={survey.image} alt="survey_profile_image" />
@@ -96,25 +37,10 @@ export default function OneSurvey() {
           </div>
         </div>
 
-        <ToastContainer
-          position="bottom-left"
-          autoClose={3000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="light"
-        />
-
-        {!isFinished && (
-
           <>
             <div>
               <h1 className="text-3xl my-3 font-bold">Pitanja</h1>
-              {questions.map((question, index) => (
+              {questionsAndAnswers.map((question, index) => (
 
                 <React.Fragment key={index}>
                   <fieldset className="mb-4">
@@ -133,50 +59,44 @@ export default function OneSurvey() {
                         <div>
                           <select
                             required
-                            onChange={(e) => answerChanged(question, e.target.value)}
+                            disabled
                             className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                           >
-                            <option value="">Please Select</option>
-                            {JSON.parse(question.options).map((option, index) => (
-                              <option key={index} value={option}>
-                                {option}
-                              </option>
-                            ))}
+                            <option value={question.answear}>{question.answear}</option>
                           </select>
                         </div>
                       )}
 
                       {question.type === "radio" && (
                         <div>
-                          {JSON.parse(question.options).map((option, index) => (
-                            <div key={index} className="flex items-center">
-                              <input
-                                required
-                                id={index}
-                                name={"question" + question.id}
-                                value={option}
-                                onChange={(ev) => answerChanged(question, ev.target.value)}
-                                type="radio"
-                                className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
-                              />
-                              <label
-                                htmlFor={index}
-                                className="ml-3 block text-sm font-medium text-gray-700"
-                              >
-                                {option}
-                              </label>
-                            </div>
-                          ))}
+                          <div className="flex items-center">
+                            <input
+                              required
+                              checked
+                              disabled
+                              value={question.answear}
+                              id={question.id}
+                              type="radio"
+                              className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
+                            />
+                            <label
+                              htmlFor={question.id}
+                              className="ml-3 block text-sm font-medium text-gray-700"
+                            >
+                                {question.answear}
+                            </label>
+                          </div>
                         </div>
                       )}
 
                       {question.type === "checkbox" && (
                         <div>
-                          {JSON.parse(question.options).map((option, index) => (
+                          {JSON.parse(question.answear).map((answera, index) => (
                             <div key={index} className="flex items-center">
                               <input
+                                checked
+                                disabled
                                 id={index}
-                                onChange={e => onCheckboxChange(option, e, question)}
                                 type="checkbox"
                                 className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
                               />
@@ -184,7 +104,7 @@ export default function OneSurvey() {
                                 htmlFor={index}
                                 className="ml-3 block text-sm font-medium text-gray-700"
                               >
-                                {option}
+                                {answera}
                               </label>
                             </div>
                           ))}
@@ -194,10 +114,10 @@ export default function OneSurvey() {
                       {question.type === "text" && (
                         <div>
                           <input
-                            required
+                            disabled
                             type="text"
                             className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                            onChange={(e) => answerChanged(question, e.target.value)}
+                            value={question.answear}
                           />
                         </div>
                       )}
@@ -211,15 +131,15 @@ export default function OneSurvey() {
 
             <button
               type="submit"
+              disabled
               className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
-              Predaj upitnik
+              Moji odgovori
             </button>
           </>
 
-        )}
+        
       </form>
     </div>
-
   )
 }

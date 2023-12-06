@@ -8,7 +8,7 @@ export default function GuestLayout() {
   const {token} = UserStateContext();
 
   if(token) {
-    return <Navigate to='auth/dashboard' />
+    return <Navigate to='auth/user-profile' />
   }
 
   return (

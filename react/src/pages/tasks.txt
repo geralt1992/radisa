@@ -2,3 +2,13 @@
 validatore napraviti 
 mobile prilagodba 
 estetika, kartice, naslovi
+
+
+cache LS, user profile page, surveys (active and finished);
+
+survey map stavi kao komponentu
+
+u "dodaj učenika" isto stavki grafiku
+
+
+NE SPREMA DOBRO ODGOVORE, DUPLIRA, TO PROVJERI!

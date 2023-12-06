@@ -50,7 +50,7 @@ export default function Sidebar() {
     <Card className="min-h-full w-full max-w-[20rem] p-4 shadow-xl bg-gray-800 text-white shadow-blue-gray-900/5 rounded-none flex-1">
         <div className="mb-2 flex items-center gap-4 p-4">
             <Link to='dashboard'>
-            <img src={logo} alt="brand" className="h-12 w-12 rounded-3xl " />
+                <img src={logo} alt="brand" className="h-12 w-12 rounded-3xl " />
             </Link>
             <Typography variant="h5" color="blue-gray">
                 E radiša 
@@ -80,16 +80,20 @@ export default function Sidebar() {
                     <List className="p-0">
 
                         {/* USER PROFILE */}
-                        <ListItem className="text-white"> 
-                            <ListItemPrefix> <ChevronRightIcon strokeWidth={3} className="h-3 w-5" /> </ListItemPrefix>
-                            Moje Profil
-                        </ListItem>
+                        <Link to='/auth/user-profile'>
+                            <ListItem className="text-white"> 
+                                <ListItemPrefix> <ChevronRightIcon strokeWidth={3} className="h-3 w-5" /> </ListItemPrefix>
+                                Moje Profil
+                            </ListItem>
+                        </Link>
 
                         {/* USER SURVEYS */}
-                        <ListItem className="text-white">
-                            <ListItemPrefix> <ChevronRightIcon strokeWidth={3} className="h-3 w-5" /> </ListItemPrefix>
-                            Moji upitnici
-                        </ListItem>
+                        <Link to='/auth/user-surveys'>
+                            <ListItem className="text-white">
+                                <ListItemPrefix> <ChevronRightIcon strokeWidth={3} className="h-3 w-5" /> </ListItemPrefix>
+                                Moji upitnici
+                            </ListItem>
+                        </Link>
                     </List>
                 </AccordionBody>
             </Accordion>

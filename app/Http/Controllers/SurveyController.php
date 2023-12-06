@@ -14,6 +14,12 @@ use Illuminate\Support\Facades\Log;
 
 class SurveyController extends Controller
 {
+    public function getSurvey($id) {
+        $survey = Survey::where('id' , $id)->first();
+        $questions = Question::where('survey_id', $id)->get();
+        return response(['survey' => $survey, 'questions' => $questions]);
+    }
+
     public function save(Request $request) {
 
         //validation - DORADI PRAVILA!
@@ -74,6 +80,74 @@ class SurveyController extends Controller
         return response(['msg' => "survey created!"], 201);
     }
 
+    public function update(Request $request) {
+
+        //validation - DORADI PRAVILA!
+        $validator = Validator::make($request->all(),
+        [
+            'title' => ['required'],
+            'description' => ['required'],
+            'expire_date' => ['required', 'date', 'after:today'],
+            // 'image' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+
+        $survey_id = $request['survey_id'];
+        $survey_creator_id = $request['user_id'];
+
+        $survey_to_update = Survey::where('id' , $survey_id)->first();
+
+        //IMAGE CHECK
+        if(!empty($request['image'])) {
+            //find and delete old
+            $url = $survey_to_update->image;
+            $filename = basename($url);
+            $path = public_path('uploads/' . $filename);
+            unlink($path);
+
+            //save new img
+            $image = $request->file('image');
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $image->move(public_path('uploads'), $imageName);
+            $imageUrl = asset('uploads/' . $imageName);
+            $survey_to_update->image = $imageUrl;
+        }
+
+        $survey_to_update->user_id = $survey_creator_id;
+        $survey_to_update->title = $request['title'];
+        $survey_to_update->description = $request['description'];
+        $survey_to_update->expire_date = $request['expire_date'];
+        $survey_to_update->save();
+
+        
+        //delete all survey questions
+        $old_questions_from_survey_to_update = Question::where('survey_id' , $survey_id)->delete();
+
+        //save new questions
+        $questions = json_decode($request['questions']);
+        foreach($questions as $question) {
+            $new_question = new Question;
+            $new_question->survey_id = $survey_id;
+            $new_question->question = $question->question;
+            $new_question->type = $question->type;
+            $new_question->description = $question->description;
+            $new_question->options = $question->options; //JSON string from react part "formData.append("questions", JSON.stringify(questions));"
+            $new_question->save();
+        }
+
+        return response(['msg' => 'survey updated!']);
+    }
+
+    public function delete($id) {
+        $survey_to_delete = Survey::where('id', $id)->first();
+        $survey_to_delete->delete();
+        return response(['success' => true]);
+    }
+
     public function getUnpublishedSurveys() {
         $surveys = Survey::where('isActive' , false)->where('isFinished' , false)->get();
         return response($surveys);
@@ -116,19 +190,7 @@ class SurveyController extends Controller
         $survey_to_deactiveted->save();
         return response(['success' => true]);
     }
-
-    public function delete($id) {
-        $survey_to_delete = Survey::where('id', $id)->first();
-        $survey_to_delete->delete();
-        return response(['success' => true]);
-    }
-
-    public function getSurvey($id) {
-        $survey = Survey::where('id' , $id)->first();
-        $questions = Question::where('survey_id', $id)->get();
-        return response(['survey' => $survey, 'questions' => $questions]);
-    }
-
+    
     public function finishSurvey($id) {
         $survey = Survey::where('id' , $id)->first();
         $survey->isActive = false;
@@ -136,6 +198,4 @@ class SurveyController extends Controller
         $survey->save();
         return response(['success' => true]);
     }
-
-   
 }
