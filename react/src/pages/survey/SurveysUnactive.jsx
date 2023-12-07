@@ -14,7 +14,6 @@ export default function SurveysUnpublished() {
   const [surveys, setSurveys] = useState([]);
   const [refresher, setRefresher] = useState(true);
   const dateFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
-
  
   
   useEffect(() => {
@@ -59,7 +58,7 @@ export default function SurveysUnpublished() {
 
  
   return (
-    <div id="unpublished_surveys">
+    <div id="unpublished_surveys" className='bg-gray-100 py-16 px-4 min-h-screen'>
       <ToastContainer
             position="bottom-left"
                     autoClose={5000}
@@ -74,8 +73,8 @@ export default function SurveysUnpublished() {
         />
 
       <div className='flex flex-col justify-center items-center mt-12'>
-        <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">Neaktivni upitnici</h1>
-        <p className="mb-6 mt-2 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400">Ovdje možete dobiti pristup pojedinom upitniku te ga objaviti ili izmijeniti. Objavom upitnika svi korisnici će dobiti na svoj e-mail obavijest kako je novi upitnik aktivan i spreman za popunjavanje.</p>
+        <h1 className="mb-4 text-4xl font-bold tracking-wide text-gray-600 font-mono ">Neaktivni upitnici</h1>
+        <p className="mb-6 mt-2 text-xl font-light leading-relaxed text-gray-600 lg:text-md sm:px-16">Ovdje možete dobiti pristup pojedinom upitniku te ga objaviti ili izmijeniti. Objavom upitnika svi korisnici će dobiti na svoj e-mail obavijest kako je novi upitnik aktivan i spreman za popunjavanje</p>
       </div>
       
       <div className="grid-cols-1 sm:grid md:grid-cols-4 mt-12 mx-10">
@@ -126,7 +125,7 @@ export default function SurveysUnpublished() {
           })
           
         ) : (
-          <h1>Trenutno nema neaktivnih anketnih upitnika</h1>
+          <span className='text-xl font-light leading-relaxed text-gray-600'>Trenutno nema neaktivnih anketnih upitnika</span>
         )}
 
       </div>

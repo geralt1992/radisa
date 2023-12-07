@@ -52,7 +52,7 @@ export default function SurveysActive() {
 
   return (
     <>
-    <div id="published_surveys" className='bg-gray-100 py-16 px-4'>
+    <div id="published_surveys"  className='bg-gray-100 py-16 px-4 min-h-screen'>
       <ToastContainer
             position="bottom-left"
                     autoClose={5000}
@@ -67,8 +67,8 @@ export default function SurveysActive() {
         />
 
         <div className='flex flex-col justify-center items-center mt-12'>
-            <h1 className="mb-4 text-4xl font-bold tracking-wide text-gray-600 dark:text-gray-300 font-mono ">Aktivni upitnici</h1>
-            <p className="mb-6 mt-2 text-xl font-light leading-relaxed text-gray-600 lg:text-md sm:px-16">Ovdje možete dopiti pristup popunjavanju pojedinog upitnika.</p>
+            <h1 className="mb-4 text-4xl font-bold tracking-wide text-gray-600 font-mono">Aktivni upitnici</h1>
+            <p className="mb-6 mt-2 text-xl font-light leading-relaxed text-gray-600 lg:text-md sm:px-16">Ovdje možete dopiti pristup popunjavanju pojedinog upitnika</p>
           </div>
 
         <div className="grid-cols-1 sm:grid md:grid-cols-1 lg:grid-cols-2 2xl:grid-cols-4 xl:grid-cols-4 mt-12 mx-10">

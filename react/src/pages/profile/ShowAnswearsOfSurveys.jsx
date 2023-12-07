@@ -29,17 +29,17 @@ export default function ShowAnswearsOfSurveys() {
           </div>
 
           <div className="col-span-5">
-            <h1 className="text-3xl mb-3 font-extrabold">{survey.title}</h1>
+            <h1 className="text-4xl mb-3 font-bold tracking-wide text-gray-600 font-mono ">{survey.title}</h1>
             <p className="text-gray-500 text-sm mb-3">
               Upitnik istječe: {expireDate.toLocaleDateString(undefined, dateFormatOptions)}
             </p>
-            <p className="text-gray-500 text-sm mb-3">{survey.description} Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sunt, recusandae explicabo error porro voluptate sequi consectetur possimus ipsum adipisci corporis facere cumque doloremque iste corrupti illo a perferendis! Voluptatem eveniet doloribus repudiandae nulla odit. Expedita numquam amet temporibus doloremque dolorum exercitationem error aperiam dignissimos aliquam, rem nobis nemo laudantium quaerat aut. Exercitationem ut eum sit laborum, voluptatibus adipisci est quo. Saepe, voluptas adipisci? Dicta ratione a laboriosam et impedit, delectus sit quas fuga eos commodi corporis quae laudantium repudiandae eius explicabo nesciunt aspernatur dolorem molestiae! Dolorum harum reprehenderit sit, hic fuga eligendi, velit natus maiores quidem accusamus obcaecati repudiandae ratione.</p>
+            <p className=" text-sm mb-6 mt-2 font-light leading-relaxed text-gray-600 lg:text-md">{survey.description} Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sunt, recusandae explicabo error porro voluptate sequi consectetur possimus ipsum adipisci corporis facere cumque doloremque iste corrupti illo a perferendis! Voluptatem eveniet doloribus repudiandae nulla odit. Expedita numquam amet temporibus doloremque dolorum exercitationem error aperiam dignissimos aliquam, rem nobis nemo laudantium quaerat aut. Exercitationem ut eum sit laborum, voluptatibus adipisci est quo. Saepe, voluptas adipisci? Dicta ratione a laboriosam et impedit, delectus sit quas fuga eos commodi corporis quae laudantium repudiandae eius explicabo nesciunt aspernatur dolorem molestiae! Dolorum harum reprehenderit sit, hic fuga eligendi, velit natus maiores quidem accusamus obcaecati repudiandae ratione.</p>
           </div>
         </div>
 
           <>
             <div>
-              <h1 className="text-3xl my-3 font-bold">Pitanja</h1>
+              <h1 className="my-3 text-2xl mb-3 font-bold tracking-wide text-gray-600 font-mono">Pitanja</h1>
               {questionsAndAnswers.map((question, index) => (
 
                 <React.Fragment key={index}>

@@ -50,10 +50,10 @@ export default function SuggestionsAdmin() {
           pauseOnHover
           theme="light"
         />
-    
-      <div className='flex flex-col justify-center items-center mt-12'>
-        <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">Prijedlozi učenika</h1>
-        <p className="mb-6 mt-2 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400">Ovdje možete pregledati ili ukloniti prijedloge učenika.</p>
+
+      <div className='flex flex-col justify-center items-center mt-28'>
+        <h1 className="mb-4 text-4xl font-bold tracking-wide text-gray-600 font-mono ">Prijedlozi učenika</h1>
+        <p className="mb-6 mt-2 text-xl font-light leading-relaxed text-gray-600 lg:text-md sm:px-16">OOvdje možete pregledati ili ukloniti prijedloge učenika</p>
       </div>
     
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-12 mx-10">

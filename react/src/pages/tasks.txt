@@ -8,7 +8,6 @@ cache LS, user profile page, surveys (active and finished);
 
 survey map stavi kao komponentu
 
-u "dodaj učenika" isto stavki grafiku
+naslov i podnaslov staviti kao komponentu
 
 
-NE SPREMA DOBRO ODGOVORE, DUPLIRA, TO PROVJERI!

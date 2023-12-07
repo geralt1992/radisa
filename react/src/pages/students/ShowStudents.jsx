@@ -115,8 +115,8 @@ export default function ShowStudents() {
           theme="light"
         />
     
-      <div className='flex flex-col justify-center items-center mt-12'>
-        <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">Pregled učenika</h1>
+      <div className='flex flex-col justify-center items-center mt-28'>
+        <h1 className="mb-4 text-4xl font-bold tracking-wide text-gray-600 font-mono ">Pregled učenika</h1>
 
         {/* TRAŽI UČENIKA */}
         <form onChange={findStudent} className="flex items-center w-[40%] mt-6">   
@@ -212,13 +212,13 @@ export default function ShowStudents() {
           </div>
 
           {/* IZMIJENI PODATKE O UČENIKU */}         
-          <Rodal visible={visible} onClose={hide}>
+          <Rodal visible={visible} onClose={hide} className='w-full m-0 p-0 '>
 
               {editingStudent && (
-                  <form onSubmit={onSubmitChangeStudentData} className="w-full max-w-3xl mx-auto">
+                  <form onSubmit={onSubmitChangeStudentData} className="w-full max-w-3xl mx-auto ">
 
                   {/* IME */}
-                  <div className="flex flex-wrap -mx-3 mb-6">
+                  <div className="flex flex-wrap -mx-3 mb-6 ">
                     <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                       <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="name">
                         Ime
