@@ -6,6 +6,7 @@ import axiosClient from '../../axios'
 import { UserStateContext } from '../../context/ContextProvaider'
 import Rodal from 'rodal';
 import 'rodal/lib/rodal.css';
+import Button from '../../components/Button';
 
 
 export default function ShowStudents() {
@@ -182,21 +183,8 @@ export default function ShowStudents() {
                             {student.email}
                         </td>
                         <td className="px-6 py-4 text-center dark:bg-gray-800">
-                          <button
-                          type="submit"
-                          onClick={() => show(student)}
-                          className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                          >
-                            Izmijeni
-                          </button>
-
-                          <button
-                          type="submit"
-                          onClick={() => {deleteStudent(student.id)}}
-                          className="ml-5 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-                          >
-                            Ukloni
-                          </button>
+                          <Button color={"indigo"} text={'Izmijeni'}  functionality={() => show(student)} />
+                          <Button color={"red"} text={'Ukloni'}  functionality={() => deleteStudent(student)} />
                         </td>
                       </tr>
                       </React.Fragment>
@@ -212,87 +200,89 @@ export default function ShowStudents() {
           </div>
 
           {/* IZMIJENI PODATKE O UČENIKU */}         
-          <Rodal visible={visible} onClose={hide} className='w-full m-0 p-0 '>
+          <Rodal 
+          visible={visible} 
+          onClose={hide} 
+          className='bg-gray-800'
+          customStyles={{
+            width: '50%', 
+            height:'50%',
+            padding: '50px',
+          }}
+          >
+            {editingStudent && (
+              <form onSubmit={onSubmitChangeStudentData} className="w-full max-w-3xl mx-auto ">
 
-              {editingStudent && (
-                  <form onSubmit={onSubmitChangeStudentData} className="w-full max-w-3xl mx-auto ">
-
-                  {/* IME */}
-                  <div className="flex flex-wrap -mx-3 mb-6 ">
-                    <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                      <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="name">
-                        Ime
-                      </label>
-                      <input onChange={(e) => setEditingStudent({...editingStudent, name: e.target.value})} value={editingStudent.name} name="name"  required className="appearance-none block w-full bg-gray-200 text-gray-700 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="text" placeholder="Ime učenika"/>
-                    </div>
-
-                    <div className="w-full md:w-1/2 px-3">
-                      <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="surname">
-                        Prezime
-                      </label>
-                      <input onChange={(e) => setEditingStudent({...editingStudent, surname: e.target.value})} value={editingStudent.surname} name="surname" required className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"  type="text" placeholder="Prezime učenika"/>
-                    </div>
+                {/* IME */}
+                <div className="flex flex-wrap -mx-3 mb-6 ">
+                  <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="name">
+                      Ime
+                    </label>
+                    <input onChange={(e) => setEditingStudent({...editingStudent, name: e.target.value})} value={editingStudent.name} name="name"  required className="appearance-none block w-full bg-gray-200 text-gray-700 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="text" placeholder="Ime učenika"/>
                   </div>
 
-                  {/* EMAIL */}
-                  <div className="flex flex-wrap -mx-3 mb-6">
-                    <div className="w-full px-3">
-                      <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="email">
-                        E-mail
-                      </label>
-                      <div className="relative">
-                      <input onChange={(e) => setEditingStudent({...editingStudent, email: e.target.value})} value={editingStudent.email} name="email"  required type="email" placeholder='ucenikov@email.adresa' className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"/>
-                      </div>
-                      <p className="text-gray-600 text-xs italic mt-2">Prezime učenika i njegova godina rođenja</p>
+                  <div className="w-full md:w-1/2 px-3">
+                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="surname">
+                      Prezime
+                    </label>
+                    <input onChange={(e) => setEditingStudent({...editingStudent, surname: e.target.value})} value={editingStudent.surname} name="surname" required className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"  type="text" placeholder="Prezime učenika"/>
+                  </div>
+                </div>
+
+                {/* EMAIL */}
+                <div className="flex flex-wrap -mx-3 mb-6">
+                  <div className="w-full px-3">
+                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="email">
+                      E-mail
+                    </label>
+                    <div className="relative">
+                    <input onChange={(e) => setEditingStudent({...editingStudent, email: e.target.value})} value={editingStudent.email} name="email"  required type="email" placeholder='ucenikov@email.adresa' className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"/>
                     </div>
+                    <p className="text-gray-600 text-xs italic mt-2">Prezime učenika i njegova godina rođenja</p>
+                  </div>
+                </div>
+
+                <div className="flex flex-wrap -mx-3 mb-2">
+
+                  {/* LOZINKA */}
+                  <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="password">
+                      Lozinka
+                    </label>
+                    <input onChange={(e) => setEditingStudent({...editingStudent, password: e.target.value})} value={editingStudent.password} name="password" className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="password"/>
                   </div>
 
-                  <div className="flex flex-wrap -mx-3 mb-2">
-
-                    {/* LOZINKA */}
-                    <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                      <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="password">
-                        Lozinka
-                      </label>
-                      <input onChange={(e) => setEditingStudent({...editingStudent, password: e.target.value})} value={editingStudent.password} name="password" className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="password"/>
-                    </div>
-
-                    {/* PONOVI LOZINKU */}
-                    <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                      <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="password_confirmed">
-                        Ponovi lozinku
-                      </label>
-                      <input onChange={(e) => setEditingStudent({...editingStudent, password_confirmed: e.target.value})} value={editingStudent.password_confirmed} name="password_confirmed" className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="password"/>
-                    </div>
-
-                    {/* DATUM ROĐENJA */}
-                    <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                      <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="birth_date">
-                        Datum rođenja
-                      </label>
-                      <input
-                      onChange={(e) => setEditingStudent({ ...editingStudent, birth_date: e.target.value })}
-                      value={editingStudent.birth_date ? editingStudent.birth_date.split(' ')[0] : ''}
-                      required
-                      type="date"
-                      name="birth_date"
-                      className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                      />
-                    </div>
-
+                  {/* PONOVI LOZINKU */}
+                  <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="password_confirmed">
+                      Ponovi lozinku
+                    </label>
+                    <input onChange={(e) => setEditingStudent({...editingStudent, password_confirmed: e.target.value})} value={editingStudent.password_confirmed} name="password_confirmed" className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="password"/>
                   </div>
 
-                  <div className="mb-6">
-                    <button
-                    type="submit"
-                    className="inline-flex w-32 justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                    >
-                      Izmijeni
-                    </button>
+                  {/* DATUM ROĐENJA */}
+                  <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="birth_date">
+                      Datum rođenja
+                    </label>
+                    <input
+                    onChange={(e) => setEditingStudent({ ...editingStudent, birth_date: e.target.value })}
+                    value={editingStudent.birth_date ? editingStudent.birth_date.split(' ')[0] : ''}
+                    required
+                    type="date"
+                    name="birth_date"
+                    className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                    />
                   </div>
+                </div>
 
-                </form>
-              )}
+                <div className="mb-6">
+                  <Button color={"indigo"} text={'Izmijeni'}  />
+                </div>
+
+              </form>
+            )}
           </Rodal>
 
         </div>

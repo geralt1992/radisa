@@ -7,7 +7,6 @@ import uuid from 'react-uuid';
 import { UserStateContext } from '../../context/ContextProvaider';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
-import { Typography } from "@material-tailwind/react";
 import { PlusIcon, TrashIcon } from "@heroicons/react/24/solid";
 
 export default function UpdateSurvey() {
@@ -189,11 +188,9 @@ export default function UpdateSurvey() {
     <>
 
         <div className="mx-0 my-10 px-10 py-20 shadow-lg lg:mx-80">
-            <div id="surveyTitleData">   
-                <Typography variant="h4" color="blue">
-                    Ažuriraj upitnik
-                </Typography>
-            </div> 
+            <div className='flex flex-col justify-center items-center mt-12'>
+                <h1 className="mb-4 text-4xl font-bold tracking-wide text-gray-600 font-mono ">Ažuriraj upitnik</h1>
+            </div>
 
             <ToastContainer
                 position="bottom-left"
@@ -310,7 +307,7 @@ export default function UpdateSurvey() {
                 {/* QUESTIONS */}
                 <div className="flex justify-between mt-5">
                     <h3 className="text-2xl font-bold">Pitanja</h3>
-                    <button type="button"  onClick={() => addQuestion()} title="Dodaj pitanje" className="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
+                    <button type="button"  onClick={() => addQuestion()} title="Dodaj pitanje" className="mb-2 md:mb-0 md:mr-2 lg:my-2 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-500 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                         <PlusIcon className="w-3 text-white"/>
                     </button>
                 </div>
@@ -495,7 +492,7 @@ export default function UpdateSurvey() {
                 )}
 
                 {/* QUESTIONS */}
-                <button type="submit" className="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Izmijeni</button>
+                <button type="submit" className="mb-2 md:mb-0 md:mr-2 lg:my-2 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-500 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Stvori upitnik</button>
             </form> 
         </div>
     </>

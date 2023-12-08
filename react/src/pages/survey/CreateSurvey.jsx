@@ -277,7 +277,7 @@ export default function CreateSurvey() {
 
                 <div className="flex justify-between mt-5">
                     <h3 className="text-2xl font-bold">Pitanja</h3>
-                    <button type="button"  onClick={() => addQuestion()} title="Dodaj pitanje" className="mb-2 md:mb-0 md:mr-2 lg:my-2 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-400 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    <button type="button"  onClick={() => addQuestion()} title="Dodaj pitanje" className="mb-2 md:mb-0 md:mr-2 lg:my-2 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-500 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                         <PlusIcon className="w-3 text-white"/>
                     </button>
                 </div>

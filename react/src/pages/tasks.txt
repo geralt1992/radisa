@@ -3,11 +3,13 @@ validatore napraviti
 mobile prilagodba 
 estetika, kartice, naslovi
 
-
 cache LS, user profile page, surveys (active and finished);
 
 survey map stavi kao komponentu
 
 naslov i podnaslov staviti kao komponentu
+
+aktivni upitnici animacija nekakva 
+
 
 
