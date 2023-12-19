@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import UserSvg from '../../components/svgs/UserSvg'
 import { motion } from "framer-motion";
 import { containerVariant } from "../../components/variants/variants";
-
+import Header from '../../components/Header';
 
 export default function ShowUserProfile() {
 
@@ -34,10 +34,7 @@ export default function ShowUserProfile() {
           animate="show"  >
         <div className="max-w-md w-full p-6 h-full">
 
-          <div className='flex flex-col justify-center items-center mt-12'>
-            <h1 className="mb-4 text-4xl font-bold tracking-wide text-gray-600 dark:text-gray-300 font-mono ">Vaši upitnici</h1>
-            <p className="mb-6 mt-2 text-xl font-light leading-relaxed text-gray-600 lg:text-md sm:px-16">Pregled ispunjenih upitnika</p>
-          </div>
+        <Header title="Vaši upitnici" subtitle="Pregled ispunjenih upitnika" />
           
           <div className="grid grid-cols-1 gap-4 py-">
             {surveys.length ? (

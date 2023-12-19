@@ -26,8 +26,8 @@ class SuggestionController extends Controller
           //validation - DORADI PRAVILA!
           $validator = Validator::make($request->all(),
           [
-              'title' => ['required'],
-              'content' => ['required'],
+              'title' => ['required', 'regex:/^[a-zA-Z0-9.,?!:]+$/'], //alpha num and ". , ? ! :"
+              'content' => ['required', 'regex:/^[a-zA-Z0-9.,?!:]+$/']
           ]);
   
           if ($validator->fails()) {

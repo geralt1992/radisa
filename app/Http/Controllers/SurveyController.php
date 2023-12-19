@@ -6,10 +6,16 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Survey;
 use App\Models\Question;
+use App\Models\Answear;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Validator;
+
 use Illuminate\Support\Facades\Log;
+
+use App\Mail\NewSurvey;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Queue; //za mailove da rade u pozadini
 
 
 class SurveyController extends Controller
@@ -22,12 +28,11 @@ class SurveyController extends Controller
 
     public function save(Request $request) {
 
-        //validation - DORADI PRAVILA!
         $validator = Validator::make($request->all(),
         [
             'title' => ['required'],
             'description' => ['required'],
-            'expire_date' => ['required', 'date', 'after:today'],
+            // 'expire_date' => ['required', 'date', 'after:today'],
             'image' => 'required|file|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
@@ -54,7 +59,7 @@ class SurveyController extends Controller
         $new_survey->user_id = $user->id;
         $new_survey->title = $data['title'];
         $new_survey->description = $data['description'];
-        $new_survey->expire_date = $data['expire_date'];
+        // $new_survey->expire_date = $data['expire_date'];
         $new_survey->save();
 
             
@@ -82,12 +87,11 @@ class SurveyController extends Controller
 
     public function update(Request $request) {
 
-        //validation - DORADI PRAVILA!
         $validator = Validator::make($request->all(),
         [
             'title' => ['required'],
             'description' => ['required'],
-            'expire_date' => ['required', 'date', 'after:today'],
+            // 'expire_date' => ['required', 'date', 'after:today'],
             // 'image' => 'required',
         ]);
 
@@ -120,7 +124,7 @@ class SurveyController extends Controller
         $survey_to_update->user_id = $survey_creator_id;
         $survey_to_update->title = $request['title'];
         $survey_to_update->description = $request['description'];
-        $survey_to_update->expire_date = $request['expire_date'];
+        // $survey_to_update->expire_date = $request['expire_date'];
         $survey_to_update->save();
 
         
@@ -175,21 +179,41 @@ class SurveyController extends Controller
         return response($surveys);
     }
 
-    public function activate(Request $request) {
+    public function activate(Request $request)
+    {
         $data = $request->json()->all();
-        $survey_to_activeted = Survey::where('id' , $data['id'])->first();
+        $survey_to_activeted = Survey::where('id', $data['id'])->first();
         $survey_to_activeted->isActive = true;
         $survey_to_activeted->save();
-        //DODAJ JOŠ DA SVI USERI DOBIJU EMAIL!
+        
+        //send email in time delay (2 sec) - AKTIVIRAJ php artisan queue:work
+        foreach (User::all() as $index => $recipient) {
+            Queue::later(now()->addSeconds($index * 5), function () use ($recipient, $survey_to_activeted) {
+                Mail::to($recipient->email)->send(new NewSurvey($recipient->name, $survey_to_activeted->title));
+            });
+        }
+    
         return response(['success' => true]);
     }
+    
+   public function deactive($id) {
+    //vrati i user count na 0, i obiriši sve odgovore vezane za anketu
+    Survey::where('id', $id)->update(['isActive' => false, 'user_count' => 0]);
 
-    public function deactive($id) {
-        $survey_to_deactiveted = Survey::where('id' , $id)->first();
-        $survey_to_deactiveted->isActive = false;
-        $survey_to_deactiveted->save();
-        return response(['success' => true]);
-    }
+    DB::table('answears')
+        ->join('questions', 'answears.question_id', '=', 'questions.id')
+        ->where('questions.survey_id', $id)
+        ->delete();
+
+    //makni iz doneSruveys polja survey id
+    // Remove the survey ID from the 'doneSurveys' field for all users
+    User::whereRaw('JSON_CONTAINS(doneSurveys, ?)', [$id])
+        ->update(['doneSurveys' => DB::raw('JSON_REMOVE(doneSurveys, ?)'), $id]);
+
+
+
+    return response(['success' => true]);
+}
     
     public function finishSurvey($id) {
         $survey = Survey::where('id' , $id)->first();
@@ -197,5 +221,28 @@ class SurveyController extends Controller
         $survey->isFinished = true;
         $survey->save();
         return response(['success' => true]);
+    }
+
+    public function surveyResults($id) {
+        $survey = Survey::where('id' , $id)->first();
+
+        $answers = DB::table('surveys')
+        ->join('questions', 'surveys.id', '=', 'questions.survey_id')
+        ->join('answears', [
+            ['surveys.id', '=', 'answears.survey_id'],
+            ['questions.id', '=', 'answears.question_id'],
+        ])
+        ->where('surveys.id', $id)
+        ->select(
+            'questions.options',
+            'questions.question',
+            'questions.type',
+            'answears.answear',
+            'answears.question_id',
+            'answears.user_id'
+        )
+        ->get();
+
+        return response(['survey' => $survey, 'answears' => $answers]);
     }
 }

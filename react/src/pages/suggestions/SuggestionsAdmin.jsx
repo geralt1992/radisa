@@ -5,6 +5,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
 import axiosClient from '../../axios'
 import { UserStateContext } from '../../context/ContextProvaider';
+import Header from '../../components/Header';
+
 
 export default function SuggestionsAdmin() {
 
@@ -51,11 +53,8 @@ export default function SuggestionsAdmin() {
           theme="light"
         />
 
-      <div className='flex flex-col justify-center items-center mt-28'>
-        <h1 className="mb-4 text-4xl font-bold tracking-wide text-gray-600 font-mono ">Prijedlozi učenika</h1>
-        <p className="mb-6 mt-2 text-xl font-light leading-relaxed text-gray-600 lg:text-md sm:px-16">OOvdje možete pregledati ili ukloniti prijedloge učenika</p>
-      </div>
-    
+      <Header title="Prijedlozi učenika" subtitle="Ovdje možete pregledati ili ukloniti prijedloge učenika" />
+
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-12 mx-10">
         <div className="col-span-full  p-4 text-center">
 

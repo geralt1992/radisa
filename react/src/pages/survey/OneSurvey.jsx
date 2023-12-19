@@ -29,10 +29,6 @@ export default function OneSurvey() {
   function onSubmit(e) {
     e.preventDefault();
 
-
-
-    console.log(answers);
-
     if (!window.confirm('Želite li predati anketni upitnik?')) { return false }
 
     // Check if there is at least one checkbox selected for each checkbox question
@@ -45,8 +41,7 @@ export default function OneSurvey() {
       toast.error('Molimo vas da odaberete barem jedan odgovor za pitanja koja koriste opcije.');
       return false;
     }
-
-
+console.log(answers);
     axiosClient.post('save_survey_answear', {
       surveyId: id,
       answers: answers
@@ -58,9 +53,14 @@ export default function OneSurvey() {
         navigate('/auth/surveys-active');
       }, 3000);
     })
-    .catch(e => console.log(e));
+    .catch((error) => {
+      if (error.response) {
+        const finalErrors = Object.values(error.response.data.errors).reduce((accum, next) => [...accum, ...next], [])
+        finalErrors.forEach((e) => toast.error(e))
+      }
+      console.log(error);
+    });
   }
-
 
   function answerChanged(question, e) {
     answers[question.id] = e;
@@ -90,7 +90,7 @@ export default function OneSurvey() {
           <div className="col-span-5">
             <h1 className="text-4xl mb-3 font-bold tracking-wide text-gray-600 font-mono ">{survey.title}</h1>
             <p className="text-gray-500 text-sm mb-3">
-              Upitnik istječe: {expireDate.toLocaleDateString(undefined, dateFormatOptions)}
+              Anketa stvorena: {expireDate.toLocaleDateString(undefined, dateFormatOptions)}
             </p>
             <p className=" text-sm mb-6 mt-2 font-light leading-relaxed text-gray-600 lg:text-md">{survey.description} Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sunt, recusandae explicabo error porro voluptate sequi consectetur possimus ipsum adipisci corporis facere cumque doloremque iste corrupti illo a perferendis! Voluptatem eveniet doloribus repudiandae nulla odit. Expedita numquam amet temporibus doloremque dolorum exercitationem error aperiam dignissimos aliquam, rem nobis nemo laudantium quaerat aut. Exercitationem ut eum sit laborum, voluptatibus adipisci est quo. Saepe, voluptas adipisci? Dicta ratione a laboriosam et impedit, delectus sit quas fuga eos commodi corporis quae laudantium repudiandae eius explicabo nesciunt aspernatur dolorem molestiae! Dolorum harum reprehenderit sit, hic fuga eligendi, velit natus maiores quidem accusamus obcaecati repudiandae ratione.</p>
           </div>

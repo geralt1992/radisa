@@ -6,7 +6,7 @@ import { UserStateContext } from '../../context/ContextProvaider';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
 import { PlusIcon, TrashIcon } from "@heroicons/react/24/solid";
-
+import Header from '../../components/Header';
 
 export default function CreateSurvey() {
 
@@ -14,7 +14,7 @@ export default function CreateSurvey() {
         title: '',
         description: '',
         image: null,
-        expire_date: '',
+        // expire_date: '',
         questions: [] 
     });
 
@@ -31,7 +31,7 @@ export default function CreateSurvey() {
 
     //redirect user from this page if isn't admin
     if(!admin) {
-        return <Navigate to='/auth/dashboard'/>
+        return <Navigate to='/auth/user-profile'/>
     }
 
     function onSubmit(e) {
@@ -66,7 +66,7 @@ export default function CreateSurvey() {
         formData.append("title", survey.title);
         formData.append("description", survey.description);
         formData.append("image", survey.image);
-        formData.append("expire_date", survey.expire_date);
+        // formData.append("expire_date", survey.expire_date);
         // Convert the questions array to a JSON string
         formData.append("questions", JSON.stringify(survey.questions));
         
@@ -162,10 +162,7 @@ export default function CreateSurvey() {
     <>
     
      <div className="bg-gray-100 mx-0 my-10 px-10 py-20 shadow-lg lg:mx-80">
-            <div className='flex flex-col justify-center items-center mt-12'>
-                <h1 className="mb-4 text-4xl font-bold tracking-wide text-gray-600 font-mono ">Kreacija upitnika</h1>
-                <p className="mb-6 mt-2 text-xl font-light leading-relaxed text-gray-600 lg:text-md sm:px-16">Opći podatci o upitniku se nalaze ispod</p>
-            </div>
+        <Header title="Kreacija upitnika" subtitle="Opći podatci o upitniku se nalaze ispod" />
 
             <ToastContainer
                 position="bottom-left"
@@ -228,7 +225,7 @@ export default function CreateSurvey() {
                             {/* Title */}
 
                             {/* Exp Date */}
-                            <div>
+                            {/* <div>
                                 <label
                                 htmlFor="expire_date"
                                 className="block text-sm font-medium text-gray-700"
@@ -244,7 +241,7 @@ export default function CreateSurvey() {
                                 onChange={(e) => {setSurvey({...survey, expire_date: e.target.value})}}
                                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 sm:text-sm"
                                 />
-                            </div>
+                            </div> */}
                             {/* Exp Date */}
 
                         </div>

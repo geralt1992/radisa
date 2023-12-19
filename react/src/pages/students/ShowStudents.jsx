@@ -184,7 +184,7 @@ export default function ShowStudents() {
                         </td>
                         <td className="px-6 py-4 text-center dark:bg-gray-800">
                           <Button color={"indigo"} text={'Izmijeni'}  functionality={() => show(student)} />
-                          <Button color={"red"} text={'Ukloni'}  functionality={() => deleteStudent(student)} />
+                          <Button color={"red"} text={'Ukloni'}  functionality={() => deleteStudent(student.id)} />
                         </td>
                       </tr>
                       </React.Fragment>
@@ -246,7 +246,7 @@ export default function ShowStudents() {
                 <div className="flex flex-wrap -mx-3 mb-2">
 
                   {/* LOZINKA */}
-                  <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                  <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="password">
                       Lozinka
                     </label>
@@ -254,15 +254,15 @@ export default function ShowStudents() {
                   </div>
 
                   {/* PONOVI LOZINKU */}
-                  <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                  {/* <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="password_confirmed">
                       Ponovi lozinku
                     </label>
                     <input onChange={(e) => setEditingStudent({...editingStudent, password_confirmed: e.target.value})} value={editingStudent.password_confirmed} name="password_confirmed" className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="password"/>
-                  </div>
+                  </div> */}
 
                   {/* DATUM ROĐENJA */}
-                  <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                  <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="birth_date">
                       Datum rođenja
                     </label>

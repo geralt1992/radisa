@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('description');
             $table->timestamp('expire_date');
+            $table->tinyInteger('user_count')->default(0);
             $table->tinyInteger('isActive')->default(0);
             $table->tinyInteger('isFinished')->default(0);
             $table->timestamps();

@@ -6,6 +6,8 @@ import axiosClient from '../../axios'
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
 import { Link, useNavigate } from "react-router-dom";
+import Header from '../../components/Header';
+
 
 export default function SurveysUnpublished() {
 
@@ -20,13 +22,14 @@ export default function SurveysUnpublished() {
     axiosClient.get('unactive_surveys')
       .then(({ data }) => {
         setSurveys(data);
+        
       })
   }, [refresher]); 
 
 
   // Redirect user from this page if isn't admin
   if (!admin) {
-    return <Navigate to='/auth/dashboard' />
+    return <Navigate to='/auth/user-profile' />
   }
   
   function activateSurvey(id) {
@@ -35,7 +38,7 @@ export default function SurveysUnpublished() {
     }
     
     axiosClient.post('activate_survey', { id: id })
-      .then(() => {
+      .then(({data}) => {
         setRefresher(!refresher);
         toast.success('Uspješno aktivirana anketa!');
       })
@@ -60,7 +63,7 @@ export default function SurveysUnpublished() {
   return (
     <div id="unpublished_surveys" className='bg-gray-100 py-16 px-4 min-h-screen'>
       <ToastContainer
-            position="bottom-left"
+        position="bottom-left"
                     autoClose={5000}
                     hideProgressBar={false}
                     newestOnTop={false}
@@ -70,12 +73,10 @@ export default function SurveysUnpublished() {
                     draggable
                     pauseOnHover
                     theme="light"
-        />
+      />
 
-      <div className='flex flex-col justify-center items-center mt-12'>
-        <h1 className="mb-4 text-4xl font-bold tracking-wide text-gray-600 font-mono ">Neaktivni upitnici</h1>
-        <p className="mb-6 mt-2 text-xl font-light leading-relaxed text-gray-600 lg:text-md sm:px-16">Ovdje možete dobiti pristup pojedinom upitniku te ga objaviti ili izmijeniti. Objavom upitnika svi korisnici će dobiti na svoj e-mail obavijest kako je novi upitnik aktivan i spreman za popunjavanje</p>
-      </div>
+      <Header title="Neaktivni upitnici" subtitle="Ovdje možete dobiti pristup pojedinom upitniku te ga objaviti ili izmijeniti. Objavom upitnika svi korisnici će dobiti na svoj e-mail obavijest kako je novi upitnik aktivan i spreman za popunjavanje" />
+
       
       <div className="grid-cols-1 sm:grid md:grid-cols-4 mt-12 mx-10">
 
@@ -92,7 +93,7 @@ export default function SurveysUnpublished() {
                   <div className="p-6">
                     <h5 className="mb-2 text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50"> {survey.title} </h5>
                     <p className="mb-4 text-base text-neutral-600 dark:text-neutral-200"> {survey.description.split(' ').slice(0, 20).join(' ')}... </p>
-                    <p className="mb-4 text-base text-neutral-600 dark:text-neutral-200"> Automatsko zaključavanje: {expireDate.toLocaleDateString(undefined, dateFormatOptions)}  </p>
+                    <p className="mb-4 text-base text-neutral-600 dark:text-neutral-200"> Anketa stvorena: {expireDate.toLocaleDateString(undefined, dateFormatOptions)}  </p>
                   
                     <div className='flex flex-col md:flex-row items-center'>
                     <button

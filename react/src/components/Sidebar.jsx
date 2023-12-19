@@ -49,7 +49,7 @@ export default function Sidebar() {
   return (
     <Card className="min-h-full w-full max-w-[20rem] p-4 shadow-xl bg-gray-800 text-white shadow-blue-gray-900/5 rounded-none flex-1">
         <div className="mb-2 flex items-center gap-4 p-4">
-            <Link to='dashboard'>
+            <Link to='/auth/user-profile'>
                 <img src={logo} alt="brand" className="h-12 w-12 rounded-3xl " />
             </Link>
             <Typography variant="h5" color="blue-gray">

@@ -8,8 +8,6 @@ import Landing from './pages/guest/Landing'
 import Singup from './pages/guest/Singup'
 import Login from './pages/guest/Login'
 
-import Admin from './pages/Admin'
-import Dashboard from './pages/Dashboard'
 import CreateSurvey from "./pages/survey/CreateSurvey"
 import SurveysUnactive from "./pages/survey/SurveysUnactive"
 import SurveysActive from "./pages/survey/SurveysActive"
@@ -23,7 +21,7 @@ import UpdateSurvey from "./pages/survey/UpdateSurvey"
 import ShowUserProfile from "./pages/profile/ShowUserProfile" 
 import ShowUserSurveys from "./pages/profile/ShowUserSurveys"
 import ShowAnswearsOfSurveys from "./pages/profile/ShowAnswearsOfSurveys"
-
+import SurveyResults from "./pages/survey/SurveyResults"
 
 const router = createBrowserRouter([
     {
@@ -41,22 +39,20 @@ const router = createBrowserRouter([
         path:'/auth',
         element: <AuthLayout/>,
         children: [
-                            {path:'dashboard', element: <Dashboard/>},
+            {path:'user-profile', element:<ShowUserProfile/>},
             {path:'create', element: <CreateSurvey/>},
             {path:'surveys-unactive', element: <SurveysUnactive/>},
             {path:'surveys-active', element: <SurveysActive/>},
             {path:'surveys-finished', element: <SurveysFinished/>},
             {path:'survey/:id', element: <OneSurvey/>},
             {path:'survey-update/:id', element: <UpdateSurvey/>},
+            {path:'survey-results/:id', element:<SurveyResults/>},
             {path:'show-suggestions', element:<SuggestionsAdmin/>},
             {path:'add-suggestion', element:<SuggestionsStudent/>},
             {path:'show-students', element:<ShowStudents/>},
             {path:'add-students', element:<AddStudent/>},
-            {path:'user-profile', element:<ShowUserProfile/>},
             {path:'user-surveys', element:<ShowUserSurveys/>}, 
             {path:'user-answers-surveys/:id', element:<ShowAnswearsOfSurveys/>}
-            // {path:'admin', element: <Admin/>},
-            // {path:'*' , element: <h1>Ne postoji</h1>}
         ]
     }
 ]);

@@ -6,7 +6,7 @@ import axiosClient from '../../axios'
 import UserSvg from '../../components/svgs/UserSvg'
 import { motion } from "framer-motion";
 import { containerVariant } from "../../components/variants/variants";
-
+import Header from '../../components/Header';
 
 export default function SuggestionsStudent() {
 
@@ -50,10 +50,8 @@ export default function SuggestionsStudent() {
       >
         <div className="max-w-md w-full p-6">
           <div className="pb-6">
-            <div className='flex flex-col justify-center items-center mt-12'>
-              <h1 className="mb-4 text-4xl font-bold tracking-wide text-gray-600 dark:text-gray-300 font-mono ">Vaši prijedlozi</h1>
-              <p className="mb-6 mt-2 text-xl font-light leading-relaxed text-gray-600 lg:text-md sm:px-16">Ovdje možete ostaviti Vaš prijedlog za poboljšanje rada aplikacije ili našeg Doma.</p>
-            </div>
+          <Header title="Vaši prijedlozi" subtitle="Ovdje možete ostaviti Vaš prijedlog za poboljšanje rada aplikacije ili našeg Doma" />
+           
             <form method="POST" onSubmit={onSubmit}>
                   <label className="block mb-6 font-light leading-relaxed text-gray-600 ">
                     <span >Naslov</span>

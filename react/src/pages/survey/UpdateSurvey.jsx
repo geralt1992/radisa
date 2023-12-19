@@ -20,7 +20,7 @@ export default function UpdateSurvey() {
         title: '',
         description: '',
         image: null,
-        expire_date: [],
+        // expire_date: [],
     });
 
 
@@ -31,11 +31,11 @@ export default function UpdateSurvey() {
                 const { data } = response;
 
                 // DATE STUFF
-                const originalDateString = data.survey.expire_date;
-                const originalDate = new Date(originalDateString);
-                const formattedDate = originalDate.toISOString().split('T')[0];
+                // const originalDateString = data.survey.expire_date;
+                // const originalDate = new Date(originalDateString);
+                // const formattedDate = originalDate.toISOString().split('T')[0];
 
-                setSurvey({...data.survey, expire_date: formattedDate, image: ''});
+                setSurvey({...data.survey, image: ''});
                 setQuestions(data.questions);
 
             } catch (error) {
@@ -84,7 +84,7 @@ export default function UpdateSurvey() {
         formData.append("title", survey.title);
         formData.append("description", survey.description);
         formData.append("image", survey.image);
-        formData.append("expire_date", survey.expire_date);
+        // formData.append("expire_date", survey.expire_date);
         // Convert the questions array to a JSON string
         formData.append("questions", JSON.stringify(questions));
         formData.append('survey_id', survey.id);
@@ -254,27 +254,7 @@ export default function UpdateSurvey() {
                                 />
                             </div>
                             {/* Title */}
-
-                            {/* Exp Date */}
-                            <div>
-                                <label
-                                htmlFor="expire_date"
-                                className="block text-sm font-medium text-gray-700"
-                                >
-                                    Datum isteka 
-                                </label>
-                                <input
-                                required
-                                type="date"
-                                name="expire_date"
-                                id="expire_date"
-                                value={survey.expire_date}
-                                onChange={(e) => {setSurvey({...survey, expire_date: e.target.value})}}
-                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 sm:text-sm"
-                                />
-                            </div>
-                            {/* Exp Date */}
-
+                            
                         </div>
                     {/* Title and Expire Date */}
 

@@ -37,8 +37,12 @@ export default function ShowAnswearsOfSurveys() {
           </div>
         </div>
 
-          <>
-            <div>
+            <button type="submit" disabled className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+              Moji odgovori
+            </button>
+
+            <hr className="mt-8" />
+
               <h1 className="my-3 text-2xl mb-3 font-bold tracking-wide text-gray-600 font-mono">Pitanja</h1>
               {questionsAndAnswers.map((question, index) => (
 
@@ -127,18 +131,6 @@ export default function ShowAnswearsOfSurveys() {
                   <hr className="mb-4" />
                 </React.Fragment>
               ))}
-            </div>
-
-            <button
-              type="submit"
-              disabled
-              className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            >
-              Moji odgovori
-            </button>
-          </>
-
-        
       </form>
     </div>
   )

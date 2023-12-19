@@ -17,6 +17,11 @@
         "@fortawesome/free-regular-svg-icons": "^6.5.1",
         "@fortawesome/free-solid-svg-icons": "^6.5.1",
         "@fortawesome/react-fontawesome": "^0.2.0",
-        "rodal": "^2.1.0"
+        "chart.js": "^4.4.1",
+        "html2canvas": "^1.4.1",
+        "jspdf": "^2.5.1",
+        "rodal": "^2.1.0",
+        "svg-to-pdfkit": "^0.1.8",
+        "svg2pdf.js": "^2.2.3"
     }
 }

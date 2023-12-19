@@ -11,7 +11,6 @@ export default function ShowUserProfile() {
   useEffect(() => {
     axiosClient.get('me')
     .then(({data}) => {
-      console.log(data.user);
       setUser(data.user);
     })
     .catch(e => console.log(e))

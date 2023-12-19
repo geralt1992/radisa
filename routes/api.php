@@ -23,6 +23,7 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::get('delete_survey/{id}', [SurveyController::class, 'delete']);
     Route::get('get_choosen_survey/{id}' , [SurveyController::class, 'getSurvey']);
     Route::get('finish_survey/{id}' , [SurveyController::class, 'finishSurvey']);
+    Route::get('survey_results/{id}' , [SurveyController::class, 'surveyResults']);
     
     Route::post('save_survey_answear', [AnswearController::class, 'saveAnswears']);
 

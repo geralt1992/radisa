@@ -20,7 +20,6 @@ class StudentController extends Controller
 
     public function addStudent(Request $request) {
 
-          //validation - DORADI PRAVILA!
           $validator = Validator::make($request->all(),
           [
             'name' => 'required|string|max:255',
@@ -48,12 +47,10 @@ class StudentController extends Controller
     
     public function editStudent(Request $request) {
 
-        //validation - DORADI PRAVILA!
         $validator = Validator::make($request->all(),
         [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|', 
-            'password' => 'confirmed',
             'birth_date' => 'required|date|before:today',
         ]);
 

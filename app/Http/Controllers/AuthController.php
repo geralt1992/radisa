@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
+
     public function singup(Request $request) {
 
         //VALIDATION
