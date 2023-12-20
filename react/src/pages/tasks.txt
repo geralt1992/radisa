@@ -1,7 +1,7 @@
 mobile prilagodba 
 like system landing?
 filter rezultata po godinama? select
-deaktivacija da obriše sve odgovore trenutne vezane za taj upitnik (!!!) - KOD USERA KOJI ISPUNI MAKNUTI TAJ ANKETNI ID IZ POLJA ISPUNJENIH DA MOŽE PONOVO 
+da se na prvoj prijavi odmah kreira admin profil
 
 
 SPECS

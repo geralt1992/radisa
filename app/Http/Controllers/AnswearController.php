@@ -16,12 +16,11 @@ class AnswearController extends Controller
     
     // Log::info($answear); ZAKON storage/logs
     public function saveAnswears(Request $request) {
-
+          
           //validation - DORADI PRAVILA!
-          $validator = Validator::make($request->all(),
-          [
-              'answers' => ['required']
-          ]);
+          $validator = Validator::make($request->all(), [
+            'answers' => ['required'],
+        ]);
   
           if ($validator->fails()) {
               return response()->json(['errors' => $validator->errors()], 422);

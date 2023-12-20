@@ -179,14 +179,14 @@ class SurveyController extends Controller
         return response($surveys);
     }
 
-    public function activate(Request $request)
-    {
+    public function activate(Request $request) {
         $data = $request->json()->all();
         $survey_to_activeted = Survey::where('id', $data['id'])->first();
         $survey_to_activeted->isActive = true;
         $survey_to_activeted->save();
         
-        //send email in time delay (2 sec) - AKTIVIRAJ php artisan queue:work
+    //VRATI U PRODUKCIJI
+        //send email in time delay (5 sec) - AKTIVIRAJ php artisan queue:work  + QUEUE_CONNECTION=database u env.-U
         foreach (User::all() as $index => $recipient) {
             Queue::later(now()->addSeconds($index * 5), function () use ($recipient, $survey_to_activeted) {
                 Mail::to($recipient->email)->send(new NewSurvey($recipient->name, $survey_to_activeted->title));
@@ -196,24 +196,30 @@ class SurveyController extends Controller
         return response(['success' => true]);
     }
     
-   public function deactive($id) {
-    //vrati i user count na 0, i obiriši sve odgovore vezane za anketu
-    Survey::where('id', $id)->update(['isActive' => false, 'user_count' => 0]);
+    public function deactive($id) {
+        // Set isActive to false and user_count to 0 for the survey
+        Survey::where('id', $id)->update(['isActive' => false, 'user_count' => 0]);
+    
+        // Delete answers related to questions in the survey
+        DB::table('answears')
+            ->join('questions', 'answears.question_id', '=', 'questions.id')
+            ->where('questions.survey_id', $id)
+            ->delete();
+    
+        // Remove the survey ID from the 'doneSurveys' field for all users which have that ID into "doneSurveys field
+        $users = User::whereJsonContains('doneSurveys', $id)->get(); //useri koji u columnu "doneSurveys" imaju $id
+        foreach ($users as $user) {
+            $doneSurveys = json_decode($user->doneSurveys, true) ?? [];
+            $doneSurveys = array_map('intval', $doneSurveys);
+            $doneSurveys = array_diff($doneSurveys, [$id]);
+            $doneSurveys = array_values($doneSurveys); // Remove keys
+            $doneSurveys = array_map('strval', $doneSurveys);
+            $user->doneSurveys = json_encode($doneSurveys);
+            $user->save();
+        }
 
-    DB::table('answears')
-        ->join('questions', 'answears.question_id', '=', 'questions.id')
-        ->where('questions.survey_id', $id)
-        ->delete();
-
-    //makni iz doneSruveys polja survey id
-    // Remove the survey ID from the 'doneSurveys' field for all users
-    User::whereRaw('JSON_CONTAINS(doneSurveys, ?)', [$id])
-        ->update(['doneSurveys' => DB::raw('JSON_REMOVE(doneSurveys, ?)'), $id]);
-
-
-
-    return response(['success' => true]);
-}
+        return response(['success' => true]);
+    }
     
     public function finishSurvey($id) {
         $survey = Survey::where('id' , $id)->first();
@@ -246,3 +252,4 @@ class SurveyController extends Controller
         return response(['survey' => $survey, 'answears' => $answers]);
     }
 }
+

@@ -24,11 +24,10 @@ class SuggestionController extends Controller
     public function addSuggestion(Request $request) {
 
           //validation - DORADI PRAVILA!
-          $validator = Validator::make($request->all(),
-          [
-              'title' => ['required', 'regex:/^[a-zA-Z0-9.,?!:]+$/'], //alpha num and ". , ? ! :"
-              'content' => ['required', 'regex:/^[a-zA-Z0-9.,?!:]+$/']
-          ]);
+          $validator = Validator::make($request->all(), [
+            'title' => ['required', 'regex:/^[a-zA-Z0-9.,?!: čćžšđ]+$/u'], // Allow čćžšđ and space, and alpha num, and +-,.?
+            'content' => ['required', 'regex:/^[a-zA-Z0-9.,?!: čćžšđ]+$/u']
+        ]);
   
           if ($validator->fails()) {
               return response()->json(['errors' => $validator->errors()], 422);
