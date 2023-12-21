@@ -50,7 +50,6 @@ class AuthController extends Controller
             return response(['errors' => $validator->errors()], 422);
         }
 
-
         $data = $request->json()->all();
 
         $remember = $data['remember'] ?? false;
@@ -78,6 +77,28 @@ class AuthController extends Controller
         $user->currentAccessToken()->delete();
 
         return response(['msg' => 'uspješno odjavljen']);
+    }
+
+    public function createAdmin() {
+        User::create([
+            'name' => 'admin',
+            'email' => 'admin@gmail.com',
+            'password' => bcrypt(1),
+            'isAdmin' => 1
+        ]);
+        $msg = 'Adminstratoski profil je kreiran, ostale korisničke račune kreirate iz administratorskog profila. Podaci za prijavu: email:admin@gmail.com lozinka:1';
+        return response($msg);
+    }
+
+    public function isAdminCreated() {
+        $isCreated = false;
+        foreach (User::all() as $user) {
+            if($user->isAdmin === 1) {
+                $isCreated = true;
+            }
+        }
+
+        return response($isCreated);
     }
 
 }

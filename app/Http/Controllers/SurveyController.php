@@ -149,6 +149,18 @@ class SurveyController extends Controller
     public function delete($id) {
         $survey_to_delete = Survey::where('id', $id)->first();
         $survey_to_delete->delete();
+
+        $users = User::whereJsonContains('doneSurveys', $id)->get(); //useri koji u columnu "doneSurveys" imaju $id
+        foreach ($users as $user) {
+            $doneSurveys = json_decode($user->doneSurveys, true) ?? [];
+            $doneSurveys = array_map('intval', $doneSurveys);
+            $doneSurveys = array_diff($doneSurveys, [$id]);
+            $doneSurveys = array_values($doneSurveys); // Remove keys
+            $doneSurveys = array_map('strval', $doneSurveys);
+            $user->doneSurveys = json_encode($doneSurveys);
+            $user->save();
+        }
+
         return response(['success' => true]);
     }
 
@@ -185,7 +197,7 @@ class SurveyController extends Controller
         $survey_to_activeted->isActive = true;
         $survey_to_activeted->save();
         
-    //VRATI U PRODUKCIJI
+        	//VRATI U PRODUKCIJI
         //send email in time delay (5 sec) - AKTIVIRAJ php artisan queue:work  + QUEUE_CONNECTION=database u env.-U
         foreach (User::all() as $index => $recipient) {
             Queue::later(now()->addSeconds($index * 5), function () use ($recipient, $survey_to_activeted) {

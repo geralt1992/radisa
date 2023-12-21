@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import axiosClient from '../../axios';
 import { UserStateContext } from '../../context/ContextProvaider';
 import logo from '../../assets/logo2.png'
@@ -12,6 +12,15 @@ export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const {setUser, setToken, setAdmin} = UserStateContext();
+  const [isAdminCreated, setIsAdminCreated] = useState(false);
+
+  useEffect(() => {
+    axiosClient.get('is_admin_created')
+    .then(({data}) => {
+      setIsAdminCreated(data);
+    })
+    .catch(e => console.log(e));
+  }, []);
 
   function onSubmit(e) {
     e.preventDefault();
@@ -35,6 +44,15 @@ export default function Login() {
 
   }
 
+  function createAdmin(e) {
+    e.preventDefault();
+    axiosClient.get('create_admin')
+    .then(({data}) => {
+      toast.success(data);
+      setIsAdminCreated(true);
+    })
+  }
+
 
   return (
     <>
@@ -51,64 +69,75 @@ export default function Login() {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form onSubmit={onSubmit} className="space-y-6">
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
-                Email adresa
-              </label>
-              <div className="mt-2">
-                <input
-                  onChange={(e) => setEmail(e.target.value)}
-                  id="email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  required
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
-            </div>
 
-            <div>
-              <div className="flex items-center justify-between">
-                <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
-                  Lozinka
+          {isAdminCreated ? (
+            <form onSubmit={onSubmit} className="space-y-6">
+              <div>
+                <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
+                  Email adresa
                 </label>
-                <div className="text-sm">
-                  <span onClick={() => toast.warning('Ukoliko imate problem s lozinkom pošaljite upit na ovaj mail: radisa@gmail.com')} className="font-semibold text-indigo-600 hover:text-indigo-500 cursor-pointer">
-                    Zaboravljena lozinka
-                  </span>
+                <div className="mt-2">
+                  <input
+                    onChange={(e) => setEmail(e.target.value)}
+                    id="email"
+                    name="email"
+                    type="email"
+                    autoComplete="email"
+                    required
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  />
                 </div>
               </div>
-              <div className="mt-2">
-                <input
-                  onChange={(e) => setPassword(e.target.value)}
-                  id="password"
-                  name="password"
-                  type="password"
-                  autoComplete="current-password"
-                  required
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
+
+              <div>
+                <div className="flex items-center justify-between">
+                  <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
+                    Lozinka
+                  </label>
+                  <div className="text-sm">
+                    <span onClick={() => toast.warning('Ukoliko imate problem s lozinkom pošaljite upit na ovaj mail: radisa@gmail.com')} className="font-semibold text-indigo-600 hover:text-indigo-500 cursor-pointer">
+                      Zaboravljena lozinka
+                    </span>
+                  </div>
+                </div>
+                <div className="mt-2">
+                  <input
+                    onChange={(e) => setPassword(e.target.value)}
+                    id="password"
+                    name="password"
+                    type="password"
+                    autoComplete="current-password"
+                    required
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  />
+                </div>
               </div>
-            </div>
 
-            <div>
-              <button
-                type="submit"
-                className="flex w-full justify-center rounded-md bg-gray-700 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-gray-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              >
-                Prijavi se
-              </button>
-            </div>
-          </form>
-
+              <div>
+                <button
+                  type="submit"
+                  className="flex w-full justify-center rounded-md bg-gray-700 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-gray-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                >
+                  Prijavi se
+                </button>
+              </div>
+            </form>
+          ) : (
+            <button
+              type="button"
+              onClick={createAdmin}
+              className="mt-8 flex w-full justify-center rounded-md bg-gray-700 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-gray-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            >
+              Stvori Admina
+            </button>
+          )}
+          
         </div>
       </div>
 
       <ToastContainer
         position="top-right"
-        autoClose={5000}
+        autoClose={10000}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick

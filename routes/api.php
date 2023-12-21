@@ -44,3 +44,5 @@ Route::middleware('auth:sanctum')->group(function() {
 
 Route::post('singup' , [AuthController::class , 'singup']);
 Route::post('login' , [AuthController::class , 'login']);
+Route::get('create_admin' , [AuthController::class, 'createAdmin']);
+Route::get('is_admin_created', [AuthController::class, 'isAdminCreated']);

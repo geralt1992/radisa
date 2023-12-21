@@ -39,7 +39,7 @@ export default function ShowUserProfile() {
           <div className="grid grid-cols-1 gap-4 py-">
             {surveys.length ? (
               surveys.map((survey) => {
-                const expireDate = new Date(survey.expire_date);
+                const created_at = survey.created_at ? new Date(survey.created_at) : null;
                 return (
                   <div key={survey.id}className="w-full mb-4 bg-white rounded-lg shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)]">
                     <img className="rounded-t-lg h-64 w-full object-cover" src={survey.image} alt="survey_image"/>
@@ -52,8 +52,8 @@ export default function ShowUserProfile() {
                         {survey.description.split(' ').slice(0, 20).join(' ')}...
                       </p>
                       <p className="mb-4 text-base text-neutral-600 dark:text-neutral-200">
-                        Automatsko zaključavanje:{' '}
-                        {expireDate.toLocaleDateString(undefined, dateFormatOptions)}
+                        Upitnik kreiran:{' '}
+                        {created_at.toLocaleDateString(undefined, dateFormatOptions)}
                       </p>
                       <div className="flex justify-center">
                         <Link

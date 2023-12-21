@@ -18,7 +18,7 @@ return <>
         </div>
         <div className="mr-[5%] ">
             <motion.ul 
-                className="list-none  text-white flex cursor-pointer font-mono text-2xl"
+                className="list-none  text-white flex cursor-pointer font-mono text-3xl"
                 variants={navContainer}
                 initial="hidden"
                 animate="show"
@@ -30,12 +30,12 @@ return <>
                     <Link to='/login'><span >Prijava</span> </Link>
                 </motion.li>
 
-                <motion.li className="mr-16"
+                {/* <motion.li className="mr-16"
                     variants={navItem}
                     whileHover={hoverNavVariant.show}
                 >   
                         <Link to='/singup'><span >Registracija</span> </Link>
-                </motion.li>
+                </motion.li> */}
                 
             </motion.ul>
         </div>

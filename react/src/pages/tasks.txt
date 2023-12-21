@@ -1,7 +1,12 @@
 mobile prilagodba 
 like system landing?
 filter rezultata po godinama? select
-da se na prvoj prijavi odmah kreira admin profil
+
+
+
+
+
+
 
 
 SPECS
