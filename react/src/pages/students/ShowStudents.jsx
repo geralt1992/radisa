@@ -183,7 +183,7 @@ export default function ShowStudents() {
                             {student.email}
                         </td>
                         <td className="px-6 py-4 text-center dark:bg-gray-800">
-                          <Button color={"indigo"} text={'Izmijeni'}  functionality={() => show(student)} />
+                          <Button color={"indigo"} text={'Izmijeni'} functionality={() => show(student)} />
                           <Button color={"red"} text={'Ukloni'}  functionality={() => deleteStudent(student.id)} />
                         </td>
                       </tr>
@@ -203,7 +203,7 @@ export default function ShowStudents() {
           <Rodal 
           visible={visible} 
           onClose={hide} 
-          className='bg-gray-800'
+          className='bg-gray-800 md:h-full'
           customStyles={{
             width: '50%', 
             height:'50%',

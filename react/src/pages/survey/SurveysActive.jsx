@@ -71,7 +71,7 @@ export default function SurveysActive() {
         <Header title="Aktivni upitnici" subtitle="Ovdje možete dopiti pristup popunjavanju pojedinog upitnika"/>
        
 
-        <div className="grid-cols-1 sm:grid md:grid-cols-1 lg:grid-cols-2 2xl:grid-cols-4 xl:grid-cols-4 mt-12 mx-10">
+        <div className="grid-cols-1 sm:grid md:grid-cols-1 lg:grid-cols-2 2xl:grid-cols-4 xl:grid-cols-4 mt-10 mx-10">
             {surveys.length ? 
             (
                 surveys.map((survey) => {

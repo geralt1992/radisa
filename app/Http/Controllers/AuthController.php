@@ -10,32 +10,32 @@ use Illuminate\Support\Facades\Validator;
 class AuthController extends Controller
 {
 
-    public function singup(Request $request) {
+    // public function singup(Request $request) {
 
-        //VALIDATION
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:50',
-            'email' => 'required|email|string|unique:users|max:50',
-            'password' => 'required|confirmed|string|min:1',
-        ]);
+    //     //VALIDATION
+    //     $validator = Validator::make($request->all(), [
+    //         'name' => 'required|string|max:50',
+    //         'email' => 'required|email|string|unique:users|max:50',
+    //         'password' => 'required|confirmed|string|min:1',
+    //     ]);
 
-        if($validator->fails()) {
-            return response(['errors' => $validator->errors()], 400);
-        }
+    //     if($validator->fails()) {
+    //         return response(['errors' => $validator->errors()], 400);
+    //     }
 
 
-        $data = $request->json()->all();
+    //     $data = $request->json()->all();
 
-        $user = User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password'])
-        ]);
+    //     $user = User::create([
+    //         'name' => $data['name'],
+    //         'email' => $data['email'],
+    //         'password' => bcrypt($data['password'])
+    //     ]);
 
-        $token = $user->createToken('main')->plainTextToken;
+    //     $token = $user->createToken('main')->plainTextToken;
 
-        return response(['user' => $user, 'token' => $token]);
-    }
+    //     return response(['user' => $user, 'token' => $token]);
+    // }
 
     public function login(Request $request) {
 
@@ -56,7 +56,7 @@ class AuthController extends Controller
         unset($data['remember']);
 
         if(!Auth::attempt($data, $remember)) {
-            return response(['msg' => 'loši pristupni podatci'], 422);
+            return response(['msg' => 'Krivi pristupni podatci!'], 422);
         }
 
         $user = Auth::user();

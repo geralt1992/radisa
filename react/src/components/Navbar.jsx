@@ -27,7 +27,7 @@ return <>
                     variants={navItem}
                     whileHover={hoverNavVariant.show}
                 >
-                    <Link to='/login'><span >Prijava</span> </Link>
+                    <Link to='/login'><span className="text-xl md:text-3xl">Prijava</span> </Link>
                 </motion.li>
 
                 {/* <motion.li className="mr-16"

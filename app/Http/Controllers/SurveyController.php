@@ -197,13 +197,13 @@ class SurveyController extends Controller
         $survey_to_activeted->isActive = true;
         $survey_to_activeted->save();
         
-        	//VRATI U PRODUKCIJI
-        //send email in time delay (5 sec) - AKTIVIRAJ php artisan queue:work  + QUEUE_CONNECTION=database u env.-U
-        foreach (User::all() as $index => $recipient) {
-            Queue::later(now()->addSeconds($index * 5), function () use ($recipient, $survey_to_activeted) {
-                Mail::to($recipient->email)->send(new NewSurvey($recipient->name, $survey_to_activeted->title));
-            });
-        }
+        //VRATI U PRODUKCIJI
+            //send email in time delay (5 sec) - AKTIVIRAJ php artisan queue:work  + QUEUE_CONNECTION=database u env.-U
+            // foreach (User::all() as $index => $recipient) {
+            //     Queue::later(now()->addSeconds($index * 5), function () use ($recipient, $survey_to_activeted) {
+            //         Mail::to($recipient->email)->send(new NewSurvey($recipient->name, $survey_to_activeted->title));
+            //     });
+            // }
     
         return response(['success' => true]);
     }
@@ -262,6 +262,18 @@ class SurveyController extends Controller
         ->get();
 
         return response(['survey' => $survey, 'answears' => $answers]);
+    }
+
+    public function yearFilterDoneSurveys(Request $request) {
+        $year = $request->input('year');
+
+        if(empty($year)) {
+            $surveys = Survey::where('isActive' , false)->where('isFinished' , true)->get();
+            return response($surveys);
+        }
+
+        $surveys = Survey::where('isActive' , false)->where('isFinished' , true)->whereYear('created_at' , $year)->get();
+        return response($surveys);
     }
 }
 

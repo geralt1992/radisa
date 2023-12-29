@@ -36,7 +36,7 @@ export default function ShowUserProfile() {
 
         <Header title="Vaši upitnici" subtitle="Pregled ispunjenih upitnika" />
           
-          <div className="grid grid-cols-1 gap-4 py-">
+          <div className="grid grid-cols-1 gap-4 py-10 md:py-1">
             {surveys.length ? (
               surveys.map((survey) => {
                 const created_at = survey.created_at ? new Date(survey.created_at) : null;

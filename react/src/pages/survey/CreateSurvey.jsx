@@ -89,7 +89,6 @@ export default function CreateSurvey() {
         });
     }
 
-
     function addQuestion() {
         const newQuestion = {
             id: uuid(),
@@ -160,8 +159,7 @@ export default function CreateSurvey() {
 
   return (
     <>
-    
-     <div className="bg-gray-100 mx-0 my-10 px-10 py-20 shadow-lg lg:mx-80">
+    <div className="bg-white lg:bg-gray-100 mx-0 my-10 px-10 py-14 lg:shadow-lg lg:mx-28 2xl:mx-80">
         <Header title="Kreacija upitnika" subtitle="Opći podatci o upitniku se nalaze ispod" />
 
             <ToastContainer
@@ -177,7 +175,7 @@ export default function CreateSurvey() {
                         theme="light"
             />
 
-            <form className="space-y-10 bg-white px-12 py-32 sm:p-6" onSubmit={onSubmit}>
+            <form className="space-y-10 bg-white px-2 py-2 sm:p-6" onSubmit={onSubmit}>
                     {/*Image*/}
                         <div>
                             <label className="block text-sm font-medium text-gray-700" htmlFor='image'>
@@ -283,7 +281,7 @@ export default function CreateSurvey() {
                     newQuestions.map((question, index) => {
                       return  <React.Fragment key={question.id}>
                            <div className='shadow-lg p-10'>
-                                <div className="flex justify-between my-5 ">
+                           <div className="flex flex-col md:flex-row gap-3 justify-between my-5">
                                     <h4> {index + 1}. Pitanje </h4>
                                     <div className="flex items-center">
                                         <button type="button" onClick={() => addQuestion()} title="Dodaj pitanje" className="text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800">
@@ -295,7 +293,7 @@ export default function CreateSurvey() {
                                         </button>
                                     </div>
                                 </div>
-                                <div className="flex gap-3 justify-between my-5">
+                                <div className="flex flex-col md:flex-row gap-3 justify-between my-5">
 
                                     {/* Question Text */}
                                     <div className="flex-1">
@@ -466,7 +464,6 @@ export default function CreateSurvey() {
             </form> 
          
     </div>
-
     </>
    
   )

@@ -1,13 +1,3 @@
-mobile prilagodba 
-like system landing?
-filter rezultata po godinama? select
-
-
-
-
-
-
-
 
 SPECS
 email notification when survey is activated
@@ -26,7 +16,13 @@ automatska odjava nakon 1 sata - NOVO
 
 css tailwind
 fontawesome
-
+grade system - without registration (LS based for check if user leavel grade + DB for sum_grade persist);
 
 
 useRef (za uzimati elemente DOMa, ne trigera re render)
+
+
+MOBILNE STVARI
+    navbar - maknuti ls clear()
+    queue worker ON OFF (slati mailove po aktivaciji ankete)
+    schedule:run ON OFF (zaključati ankete nakon tjedan dana)

@@ -73,8 +73,8 @@ export default function AddStudent() {
 
      <Header title="Dodaj učenika" subtitle="Ovdje možete dodati novog učenika" />
     
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-12 mx-10">
-        <div className="col-span-full  p-4 text-center">
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 mt-12 mx-10">
+        <div className="col-span-full p-4 text-center">
 
           <div className="w-full max-w-3xl mx-auto">
             <div className="p-10 sm:rounded-md shadow-2xl">
@@ -114,40 +114,57 @@ export default function AddStudent() {
 
 
                 <div className="flex flex-wrap -mx-3 mb-2">
-
                   {/* LOZINKA */}
-                  <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                  <div className="w-full md:w-1/2 lg:w-1/3 px-3 mb-6 md:mb-0">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="password">
                       Lozinka
                     </label>
-                    <input onChange={(e) => setStudent({...student, password: e.target.value})} value={student.password} name="password" id="password" className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="password" placeholder="Lozinka" required/>
+                    <input
+                      onChange={(e) => setStudent({ ...student, password: e.target.value })}
+                      value={student.password}
+                      name="password"
+                      id="password"
+                      className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                      type="password"
+                      placeholder="Lozinka"
+                      required
+                    />
                   </div>
 
                   {/* PONOVI LOZINKU */}
-                  <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                  <div className="w-full md:w-1/2 lg:w-1/3 px-3 mb-6 md:mb-0">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="password_confirmed">
                       Ponovi lozinku
                     </label>
-                    <input onChange={(e) => setStudent({...student, password_confirmed: e.target.value})} value={student.password_confirmed} name="password_confirmed" id="password_confirmed" className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="password" placeholder="Ponovi lozinku" required/>
+                    <input
+                      onChange={(e) => setStudent({ ...student, password_confirmed: e.target.value })}
+                      value={student.password_confirmed}
+                      name="password_confirmed"
+                      id="password_confirmed"
+                      className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                      type="password"
+                      placeholder="Ponovi lozinku"
+                      required
+                    />
                   </div>
 
                   {/* DATUM ROĐENJA */}
-                  <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                  <div className="w-full md:w-full lg:w-1/3 px-3 mb-6 md:mb-0">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="birth_date">
                       Datum rođenja
                     </label>
                     <input
-                    onChange={(e) => setStudent({...student, birth_date: e.target.value})}
-                    value={student.birth_date}
-                    required
-                    type="date"
-                    name="birth_date"
-                    id="birth_date"
-                    className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                      onChange={(e) => setStudent({ ...student, birth_date: e.target.value })}
+                      value={student.birth_date}
+                      required
+                      type="date"
+                      name="birth_date"
+                      id="birth_date"
+                      className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     />
                   </div>
-
                 </div>
+
 
                 <div className="mb-6">
                   <button

@@ -40,12 +40,12 @@ export default function AuthLayout() {
 
   return (
   <>
-    <div className="flex h-screen">
-      <Sidebar/>
-      <div className="flex-1 overflow-scroll">
-        <Outlet />  
-      </div>
+  <div className="flex flex-col md:flex-row h-screen">
+    <Sidebar/>
+    <div className="flex-1">
+      <Outlet />  
     </div>
+  </div>
   </>
   );
 }

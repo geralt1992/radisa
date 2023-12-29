@@ -4,10 +4,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\LikeController;
 use App\Http\Controllers\SurveyController;
 use App\Http\Controllers\AnswearController;
 use App\Http\Controllers\StudentController;
-use App\Http\Controllers\SuggestionController;
+use App\Http\Controllers\SuggestionController; 
+
 
 Route::middleware('auth:sanctum')->group(function() {
     
@@ -24,6 +26,7 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::get('get_choosen_survey/{id}' , [SurveyController::class, 'getSurvey']);
     Route::get('finish_survey/{id}' , [SurveyController::class, 'finishSurvey']);
     Route::get('survey_results/{id}' , [SurveyController::class, 'surveyResults']);
+    Route::post('year_filter_done_surveys' , [SurveyController::class, 'yearFilterDoneSurveys']);
     
     Route::post('save_survey_answear', [AnswearController::class, 'saveAnswears']);
 
@@ -42,7 +45,10 @@ Route::middleware('auth:sanctum')->group(function() {
 
 });
 
-Route::post('singup' , [AuthController::class , 'singup']);
+// Route::post('singup' , [AuthController::class , 'singup']);
 Route::post('login' , [AuthController::class , 'login']);
 Route::get('create_admin' , [AuthController::class, 'createAdmin']);
 Route::get('is_admin_created', [AuthController::class, 'isAdminCreated']);
+
+Route::get('get_likes', [LikeController::class, 'getLikes']);
+Route::post('save_like' , [LikeController::class, 'saveLike']);

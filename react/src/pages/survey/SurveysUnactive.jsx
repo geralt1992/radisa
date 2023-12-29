@@ -78,7 +78,7 @@ export default function SurveysUnpublished() {
       <Header title="Neaktivni upitnici" subtitle="Ovdje možete dobiti pristup pojedinom upitniku te ga objaviti ili izmijeniti. Objavom upitnika svi korisnici će dobiti na svoj e-mail obavijest kako je novi upitnik aktivan i spreman za popunjavanje" />
 
       
-      <div className="grid-cols-1 sm:grid md:grid-cols-4 mt-12 mx-10">
+      <div className="grid-cols-1 sm:grid md:grid-cols-1 lg:grid-cols-2 2xl:grid-cols-4 xl:grid-cols-4 mt-10 mx-10">
 
         {surveys.length ? (
           surveys.map((survey) => {
@@ -95,10 +95,11 @@ export default function SurveysUnpublished() {
                     <p className="mb-4 text-base text-neutral-600 dark:text-neutral-200"> {survey.description.split(' ').slice(0, 20).join(' ')}... </p>
                     <p className="mb-4 text-base text-neutral-600 dark:text-neutral-200"> Anketa stvorena: {expireDate.toLocaleDateString(undefined, dateFormatOptions)}  </p>
                   
-                    <div className='flex flex-col md:flex-row items-center'>
+                    <div className='flex justify-center flex-col sm:flex-col md:flex-col  lg:flex-col xl:flex-row px-6 sm:px-6 md:px- lg:px-10 xl:px-10'>
+                                
                     <button
                       type="button"
-                      className="mb-2 md:mb-0 md:mr-2 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-400 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                      className="md:mb-0 md:mr-2 lg:my-2 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-400 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                       onClick={() => activateSurvey(survey.id)}
                     >
                       Aktiviraj
@@ -107,7 +108,7 @@ export default function SurveysUnpublished() {
                     <Link
                       to={`auth/survey-update/${survey.id}`}
                       onClick={() => navigate(`auth/survey-update/${survey.id}`)}
-                      className='mb-2 md:mb-0 md:mx-2 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-400 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
+                      className="mt-5 mb-5 md:mb-5 md:mr-2 lg:my-2 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-400 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                     >
                       <button type="button">Izmijeni</button>
                     </Link>
@@ -115,7 +116,7 @@ export default function SurveysUnpublished() {
                     <button
                       type="button"
                       onClick={() => deleteSurvey(survey.id)}
-                      className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-400 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                      className="mb-2 md:mb-0 md:mr-2 lg:my-2 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-400 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                     >
                       Obriši
                     </button>

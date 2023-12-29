@@ -40,7 +40,7 @@ export default function SuggestionsStudent() {
   return (
     <div className="flex h-screen">
       <div className="hidden lg:flex items-center justify-center flex-1 bg-white text-black">
-      <UserSvg/>
+        <UserSvg/>
       </div>
 
       <motion.div className="w-full bg-gray-100 lg:w-1/2 flex items-center justify-center"

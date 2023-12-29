@@ -1,4 +1,5 @@
-import React from "react";
+/* eslint-disable no-unused-vars */
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import  Navbar  from '../../components/Navbar'
@@ -6,175 +7,165 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import '../../css/Landing.css'
 import { containerVariant, glueVariant } from "../../components/variants/variants";
-
+import axiosClient from '../../axios'
+import uuid from 'react-uuid';
 
 export default function Landing() {
 
-   if(localStorage.getItem('all') === null) {
-       const data = {
-           users:0,
-           gradeSum: 0,
-           avrageGrade: 0
-         };
-         
-       const jsonString = JSON.stringify(data);
-       localStorage.setItem("all", jsonString);
-   } 
+    const [userreviewed, setUserreviewed] =  useState(0);
+    const [avragegrade, setAvragegrade] = useState(0);
+    const [LsCheck, setLsCheck] = useState(JSON.parse(localStorage.getItem('radisaLikes')) || '');
+    const [isClicked, setIsClicked] = useState(false);
+    const [refresher, setRefresher] = useState(false);
+    const [loading, setLoading] = useState(true);
 
-   const [userreviewed, setUserreviewed] =  React.useState(JSON.parse(localStorage.getItem('all')).users);
-   const [avragegrade, setAvragegrade] = React.useState(JSON.parse(localStorage.getItem('all')).avrageGrade);
-   const [isClicked, setIsClicked] = React.useState(false);
+    useEffect(() => {
+        getLikesFromServer();
+        showStars(LsCheck.grade - 1);
+        if(LsCheck !== '') {
+            setIsClicked(true);
+        }
+    }, [refresher]);
 
-   React.useEffect(() => {
-       const elements = document.querySelectorAll('.star');
-   
-       const handleClick = (event) => {
-         for (let j = 0; j <= event.target.index; j++) {
-           elements[j].style.color = 'gold';
-         }
-         addGrade(event.target.index + 1);
-        
-   
-         event.target.removeEventListener('click', handleClick);
-       };
-   
-       elements.forEach((element, index) => {
-         element.index = index; 
-         element.addEventListener('click', handleClick);
-       });
+    function handleClick(e) {
+        const clickedIndex = Array.from(document.querySelectorAll('.star')).indexOf(e.target);
 
-   
-       return () => {
-         elements.forEach((element) => {
-           element.removeEventListener('click', handleClick);
-         });
-       };
-     }, [avragegrade, userreviewed]);
+        showStars(clickedIndex);
+        setIsClicked(true);
 
-   
-   function handleClick() {
-       setIsClicked(true);
-       toast("Hvala na ocjeni!");
-   }
+        let userGrade = {
+            id: uuid(),
+            grade: clickedIndex + 1
+        }
+
+        localStorage.setItem('radisaLikes' , JSON.stringify(userGrade));
+
+        //send to server...
+        axiosClient.post('save_like' , {
+            id:userGrade.id,
+            grade:userGrade.grade
+        })
+        .then(({data}) => {
+            toast.success(data);
+            setRefresher(!refresher); //to update new grade rusults after click
+        })
+        .catch(e => console.log(e));
+    }
+
+    function showStars(index) {
+        const elements = document.querySelectorAll('.star');
+        for (let j = 0; j <= index; j++) {
+            elements[j].style.color = 'gold';
+            }
+    }
+
+    function getLikesFromServer() {
+        axiosClient.get('get_likes')
+        .then(({data}) => {
+            setUserreviewed(data.number_of_users);
+            setAvragegrade(data.avrage_grade.toFixed(1));
+            setLoading(false);
+        })
+        .catch(e => console.log(e));
+    }
 
 
+    return <>
+        <section id="landing" className="data h-screen relative overflow-hidden" >
+            <Navbar />    
 
-   function addGrade(userGrade) {
-       const storedDataString = localStorage.getItem('all');
-       const storedData = JSON.parse(storedDataString);
+            <motion.div
+                variants={containerVariant}
+                initial="hidden"
+                animate="show"   
+                className="hero-gradient absolute top-[10%] right-[0%] " 
+            />
 
-       //USERS
-       let oldUserSum = storedData.users
-       let userSum = Number(oldUserSum) + 1;
-       setUserreviewed(userSum);
+            <div className="flex items-center justify-center h-[75vh] mt-10 md:mt-0">
+                <div className="basis-1/2 ml-20 ">
+                    <motion.h1
+                        variants={containerVariant}
+                        initial="hidden"
+                        animate="show"
+                        className="text-2xl uppercase font-mono font-extrabold text-white hidden lg:block"
 
-       //GRADE
-       let oldGrade = storedData.gradeSum
-       let gradeSum = Number(oldGrade) + Number(userGrade);
+                    >
+                        UDHR
+                    </motion.h1>
 
-       //AVRAGE
-       let avrage = Number(gradeSum) / Number(userSum);
-       let fixedAvrage = avrage.toFixed(1);
-       setAvragegrade(fixedAvrage); 
-
-       //SAVE TO LSTORE
-       storedData.users = userSum; 
-       storedData.gradeSum = gradeSum; 
-       storedData.avrageGrade = fixedAvrage; 
-
-       localStorage.setItem('all', JSON.stringify(storedData));
-   }
-
-   
-
-   return <>
-    <section id="landing" className="data h-screen relative overflow-hidden" >
-        <Navbar />    
-
-        <motion.div
-            variants={containerVariant}
-            initial="hidden"
-            animate="show"   
-            className="hero-gradient absolute top-[10%] right-[0%] " 
-        />
-
-        <div className="flex items-center justify-center h-[75vh] ">
-            <div className="basis-1/2 ml-20">
-                <motion.h1
+                    <motion.h1
                     variants={containerVariant}
                     initial="hidden"
                     animate="show"
-                    className="text-2xl uppercase font-mono font-extrabold text-white "
-                >
-                    UDHR
-                </motion.h1>
+                    className="text-4xl py-0 md:text-5xl md:py-3 lg:text-6xl font-extrabold mt-6 text-white w-[90%]"
+                    >
+                        Učenički dom Hrvatskoga radiše Osijek
+                    </motion.h1>
 
-                <motion.h1
-                    variants={containerVariant}
-                    initial="hidden"
-                    animate="show"
-                    className="text-6xl font-extrabold mt-6 text-white w-[90%] py-3"
-                >
-                    Učenički dom Hrvatskoga radiše Osijek
-                </motion.h1>
+                    <motion.p
+                        variants={containerVariant}
+                        initial="hidden"
+                        animate="show"
+                        className="text-l font-bold text-white w-[90%] my-10 lg:text-2xl" 
+                    >
+                        {/*default - na md screenu - na lg scrennu NPR text-4xl py-0 md:text-5xl md:py-3 lg:text-6xl */}
+                        
+                        E-radiša je aplikacija za ispitivanja mišljenja i stavova naših učenika, posjeti i koristi ju! Tvoje mišljenje nam je bitno!
+                    </motion.p>
 
-                <motion.p
-                    variants={containerVariant}
-                    initial="hidden"
-                    animate="show"
-                    className="text-2xl font-bold text-white w-[90%] my-10"
-                >
-                    
-                    E-radiša je aplikacija za ispitivanja mišljenja i stavova naših učenika, posjeti i koristi ju! Tvoje mišljenje nam je bitno!
-                </motion.p>
+                    <Link to='https://www.hrvatski-radisa.hr/' target="_blank">
+                        <button className="w-[50%] p-[10px] text-l font-bold bg-white lg:text-2xl lg:w-[30%] lg:p-[20px]">
+                            Posjeti naš Dom
+                        </button>
+                    </Link>
 
-                <Link to='https://www.hrvatski-radisa.hr/' target="_blank">
-                    <button className="text-2xl font-bold text-swhite w-[30%] p-[20px] bg-white">
-                        Posjeti naš Dom
-                    </button>
-                </Link>
+                    <motion.div
+                        variants={containerVariant}
+                        initial="hidden"
+                        animate="show"
+                        className="text-1xl font-bold text-white w-[90%] my-10"
+                    >
+                        Ocjeni aplikaciju: 
+                        <div>
+                            <i className={`star cursor-pointer ${isClicked ? 'unclickable' : ''}`} onClick={handleClick}></i> 
+                            <i className={`star cursor-pointer ${isClicked ? 'unclickable' : ''}`} onClick={handleClick}></i> 
+                            <i className={`star cursor-pointer ${isClicked ? 'unclickable' : ''}`} onClick={handleClick}></i> 
+                            <i className={`star cursor-pointer ${isClicked ? 'unclickable' : ''}`} onClick={handleClick}></i> 
+                            <i className={`star cursor-pointer ${isClicked ? 'unclickable' : ''}`} onClick={handleClick}></i> 
+                            <br />
+                        </div>
 
-                <motion.div
-                    variants={containerVariant}
-                    initial="hidden"
-                    animate="show"
-                    className="text-1xl font-bold text-white w-[90%] my-10"
-                >
-                    Ocjeni aplikaciju: 
-                    <div>
-                    <i className={`star cursor-pointer ${isClicked ? 'unclickable' : ''}`} onClick={handleClick}></i> 
-                    <i className={`star cursor-pointer ${isClicked ? 'unclickable' : ''}`} onClick={handleClick}></i> 
-                    <i className={`star cursor-pointer ${isClicked ? 'unclickable' : ''}`} onClick={handleClick}></i> 
-                    <i className={`star cursor-pointer ${isClicked ? 'unclickable' : ''}`} onClick={handleClick}></i> 
-                    <i className={`star cursor-pointer ${isClicked ? 'unclickable' : ''}`} onClick={handleClick}></i> 
-                    <br />
-                    <ToastContainer
-                        position="bottom-left"
-                        autoClose={5000}
-                        hideProgressBar={false}
-                        newestOnTop={false}
-                        closeOnClick
-                        rtl={false}
-                        pauseOnFocusLoss
-                        draggable
-                        pauseOnHover
-                        theme="light"
+                        {!loading ? (
+                            <span>{userreviewed} KORISNIKA  - {avragegrade} OCJENA </span>  
+                        ) : (
+                            <span>Loading...</span>
+                        )}
+                        
+                    </motion.div>
+                </div>
+
+                <div className="basis-1/2 ">
+                    <motion.div 
+                        className="circle"
+                        variants={glueVariant}
+                        initial="hidden"
+                        animate="show"
                     />
-                    </div>
-                    
-                    <span>{userreviewed} KORISNIKA  - {avragegrade}  OCJENA   </span>  
-                </motion.div>
-            </div>
+                </div>
+            </div> 
 
-            <div className="basis-1/2 ">
-                <motion.div 
-                    className="circle"
-                    variants={glueVariant}
-                    initial="hidden"
-                    animate="show"
-                />
-            </div>
-        </div> 
-    </section>
-   </>
+            <ToastContainer
+                position="bottom-left"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
+        </section>
+    </>
 }

@@ -26,6 +26,17 @@ if(!admin) {
     return <Navigate to='/auth/user-profile'/>
 }
 
+function yearFilter(e) {
+    axiosClient.post('year_filter_done_surveys', {
+        year:e.target.value
+    })
+    .then(({data}) => {
+        setSurveys(data);
+    })
+    .catch(e => console.log(e));
+}
+
+
 return (
 <div id="finished_surveys" className='bg-gray-100 py-16 px-4 min-h-screen'>
     <ToastContainer
@@ -43,7 +54,26 @@ return (
 
     <Header title="Završeni upitnici" subtitle="Ovdje možete dopiti pristup rezultatima pojedinog upitnika" />
 
-    <div className="grid-cols-1 sm:grid md:grid-cols-1 lg:grid-cols-2 2xl:grid-cols-4 xl:grid-cols-4 mt-12 mx-10">
+    <div className="flex justify-center items-center">
+        <div className="relative h-10 w-72 min-w-[200px] ">
+            <select onChange={(e) => yearFilter(e)} className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <option value='' defaultValue>Odaberi godinu</option>
+                <option value="2024">2024.</option>
+                <option value="2025">2025.</option>
+                <option value="2026">2026.</option>
+                <option value="2027">2027.</option>
+            </select>
+        </div>
+
+        <button type="button" className="p-2 ms-2 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+            <svg className="w-4 h-4" aria-hidden="true"fill="none" viewBox="0 0 20 20">
+                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+            </svg>
+        </button>
+    </div>
+
+
+    <div className="grid-cols-1 sm:grid md:grid-cols-1 lg:grid-cols-2 2xl:grid-cols-4 xl:grid-cols-4 mt-16 mx-10">
         {surveys.length ? 
         (
             surveys.map((survey) => {
