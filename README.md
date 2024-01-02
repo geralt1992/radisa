@@ -40,12 +40,10 @@ Additional Notes
 
 SPECS OF PROJECT
 Key Features:
+
     Email notification on survey activation
-    
     Background email sending with rate limiting
-    
     React UI with Rodal, Tostify, Framer Motion
-    
     Laravel API with validations
     MySQL database with automatic survey lockdown
     PDF export using jspdf and html2canvas
@@ -64,18 +62,20 @@ Key Features:
 Additional Project Features
 
 1.) Queue Worker Toggle:
-Purpose: Send emails upon survey activation.
-Implementation:
-Uncomment the code in the SurveyController.php file.
-Enable the queue worker by running "php artisan queue:work" and setting QUEUE_CONNECTION=database in the .env file.
+
+    Purpose: Send emails upon survey activation.
+    Implementation:
+    Uncomment the code in the SurveyController.php file.
+    Enable the queue worker by running "php artisan queue:work" and setting QUEUE_CONNECTION=database in the .env file.
 
 
 2.) Scheduled Task Toggle:
-Purpose: Automatically lock surveys after one week.
-Implementation:
-Start the scheduler by running "php artisan schedule:run"
-Important Notes:
-Make sure to configure the environment variables accordingly.
-For the queue worker to send emails, the QUEUE_CONNECTION in the .env file should be set to database.
-Adjust the delay in the code snippet to control the time between emails.
-This way, you can easily toggle the queue worker for sending emails and the scheduled task for survey lockdown by following the provided instructions.
+
+    Purpose: Automatically lock surveys after one week.
+    Implementation:
+    Start the scheduler by running "php artisan schedule:run"
+    Important Notes:
+    Make sure to configure the environment variables accordingly.
+    For the queue worker to send emails, the QUEUE_CONNECTION in the .env file should be set to database.
+    Adjust the delay in the code snippet to control the time between emails.
+    This way, you can easily toggle the queue worker for sending emails and the scheduled task for survey lockdown by following the provided instructions.
