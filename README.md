@@ -74,7 +74,9 @@ Additional Project Features
     Purpose: Automatically lock surveys after one week.
     Implementation:
     Start the scheduler by running "php artisan schedule:run"
-    Important Notes:
+    
+Important Notes:
+
     Make sure to configure the environment variables accordingly.
     For the queue worker to send emails, the QUEUE_CONNECTION in the .env file should be set to database.
     Adjust the delay in the code snippet to control the time between emails.
