@@ -87,3 +87,9 @@ Build and Run React
     
 Additional Notes
     Ensure that XAMPP server is installed and running for local usage.
+
+IMPORTANT 
+
+    The project is a platform for exploring opinions and attitudes, creating, processing, and maintaining survey questionnaires.
+    Users are added from within the application. On the landing page, go to the login section, and upon the first opening, you will have the option to create an admin account. Upon doing so, you will receive administrative credentials and permissions. Use these
+    credentials to access the administrator profile, from where you can create user accounts. These users can then fill out the survey questionnaires that you, as the administrator, create.
