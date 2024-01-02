@@ -26,7 +26,6 @@ class UserController extends Controller
         return response(['user' => $user, 'admin' => $is_admin]);
     }
 
-
     public function getUserSurveys() {
         $user_finished_surveys = json_decode(Auth::user()->doneSurveys);
         $surveys = [];
@@ -35,7 +34,6 @@ class UserController extends Controller
         }
         return response($surveys);
     }
-
 
     public function getAnswersOfUserSurvey($id) {
         $user_id = Auth::user()->id;

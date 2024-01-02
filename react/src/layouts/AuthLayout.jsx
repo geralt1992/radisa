@@ -10,7 +10,6 @@ export default function AuthLayout() {
   const { token, user, setUser, setAdmin, setToken } = UserStateContext();
   const logoutTimeoutDuration = 1000 * 60 * 60; // 60 min
 
-
   useEffect(() => {
     axiosClient.get('me')
       .then(({ data }) => {
@@ -19,7 +18,6 @@ export default function AuthLayout() {
       })
       .catch((e) => console.log(e));
   }, []);
-
 
   //Logout user after 60 min
   useEffect(() => {
@@ -33,19 +31,19 @@ export default function AuthLayout() {
 
   }, [setToken, setUser, setAdmin])
 
-
   if (!token) {
     return <Navigate to="/" />;
   }
 
   return (
   <>
-    <div className="flex h-screen">
-      <Sidebar/>
-      <div className="flex-1 overflow-scroll">
-        <Outlet />  
-      </div>
+  <div className="flex flex-col md:flex-row h-screen ">
+    <Sidebar/>
+    <div className="flex-1 md:overflow-scroll ">
+      <Outlet />
     </div>
+  </div>
+
   </>
   );
 }

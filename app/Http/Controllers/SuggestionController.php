@@ -23,22 +23,21 @@ class SuggestionController extends Controller
 
     public function addSuggestion(Request $request) {
 
-          //validation - DORADI PRAVILA!
-          $validator = Validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'title' => ['required', 'regex:/^[a-zA-Z0-9.,?!: čćžšđ]+$/u'], // Allow čćžšđ and space, and alpha num, and +-,.?
             'content' => ['required', 'regex:/^[a-zA-Z0-9.,?!: čćžšđ]+$/u']
         ]);
   
-          if ($validator->fails()) {
-              return response()->json(['errors' => $validator->errors()], 422);
-          }
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
 
-          $data = $request->json()->all();
-          $new_suggestion = new Suggestion;
-          $new_suggestion->user_id = Auth::user()->id;
-          $new_suggestion->title = $data['title'];
-          $new_suggestion->content = $data['content'];
-          $new_suggestion->save();
+        $data = $request->json()->all();
+        $new_suggestion = new Suggestion;
+        $new_suggestion->user_id = Auth::user()->id;
+        $new_suggestion->title = $data['title'];
+        $new_suggestion->content = $data['content'];
+        $new_suggestion->save();
 
         return response(['success' => true]);
 

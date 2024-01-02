@@ -40,18 +40,18 @@ export default function SuggestionsAdmin() {
 
   return (
     <div id="users_suggestions">
-        <ToastContainer
-          position="bottom-left"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="light"
-        />
+      <ToastContainer
+        position="bottom-left"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
 
       <Header title="Prijedlozi učenika" subtitle="Ovdje možete pregledati ili ukloniti prijedloge učenika" />
 
@@ -60,56 +60,56 @@ export default function SuggestionsAdmin() {
 
           <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                <thead className="text-xs text-gray-700 uppercase dark:text-gray-400">
-                    <tr>
-                        <th scope="col" className="px-6 py-3 bg-gray-50 dark:bg-gray-800 text-center">
-                            Ime učenika
-                        </th>
-                        <th scope="col" className="px-6 py-3 text-center">
-                            Naslov
-                        </th>
-                        <th scope="col" className="px-6 py-3 bg-gray-50 dark:bg-gray-800 text-center">
-                            Sadržaj
-                        </th>
-                        <th scope="col" className="px-6 py-3 text-center">
-                            Akcija
-                        </th>
+              <thead className="text-xs text-gray-700 uppercase dark:text-gray-400">
+                <tr>
+                  <th scope="col" className="px-6 py-3 bg-gray-50 dark:bg-gray-800 text-center">
+                    Ime učenika
+                  </th>
+                  <th scope="col" className="px-6 py-3 text-center">
+                    Naslov
+                  </th>
+                  <th scope="col" className="px-6 py-3 bg-gray-50 dark:bg-gray-800 text-center">
+                    Sadržaj
+                  </th>
+                  <th scope="col" className="px-6 py-3 text-center">
+                    Akcija
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+
+                {suggestions.length ? (
+                  suggestions.map((sugestion, index) => {
+                    return <React.Fragment key={index}>
+                    <tr className="border-b border-gray-200 dark:border-gray-700">
+                      <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800 text-center">
+                        {sugestion.name} {sugestion.surname}
+                      </th>
+                      <td className="px-6 py-4 text-center">
+                        {sugestion.title}
+                      </td>
+                      <td className="px-6 py-4 bg-gray-50 dark:bg-gray-800 text-center">
+                        {sugestion.content}
+                      </td>
+                      <td className="px-6 py-4 text-center">
+                        <button
+                        type="submit"
+                        onClick={() => {deleteSuggestion(sugestion.id)}}
+                        className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                        >
+                          Ukloni
+                        </button>
+                      </td>
                     </tr>
-                </thead>
-                <tbody>
+                    </React.Fragment>
+                  })
+                ) : (
+                  <tr>
+                    <td colSpan="4" className="text-center">Nema podataka</td>
+                  </tr>
+                )}
 
-                  {suggestions.length ? (
-                    suggestions.map((sugestion, index) => {
-                      return <React.Fragment key={index}>
-                      <tr className="border-b border-gray-200 dark:border-gray-700">
-                        <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800 text-center">
-                            {sugestion.name} {sugestion.surname}
-                        </th>
-                        <td className="px-6 py-4 text-center">
-                            {sugestion.title}
-                        </td>
-                        <td className="px-6 py-4 bg-gray-50 dark:bg-gray-800 text-center">
-                            {sugestion.content}
-                        </td>
-                        <td className="px-6 py-4 text-center">
-                          <button
-                          type="submit"
-                          onClick={() => {deleteSuggestion(sugestion.id)}}
-                          className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-                          >
-                            Ukloni
-                          </button>
-                        </td>
-                      </tr>
-                      </React.Fragment>
-                    })
-                  ) : (
-                      <tr>
-                        <td colSpan="4" className="text-center">Nema podataka</td>
-                      </tr>
-                  )}
-
-                </tbody>
+              </tbody>
             </table>
           </div>
 

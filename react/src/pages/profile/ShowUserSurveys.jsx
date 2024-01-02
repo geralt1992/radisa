@@ -20,7 +20,6 @@ export default function ShowUserProfile() {
     .catch(e => console.log(e))
   }, []);
 
- 
   return (
     <div className="flex h-screen">
       <div className="hidden lg:flex items-center justify-center flex-1 bg-white text-black left">
@@ -34,9 +33,9 @@ export default function ShowUserProfile() {
           animate="show"  >
         <div className="max-w-md w-full p-6 h-full">
 
-        <Header title="Vaši upitnici" subtitle="Pregled ispunjenih upitnika" />
-          
-          <div className="grid grid-cols-1 gap-4 py-">
+          <Header title="Vaši upitnici" subtitle="Pregled ispunjenih upitnika" />
+            
+          <div className="grid grid-cols-1 gap-4 py-10 md:py-1">
             {surveys.length ? (
               surveys.map((survey) => {
                 const created_at = survey.created_at ? new Date(survey.created_at) : null;
@@ -72,6 +71,7 @@ export default function ShowUserProfile() {
               <span className='text-xl font-light leading-relaxed text-gray-600'>Trenutno nema ispunjenih anketnih upitnika</span>
             )}
           </div>
+          
         </div>
       </motion.div>
     </div>

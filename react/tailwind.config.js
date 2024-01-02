@@ -14,11 +14,11 @@ export default {
   theme: {
     extend: {
       screens: {
-        'sm': '640px',
-        'md': '768px',
+        'sm': '140px',
+        'md': '640px',
         'lg': '1024px',
-        'xl': '1665px',
         '2xl': '1440px', // Example of a custom breakpoint in pixels
+        'xl': '1665px',
       },
     },
   },

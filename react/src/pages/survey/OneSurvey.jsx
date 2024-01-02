@@ -25,7 +25,6 @@ export default function OneSurvey() {
       .catch(e => console.log(e));
   }, []);
 
-
   function onSubmit(e) {
     e.preventDefault();
 
@@ -41,7 +40,7 @@ export default function OneSurvey() {
       toast.error('Molimo vas da odaberete barem jedan odgovor za pitanja koja koriste opcije.');
       return false;
     }
-console.log(answers);
+
     axiosClient.post('save_survey_answear', {
       surveyId: id,
       answers: answers
@@ -79,20 +78,20 @@ console.log(answers);
 
 
   return (
-
-    <div className='px-60 py-20'>
-      <form onSubmit={onSubmit} className="container mx-auto p-4">
+    <div className='px-2 py-20 2xl:px-60'> 
+      <form onSubmit={onSubmit} className=" mx-2 lg:mx-auto md:text-start text-center">
+        
         <div className="grid grid-cols-6">
           <div className="mr-4">
-            <img src={survey.image} alt="survey_profile_image" />
+            <img src={survey.image} alt="survey_profile_image" className='hidden 2xl:block' />
           </div>
 
-          <div className="col-span-5">
+          <div className="col-span-5 ml-[-4rem] md:ml-0">
             <h1 className="text-4xl mb-3 font-bold tracking-wide text-gray-600 font-mono ">{survey.title}</h1>
             <p className="text-gray-500 text-sm mb-3">
               Anketa stvorena: {expireDate.toLocaleDateString(undefined, dateFormatOptions)}
             </p>
-            <p className=" text-sm mb-6 mt-2 font-light leading-relaxed text-gray-600 lg:text-md">{survey.description} Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sunt, recusandae explicabo error porro voluptate sequi consectetur possimus ipsum adipisci corporis facere cumque doloremque iste corrupti illo a perferendis! Voluptatem eveniet doloribus repudiandae nulla odit. Expedita numquam amet temporibus doloremque dolorum exercitationem error aperiam dignissimos aliquam, rem nobis nemo laudantium quaerat aut. Exercitationem ut eum sit laborum, voluptatibus adipisci est quo. Saepe, voluptas adipisci? Dicta ratione a laboriosam et impedit, delectus sit quas fuga eos commodi corporis quae laudantium repudiandae eius explicabo nesciunt aspernatur dolorem molestiae! Dolorum harum reprehenderit sit, hic fuga eligendi, velit natus maiores quidem accusamus obcaecati repudiandae ratione.</p>
+            <p className="text-sm mb-6 mt-2 font-light leading-relaxed text-gray-600 hidden md:block lg:text-md">{survey.description} Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sunt, recusandae explicabo error porro voluptate sequi consectetur possimus ipsum adipisci corporis facere cumque doloremque iste corrupti illo a perferendis! Voluptatem eveniet doloribus repudiandae nulla odit. Expedita numquam amet temporibus doloremque dolorum exercitationem error aperiam dignissimos aliquam, rem nobis nemo laudantium quaerat aut. Exercitationem ut eum sit laborum, voluptatibus adipisci est quo. Saepe, voluptas adipisci? Dicta ratione a laboriosam et impedit, delectus sit quas fuga eos commodi corporis quae laudantium repudiandae eius explicabo nesciunt aspernatur dolorem molestiae! Dolorum harum reprehenderit sit, hic fuga eligendi, velit natus maiores quidem accusamus obcaecati repudiandae ratione.</p>
           </div>
         </div>
 
@@ -220,6 +219,5 @@ console.log(answers);
         )}
       </form>
     </div>
-
   )
 }

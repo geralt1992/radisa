@@ -10,7 +10,7 @@ export default function GuestLayout() {
   if(token) {
     return <Navigate to='auth/user-profile' />
   }
-
+ 
   return (
     <Outlet/>
   )

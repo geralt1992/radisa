@@ -36,11 +36,10 @@ export default function SuggestionsStudent() {
 
   }
 
-
   return (
     <div className="flex h-screen">
       <div className="hidden lg:flex items-center justify-center flex-1 bg-white text-black">
-      <UserSvg/>
+        <UserSvg/>
       </div>
 
       <motion.div className="w-full bg-gray-100 lg:w-1/2 flex items-center justify-center"
@@ -50,50 +49,50 @@ export default function SuggestionsStudent() {
       >
         <div className="max-w-md w-full p-6">
           <div className="pb-6">
-          <Header title="Vaši prijedlozi" subtitle="Ovdje možete ostaviti Vaš prijedlog za poboljšanje rada aplikacije ili našeg Doma" />
-           
+            <Header title="Vaši prijedlozi" subtitle="Ovdje možete ostaviti Vaš prijedlog za poboljšanje rada aplikacije ili našeg Doma" />
+            
             <form method="POST" onSubmit={onSubmit}>
-                  <label className="block mb-6 font-light leading-relaxed text-gray-600 ">
-                    <span >Naslov</span>
-                    <input
-                      onChange={(e) => {setTitle(e.target.value)}}
-                      value={title}
-                      name="title"
-                      type="text"
-                      className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                      placeholder="Unesi naslov"
-                      required
-                    />
-                  </label>
-                  <label className="block mb-6 font-light leading-relaxed text-gray-600">
-                    <span >Prijedlog</span>
-                    <textarea
-                      onChange={(e) => {setContent(e.target.value)}}
-                      value={content}
-                      name="content"
-                      type="textarea"
-                      className=" block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                      placeholder="Unesi svoj prijedlog"
-                      required
-                      rows="4"
-                      cols="50"
-                    />
-                  </label>
-                  <div className="mb-6">
-                    <button
-                    type="submit"
-                    className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                    >
-                      Pošalji
-                    </button>
-                  </div>
+              <label className="block mb-6 font-light leading-relaxed text-gray-600 ">
+                <span >Naslov</span>
+                <input
+                  onChange={(e) => {setTitle(e.target.value)}}
+                  value={title}
+                  name="title"
+                  type="text"
+                  className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                  placeholder="Unesi naslov"
+                  required
+                />
+              </label>
+              <label className="block mb-6 font-light leading-relaxed text-gray-600">
+                <span >Prijedlog</span>
+                <textarea
+                  onChange={(e) => {setContent(e.target.value)}}
+                  value={content}
+                  name="content"
+                  type="textarea"
+                  className=" block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                  placeholder="Unesi svoj prijedlog"
+                  required
+                  rows="4"
+                  cols="50"
+                />
+              </label>
+              <div className="mb-6">
+                <button
+                type="submit"
+                className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                >
+                  Pošalji
+                </button>
+              </div>
             </form>
           </div>
         </div>
       </motion.div>
 
       <ToastContainer
-            position="bottom-left"
+        position="bottom-left"
               autoClose={5000}
               hideProgressBar={false}
               newestOnTop={false}
@@ -103,7 +102,7 @@ export default function SuggestionsStudent() {
               draggable
               pauseOnHover
               theme="light"
-        />
+      />
     </div>
   )
 }

@@ -13,11 +13,13 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const {setUser, setToken, setAdmin} = UserStateContext();
   const [isAdminCreated, setIsAdminCreated] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     axiosClient.get('is_admin_created')
     .then(({data}) => {
       setIsAdminCreated(data);
+      setLoading(false);
     })
     .catch(e => console.log(e));
   }, []);
@@ -36,10 +38,13 @@ export default function Login() {
     })
     .catch((error) => {
       if (error.response) {
-        const finalErrors = Object.values(error.response.data.errors).reduce((accum, next) => [...accum, ...next], [])
-        finalErrors.forEach((e) => toast.error(e))
-      }
-      console.log(error);
+        if (error.response.data.msg) {
+          toast.error(error.response.data.msg);
+        } else (error.response.data.errors) 
+          const finalErrors = Object.values(error.response.data.errors).reduce((accum, next) => [...accum, ...next], []);
+          finalErrors.forEach((e) => toast.error(e));
+          console.log(error);
+        }
     });
 
   }
@@ -52,7 +57,6 @@ export default function Login() {
       setIsAdminCreated(true);
     })
   }
-
 
   return (
     <>
@@ -70,7 +74,8 @@ export default function Login() {
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
 
-          {isAdminCreated ? (
+        {!loading ? (
+          isAdminCreated ? (
             <form onSubmit={onSubmit} className="space-y-6">
               <div>
                 <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
@@ -130,7 +135,10 @@ export default function Login() {
             >
               Stvori Admina
             </button>
-          )}
+          )
+        ) : (
+          <span>Loading...</span>
+        )}
           
         </div>
       </div>

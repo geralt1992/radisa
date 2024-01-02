@@ -38,7 +38,6 @@ export default function Singup() {
 
   }
 
-
   return (
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -56,7 +55,7 @@ export default function Singup() {
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
           <form onSubmit={onSubmit} className="space-y-6">
 
-          <div>
+            <div>
               <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900">
                 Korisničko ime
               </label>
@@ -137,7 +136,6 @@ export default function Singup() {
               </button>
             </div>
           </form>
-
         </div>
       </div>
 
@@ -153,6 +151,6 @@ export default function Singup() {
         pauseOnHover
         theme="light"
       />
-     </>
+    </>
    )
 }
