@@ -41,8 +41,11 @@ Additional Notes
 SPECS OF PROJECT
 Key Features:
     Email notification on survey activation
+    
     Background email sending with rate limiting
+    
     React UI with Rodal, Tostify, Framer Motion
+    
     Laravel API with validations
     MySQL database with automatic survey lockdown
     PDF export using jspdf and html2canvas
