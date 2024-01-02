@@ -1,10 +1,12 @@
 TO START IT!
-    
-1. Clone the Repository
+
+Clone the Repository
+
     "git clone https://github.com/geralt1992/radisa.git"
     "cd radisa"
 
 If you encounter problems with cloning, try the following:
+
     "git remote add origin https://github.com/geralt1992/radisa.git"
     "git pull origin main"
     
