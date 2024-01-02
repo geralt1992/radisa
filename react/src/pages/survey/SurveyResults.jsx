@@ -28,7 +28,6 @@ export default function SurveyResults() {
       .catch((e) => console.log(e));
   }, []);
 
-
   // CHAT GPT
   function setResultsOfSurvey(answears) {
 
@@ -90,7 +89,6 @@ export default function SurveyResults() {
     setResults(percentageData);
   }
 
-
   // CHAT GPT
   const exportAsPDF = async () => {
     try {
@@ -126,8 +124,6 @@ export default function SurveyResults() {
       alert('Error exporting PDF. Check console for details.');
     }
   };
-  
-
 
   if (!admin) {
     return <Navigate to="auth/user-profile" />;
@@ -138,59 +134,59 @@ export default function SurveyResults() {
     <div className='px-2 py-20 lg:px-60'> 
       <form className="mx-2 md:mx-auto p-4" ref={resultsRef}> 
  
-      <div className="grid grid-cols-6">
-        <div className="mr-4">
-          <img src={survey.image} alt="survey_profile_image" className='hidden 2xl:block' /> 
-        </div>
+        <div className="grid grid-cols-6">
+          <div className="mr-4">
+            <img src={survey.image} alt="survey_profile_image" className='hidden 2xl:block' /> 
+          </div>
 
-        <div className="col-span-5 ml-[-1.1rem] md:ml-0">
-          <h1 className="text-4xl mb-3 font-bold tracking-wide text-gray-600 font-mono ">{survey.title}</h1>
-          <p className="text-gray-500 text-sm mb-3">
-            Anketa stvorena: {expireDate.toLocaleDateString(undefined, dateFormatOptions)}
-          </p>
-          <p className="text-sm mb-6 mt-2 font-light leading-relaxed text-gray-600 hidden lg:block">{survey.description} Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sunt, recusandae explicabo error porro voluptate sequi consectetur possimus ipsum adipisci corporis facere cumque doloremque iste corrupti illo a perferendis! Voluptatem eveniet doloribus repudiandae nulla odit. Expedita numquam amet temporibus doloremque dolorum exercitationem error aperiam dignissimos aliquam, rem nobis nemo laudantium quaerat aut. Exercitationem ut eum sit laborum, voluptatibus adipisci est quo. Saepe, voluptas adipisci? Dicta ratione a laboriosam et impedit, delectus sit quas fuga eos commodi corporis quae laudantium repudiandae eius explicabo nesciunt aspernatur dolorem molestiae! Dolorum harum reprehenderit sit, hic fuga eligendi, velit natus maiores quidem accusamus obcaecati repudiandae ratione.</p>
-        </div>
-      </div> 
+          <div className="col-span-5 ml-[-1.1rem] md:ml-0">
+            <h1 className="text-4xl mb-3 font-bold tracking-wide text-gray-600 font-mono ">{survey.title}</h1>
+            <p className="text-gray-500 text-sm mb-3">
+              Anketa stvorena: {expireDate.toLocaleDateString(undefined, dateFormatOptions)}
+            </p>
+            <p className="text-sm mb-6 mt-2 font-light leading-relaxed text-gray-600 hidden lg:block">{survey.description} Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sunt, recusandae explicabo error porro voluptate sequi consectetur possimus ipsum adipisci corporis facere cumque doloremque iste corrupti illo a perferendis! Voluptatem eveniet doloribus repudiandae nulla odit. Expedita numquam amet temporibus doloremque dolorum exercitationem error aperiam dignissimos aliquam, rem nobis nemo laudantium quaerat aut. Exercitationem ut eum sit laborum, voluptatibus adipisci est quo. Saepe, voluptas adipisci? Dicta ratione a laboriosam et impedit, delectus sit quas fuga eos commodi corporis quae laudantium repudiandae eius explicabo nesciunt aspernatur dolorem molestiae! Dolorum harum reprehenderit sit, hic fuga eligendi, velit natus maiores quidem accusamus obcaecati repudiandae ratione.</p>
+          </div>
+        </div> 
 
 
-      {/* CHAT GPT */}
-        <button
-          type="button"
-          onClick={() => {
-            setExportingPDF(true);
-            exportAsPDF();
-          }}
-          className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-        > 
-         PDF 
-        </button> 
-      {/* CHAT GPT */}  
+        {/* CHAT GPT */}
+          <button
+            type="button"
+            onClick={() => {
+              setExportingPDF(true);
+              exportAsPDF();
+            }}
+            className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          > 
+            PDF 
+          </button> 
+        {/* CHAT GPT */}  
 
-      <hr className="mt-8" /> 
-  
-      {exportingPDF? (
-        <p className="my-3 text-xl mb-3 font-bold tracking-wide text-red-600 font-mono">Akcija može potrajati nekoliko minuta, molim za strpljenje, PDF datoteka se stvara...</p>
-      ) : (
-        <p className="my-3 text-xl mb-3 font-bold tracking-wide text-gray-600 font-mono">Broj korisnika koji su ispunili anketni upitnik: {survey.user_count}</p>
-      )
-      }
-      
-      {Object.keys(results).length > 0 ? (
-        Object.keys(results).map((question, index) => {
-          return (
-            <fieldset className="my-8" key={index}>
-              <div>
-                <legend className="text-base font-medium text-gray-900">
-                  {index + 1}. {question}
-                </legend>
-              </div>
+        <hr className="mt-8" /> 
+    
+        {exportingPDF? (
+          <p className="my-3 text-xl mb-3 font-bold tracking-wide text-red-600 font-mono">Akcija može potrajati nekoliko minuta, molim za strpljenje, PDF datoteka se stvara...</p>
+        ) : (
+          <p className="my-3 text-xl mb-3 font-bold tracking-wide text-gray-600 font-mono">Broj korisnika koji su ispunili anketni upitnik: {survey.user_count}</p>
+        )
+        }
+        
+        {Object.keys(results).length > 0 ? (
+          Object.keys(results).map((question, index) => {
+            return (
+              <fieldset className="my-8" key={index}>
+                <div>
+                  <legend className="text-base font-medium text-gray-900">
+                    {index + 1}. {question}
+                  </legend>
+                </div>
 
-              <div style={{ overflowX: 'auto', overflowY: 'auto', maxWidth: '100% ', maxHeight: '350px', marginTop: '2rem', marginBottom: '2rem', display: 'flex', justifyContent: 'center' }}>
-                <ChartComponent results={results[question]} />  
-              </div>   
-            
-              {results[question].map((result, resultIndex) => (
-                <React.Fragment key={resultIndex}>
+                <div style={{ overflowX: 'auto', overflowY: 'auto', maxWidth: '100% ', maxHeight: '350px', marginTop: '2rem', marginBottom: '2rem', display: 'flex', justifyContent: 'center' }}>
+                  <ChartComponent results={results[question]} />  
+                </div>   
+              
+                {results[question].map((result, resultIndex) => (
+                  <React.Fragment key={resultIndex}>
                     <input
                       disabled
                       type="text"
@@ -199,15 +195,14 @@ export default function SurveyResults() {
                       } shadow-sm sm:text-sm border-gray-300 rounded-md`}
                       value={`${result.answer} - ${result.percentage}% (${result.count})`}
                     />
-                </React.Fragment>
-              ))}
-            
-            </fieldset>
-          );
-        }) 
-      ) : (
-        <p>Nema rezultata</p>
-      )}
+                  </React.Fragment>
+                ))}
+              </fieldset>
+            );
+          }) 
+        ) : (
+          <p>Nema rezultata</p>
+        )}
 
       </form>
     </div>

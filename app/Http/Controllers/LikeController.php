@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Log;
 
 class LikeController extends Controller
 {
+
     public function getLikes() {
         $grade_sum = 0;
         $number_of_users = 0;
@@ -38,4 +39,5 @@ class LikeController extends Controller
 
         return response($msg);
     }
+    
 }

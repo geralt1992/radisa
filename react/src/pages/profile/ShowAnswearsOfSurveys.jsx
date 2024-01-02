@@ -37,100 +37,98 @@ export default function ShowAnswearsOfSurveys() {
           </div>
         </div>
 
-            <button type="submit" disabled className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-              Moji odgovori
-            </button>
+        <button type="submit" disabled className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+          Moji odgovori
+        </button>
 
-            <hr className="mt-8" />
+        <hr className="mt-8" />
 
-              <h1 className="my-3 text-2xl mb-3 font-bold tracking-wide text-gray-600 font-mono">Pitanja</h1>
-              {questionsAndAnswers.map((question, index) => (
+        <h1 className="my-3 text-2xl mb-3 font-bold tracking-wide text-gray-600 font-mono">Pitanja</h1>
+        {questionsAndAnswers.map((question, index) => (
 
-                <React.Fragment key={index}>
-                  <fieldset className="mb-4">
+          <React.Fragment key={index}>
+            <fieldset className="mb-4">
 
-                    {/* ONE QUESTION */}
-                    <div>
-                      <legend className="text-base font-medium text-gray-900">
-                        {index + 1}. {question.question}
-                      </legend>
-                      <p className="text-gray-500 text-sm">{question.description}</p>
+              {/* ONE QUESTION */}
+              <div>
+                <legend className="text-base font-medium text-gray-900">
+                  {index + 1}. {question.question}
+                </legend>
+                <p className="text-gray-500 text-sm">{question.description}</p>
+              </div>
+
+              <div className="mt-3">
+                {question.type === "select" && (
+                  <div>
+                    <select
+                      required
+                      disabled
+                      className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    >
+                      <option value={question.answear}>{question.answear}</option>
+                    </select>
+                  </div>
+                )}
+
+                {question.type === "radio" && (
+                  <div>
+                    <div className="flex items-center">
+                      <input
+                        required
+                        checked
+                        disabled
+                        value={question.answear}
+                        id={question.id}
+                        type="radio"
+                        className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
+                      />
+                      <label
+                        htmlFor={question.id}
+                        className="ml-3 block text-sm font-medium text-gray-700"
+                      >
+                          {question.answear}
+                      </label>
                     </div>
+                  </div>
+                )}
 
-                    <div className="mt-3">
+                {question.type === "checkbox" && (
+                  <div>
+                    {JSON.parse(question.answear).map((answera, index) => (
+                      <div key={index} className="flex items-center">
+                        <input
+                          checked
+                          disabled
+                          id={index}
+                          type="checkbox"
+                          className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
+                        />
+                        <label
+                          htmlFor={index}
+                          className="ml-3 block text-sm font-medium text-gray-700"
+                        >
+                          {answera}
+                        </label>
+                      </div>
+                    ))}
+                  </div>
+                )}
 
-                      {question.type === "select" && (
-                        <div>
-                          <select
-                            required
-                            disabled
-                            className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                          >
-                            <option value={question.answear}>{question.answear}</option>
-                          </select>
-                        </div>
-                      )}
-
-                      {question.type === "radio" && (
-                        <div>
-                          <div className="flex items-center">
-                            <input
-                              required
-                              checked
-                              disabled
-                              value={question.answear}
-                              id={question.id}
-                              type="radio"
-                              className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
-                            />
-                            <label
-                              htmlFor={question.id}
-                              className="ml-3 block text-sm font-medium text-gray-700"
-                            >
-                                {question.answear}
-                            </label>
-                          </div>
-                        </div>
-                      )}
-
-                      {question.type === "checkbox" && (
-                        <div>
-                          {JSON.parse(question.answear).map((answera, index) => (
-                            <div key={index} className="flex items-center">
-                              <input
-                                checked
-                                disabled
-                                id={index}
-                                type="checkbox"
-                                className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
-                              />
-                              <label
-                                htmlFor={index}
-                                className="ml-3 block text-sm font-medium text-gray-700"
-                              >
-                                {answera}
-                              </label>
-                            </div>
-                          ))}
-                        </div>
-                      )}
-
-                      {question.type === "text" && (
-                        <div>
-                          <input
-                            disabled
-                            type="text"
-                            className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                            value={question.answear}
-                          />
-                        </div>
-                      )}
-
-                    </div>
-                  </fieldset>
-                  <hr className="mb-4" />
-                </React.Fragment>
-              ))}
+                {question.type === "text" && (
+                  <div>
+                    <input
+                      disabled
+                      type="text"
+                      className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                      value={question.answear}
+                    />
+                  </div>
+                )}
+              </div>
+            </fieldset>
+            <hr className="mb-4" />
+          </React.Fragment>
+        ))}
       </form>
     </div>
   )

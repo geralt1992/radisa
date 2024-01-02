@@ -25,9 +25,8 @@ export default function SurveysActive() {
         .catch(e => console.log(e));
     }, [refresher])
 
-
     function deactiveSurvey(id) {
-        if(!window.confirm('Jeste li sigurni da želite deaktivirati anketu? Ukoliko da, vratiti će ju na doradu u rubirku "Neaktivni upitnici. Također, ovo će obrisati sve dosadašnje odgovore ove ankete stoga SVI učenici trebaju ponovo popuniti ankentni upitnik!"')) {
+        if(!window.confirm('Jeste li sigurni da želite deaktivirati anketu? Ukoliko da, vratiti će ju na doradu u rubirku "Neaktivni upitnici". Također, ovo će obrisati sve dosadašnje odgovore ove ankete stoga SVI učenici trebaju ponovo popuniti ankentni upitnik!')) {
             return false;
         }
 
@@ -52,93 +51,90 @@ export default function SurveysActive() {
         .catch(e => console.log(e));
     }
 
-  return (
-    <>
-    <div id="published_surveys"  className='bg-gray-100 py-16 px-4 min-h-screen'>
-      <ToastContainer
-            position="bottom-left"
-                    autoClose={5000}
-                    hideProgressBar={false}
-                    newestOnTop={false}
-                    closeOnClick
-                    rtl={false}
-                    pauseOnFocusLoss
-                    draggable
-                    pauseOnHover
-                    theme="light"
-        />
+    return (
+        <div id="published_surveys"  className='bg-gray-100 py-16 px-4 min-h-screen'>
+            <ToastContainer
+                position="bottom-left"
+                            autoClose={5000}
+                            hideProgressBar={false}
+                            newestOnTop={false}
+                            closeOnClick
+                            rtl={false}
+                            pauseOnFocusLoss
+                            draggable
+                            pauseOnHover
+                            theme="light"
+            />
 
-        <Header title="Aktivni upitnici" subtitle="Ovdje možete dopiti pristup popunjavanju pojedinog upitnika"/>
-       
+            <Header title="Aktivni upitnici" subtitle="Ovdje možete dopiti pristup popunjavanju pojedinog upitnika"/>
 
-        <div className="grid-cols-1 sm:grid md:grid-cols-1 lg:grid-cols-2 2xl:grid-cols-4 xl:grid-cols-4 mt-10 mx-10">
-            {surveys.length ? 
-            (
-                surveys.map((survey) => {
-                    const expireDate = new Date(survey.expire_date);
-                    return  <React.Fragment key={survey.id}>
-                        <motion.div  
-                            variants={containerVariant}
-                            initial="hidden"
-                            animate="show"  
-                            className="block rounded-lg m-2 bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)" >
-                            <img
-                                className="rounded-t-lg h-64 w-full object-cover"
-                                src={survey.image}
-                                alt="survey_image" />
-                                <hr />
-                            <div className="p-6">
-                                <h5 className="mb-2 text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50"> {survey.title} </h5>
-                                <p className="mb-4 text-base text-neutral-600 dark:text-neutral-200"> {survey.description.split(' ').slice(0, 20).join(' ')}... </p>
-                                <p className="mb-4 text-base text-neutral-600 dark:text-neutral-200"> Anketa stvorena: {expireDate.toLocaleDateString(undefined, dateFormatOptions)}  </p>
-                            
-                                <div className='flex justify-center flex-col sm:flex-col md:flex-col  lg:flex-col xl:flex-row px-6 sm:px-6 md:px- lg:px-10 xl:px-10'>
-                                    {admin ? (
-                                        <>
-                                            <button
-                                            type="button"
-                                            className="mb-2 md:mb-0 md:mr-2 lg:my-2 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-400 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                                            onClick={() => deactiveSurvey(survey.id)}
+            <div className="grid-cols-1 sm:grid md:grid-cols-1 lg:grid-cols-2 2xl:grid-cols-4 xl:grid-cols-4 mt-10 mx-10">
+                {surveys.length ? 
+                (
+                    surveys.map((survey) => {
+                        const expireDate = new Date(survey.expire_date);
+                        return  <React.Fragment key={survey.id}>
+                            <motion.div  
+                                variants={containerVariant}
+                                initial="hidden"
+                                animate="show"  
+                                className="block rounded-lg m-2 bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)" >
+                                <img
+                                    className="rounded-t-lg h-64 w-full object-cover"
+                                    src={survey.image}
+                                    alt="survey_image" />
+                                    <hr />
+                                <div className="p-6">
+                                    <h5 className="mb-2 text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50"> {survey.title} </h5>
+                                    <p className="mb-4 text-base text-neutral-600 dark:text-neutral-200"> {survey.description.split(' ').slice(0, 20).join(' ')}... </p>
+                                    <p className="mb-4 text-base text-neutral-600 dark:text-neutral-200"> Anketa stvorena: {expireDate.toLocaleDateString(undefined, dateFormatOptions)}  </p>
+                                
+                                    <div className='flex justify-center flex-col sm:flex-col md:flex-col  lg:flex-col xl:flex-row px-6 sm:px-6 md:px- lg:px-10 xl:px-10'>
+                                        {admin ? (
+                                            <>
+                                                <button
+                                                type="button"
+                                                className="mb-2 md:mb-0 md:mr-2 lg:my-2 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-400 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                                onClick={() => deactiveSurvey(survey.id)}
+                                                >
+                                                    Deaktiviraj
+                                                </button>
+
+                                                <button
+                                                type="button"
+                                                className="mb-2 md:my-4 md:mr-2 lg:my-2 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-400 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                                onClick={() => finishSurvey(survey.id)}
+                                                >
+                                                    Završi
+                                                </button>
+
+                                                <button
+                                                type="button"
+                                                disabled
+                                                className="mb-2 md:my-4 md:mr-2 lg:my-2 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                                >
+                                                    {survey.user_count}/136
+                                                </button>
+                                            </>
+                                            ) : (
+                                            <Link
+                                                to={`auth/survey/${survey.id}`}
+                                                onClick={() => navigate(`auth/survey/${survey.id}`)}
+                                                className="mb-2 md:mb-0 md:mr-2 lg:my-2 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-400 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                             >
-                                            Deaktiviraj
-                                            </button>
-
-                                            <button
-                                            type="button"
-                                            className="mb-2 md:my-4 md:mr-2 lg:my-2 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-400 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                                            onClick={() => finishSurvey(survey.id)}
-                                            >
-                                            Završi
-                                            </button>
-
-                                            <button
-                                            type="button"
-                                            disabled
-                                            className="mb-2 md:my-4 md:mr-2 lg:my-2 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                                            >
-                                            {survey.user_count}/136
-                                            </button>
-                                        </>
-                                        ) : (
-                                        <Link
-                                            to={`auth/survey/${survey.id}`}
-                                            onClick={() => navigate(`auth/survey/${survey.id}`)}
-                                            className="mb-2 md:mb-0 md:mr-2 lg:my-2 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-400 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                                        >
-                                            Ispuni
-                                        </Link>
-                                    )}
+                                                Ispuni
+                                            </Link>
+                                        )}
+                                    </div>
                                 </div>
-                            </div>
-                        </motion.div>
-                    </React.Fragment>  
-                })
-            ) : (
-                <span className='text-xl font-light leading-relaxed text-gray-600'>Trenutno nema aktivnih anketnih upitnika</span>
-            )}
+                            </motion.div>
+                        </React.Fragment>  
+                    })
+                ) : (
+                    <span className='text-xl font-light leading-relaxed text-gray-600'>Trenutno nema aktivnih anketnih upitnika</span>
+                )}
 
+            </div>
         </div>
-    </div>
-    </>
-  )
+    )
 }

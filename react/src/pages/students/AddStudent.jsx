@@ -55,7 +55,6 @@ export default function AddStudent() {
 
   }
 
-
   return (
     <div id="add_students">
       <ToastContainer
@@ -78,8 +77,6 @@ export default function AddStudent() {
 
           <div className="w-full max-w-3xl mx-auto">
             <div className="p-10 sm:rounded-md shadow-2xl">
-
-
               <form onSubmit={onSubmit} className="w-full max-w-3xl mx-auto">
                 
                 {/* IME */}
@@ -106,12 +103,11 @@ export default function AddStudent() {
                       E-mail
                     </label>
                     <div className="relative">
-                    <input onChange={(e) => setStudent({...student, email: e.target.value})} value={student.email} name="email" id="email" required type="email" placeholder='ucenikov@email.adresa' className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"/>
+                      <input onChange={(e) => setStudent({...student, email: e.target.value})} value={student.email} name="email" id="email" required type="email" placeholder='ucenikov@email.adresa' className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"/>
                     </div>
                     <p className="text-gray-600 text-xs italic mt-2">Prezime učenika i njegova godina rođenja</p>
                   </div>
                 </div>
-
 
                 <div className="flex flex-wrap -mx-3 mb-2">
                   {/* LOZINKA */}
@@ -165,7 +161,6 @@ export default function AddStudent() {
                   </div>
                 </div>
 
-
                 <div className="mb-6">
                   <button
                   type="submit"
@@ -176,9 +171,6 @@ export default function AddStudent() {
                 </div>
 
               </form>
-
-
-
             </div>
           </div>
 

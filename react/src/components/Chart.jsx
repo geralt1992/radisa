@@ -1,11 +1,11 @@
 /* eslint-disable react/prop-types */
-/* eslint-disable no-unused-vars */
+/* eslint-disable no-unused-vars */ 
 import React, { useEffect, useRef } from 'react';
 import { Chart } from 'chart.js/auto';
 
 export default function ChartComponent({ results })  {
   const chartRef = useRef(null);
-
+ 
   useEffect(() => {
     if (chartRef && chartRef.current) {
       const ctx = chartRef.current.getContext('2d');

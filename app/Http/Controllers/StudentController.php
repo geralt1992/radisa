@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Log;
 class StudentController extends Controller
 {
 
-
     public function showStudents() {
         $users = User::where('isAdmin' , false)->orderBy('created_at', 'desc')->get();
         return response($users);

@@ -78,7 +78,6 @@ export default function OneSurvey() {
 
 
   return (
-
     <div className='px-2 py-20 2xl:px-60'> 
       <form onSubmit={onSubmit} className=" mx-2 lg:mx-auto md:text-start text-center">
         
@@ -220,6 +219,5 @@ export default function OneSurvey() {
         )}
       </form>
     </div>
-
   )
 }

@@ -69,7 +69,6 @@ export default function Landing() {
         .catch(e => console.log(e));
     }
 
-
     return <>
         <section id="landing" className="data h-screen relative overflow-hidden" >
             <Navbar />    

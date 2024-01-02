@@ -17,7 +17,7 @@ export default function SurveysUnpublished() {
   const [refresher, setRefresher] = useState(true);
   const dateFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
  
-  
+
   useEffect(() => {
     axiosClient.get('unactive_surveys')
       .then(({ data }) => {
@@ -26,8 +26,6 @@ export default function SurveysUnpublished() {
       })
   }, [refresher]); 
 
-
-  // Redirect user from this page if isn't admin
   if (!admin) {
     return <Navigate to='/auth/user-profile' />
   }
@@ -45,7 +43,6 @@ export default function SurveysUnpublished() {
       .catch(e => console.log(e));
   }
 
-
   function deleteSurvey(id) {
     if(!window.confirm('Jeste li sigurni da želite obrisati ovaj upitnik?')) {
       return false;
@@ -59,7 +56,6 @@ export default function SurveysUnpublished() {
     .catch(e => console.log(e));
   }
 
- 
   return (
     <div id="unpublished_surveys" className='bg-gray-100 py-16 px-4 min-h-screen'>
       <ToastContainer
@@ -75,8 +71,7 @@ export default function SurveysUnpublished() {
                     theme="light"
       />
 
-      <Header title="Neaktivni upitnici" subtitle="Ovdje možete dobiti pristup pojedinom upitniku te ga objaviti ili izmijeniti. Objavom upitnika svi korisnici će dobiti na svoj e-mail obavijest kako je novi upitnik aktivan i spreman za popunjavanje" />
-
+      <Header title="Neaktivni upitnici" subtitle="Ovdje možete dobiti pristup pojedinom upitniku te ga objaviti ili izmijeniti. Objavom upitnika svi korisnici će dobiti e-mail obavijest kako je novi upitnik aktivan i spreman za popunjavanje" />
       
       <div className="grid-cols-1 sm:grid md:grid-cols-1 lg:grid-cols-2 2xl:grid-cols-4 xl:grid-cols-4 mt-10 mx-10">
 
