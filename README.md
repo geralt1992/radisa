@@ -64,6 +64,7 @@ Install Dependencies
     
 Create Environment File
 
+    cp envstarterpack .env
    
 Generate Application Key
 
