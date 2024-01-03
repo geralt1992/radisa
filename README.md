@@ -64,7 +64,6 @@ Install Dependencies
     
 Create Environment File
 
-    cp .env.example .env
    
 Generate Application Key
 
