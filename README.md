@@ -1,4 +1,4 @@
-The project is a platform for exploring opinions and attitudes, creating, processing, and maintaining survey questionnaires.
+Welcome to platform that empowers users to create and edit surveys effortlessly while automatically aggregating results. With the ability to add and modify user profiles, as well as receive valuable suggestions, our application is designed for exploring the thoughts and opinions of students on various subjects. Dive into a seamless experience of survey management, user engagement, and data analysis all in one place. Start understanding and capturing diverse perspectives with our intuitive survey platform.
 
 SPECS OF PROJECT
 Key Features:
